@@ -1,12 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer base {
-  * {
-    @apply border-border;
+.no-visible-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
   }
-  body {
-    @apply bg-background text-foreground;
+   
+  .no-visible-scrollbar::-webkit-scrollbar {
+    display: none;
   }
-}
