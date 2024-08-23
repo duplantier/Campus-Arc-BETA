@@ -1,14 +1,22 @@
 import type { Metadata } from "next";
 import { Poppins, Righteous } from "next/font/google";
 import "./globals.css";
+import OCConnectWrapper from "../components/OCConnectWrapper";
 
+const opts = {
+  redirectUri: "http://localhost:3001/redirect",
+};
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-poppins",
 });
 
-const righteous = Righteous({ subsets: ["latin"],weight: ["400"], variable: "--font-righteous" });
+const righteous = Righteous({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-righteous",
+});
 
 export const metadata: Metadata = {
   title: "Campus Arc BETA",
@@ -20,10 +28,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const opts = {
+    redirectUri: "http://localhost:3000/redirect", // Adjust this URL
+  };
+
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${righteous.variable}`}>
-        {children}
+        <OCConnectWrapper opts={opts} sandboxMode={true}>
+          {children}
+        </OCConnectWrapper>
       </body>
     </html>
   );

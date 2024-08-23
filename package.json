@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@opencampus/ocid-connect-js": "^1.0.1",
     "@radix-ui/react-icons": "^1.3.0",
     "@react-three/drei": "^9.111.2",
     "@react-three/fiber": "^8.17.5",
