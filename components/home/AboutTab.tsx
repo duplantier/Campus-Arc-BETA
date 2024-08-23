@@ -1,6 +1,7 @@
 import React from "react";
 import { CardSpotlight } from "../ui/card-spotlight";
 import Image from "next/image";
+import { BackgroundBeamsWithCollision } from "../ui/background-beams-with-collision";
 
 const AboutTab = () => {
   /* 
@@ -27,7 +28,7 @@ const AboutTab = () => {
               alt="What is Campus Arc?"
               width={180}
               height={200}
-              className="z-50"
+              className="z-50 w-44"
             />
             <h1 className="text-3xl relative z-20 righteous-text">
               What is Campus Arc?
@@ -52,7 +53,7 @@ const AboutTab = () => {
               alt="The problem with current college life"
               width={200}
               height={200}
-              className="z-50"
+              className="z-50 w-48"
             />
             <h1 className="font-righteous text-3xl relative z-20 righteous-text flex">
               The Problem With Today&#39;s College Life
@@ -63,8 +64,8 @@ const AboutTab = () => {
             Throughout their college life, students have difficulties to
             involved in concrete projects on their expertise field. This
             situation turns into an incredible career and life anxiety for
-            students when they graduate. They most likely face an &ldquo;inexperienced
-            wall&ldquo; when they look for a job.
+            students when they graduate. They most likely face an
+            &ldquo;inexperienced wall&ldquo; when they look for a job.
           </p>
           <div className="relative w-full"></div>
         </CardSpotlight>
@@ -100,7 +101,7 @@ const AboutTab = () => {
               alt="The solution Campus Arc provides"
               width={120}
               height={200}
-              className="z-50"
+              className="z-50 w-28 h-auto"
             />
             <h1 className="text-3xl relative z-20 righteous-text">
               The Sustainable Development Goal (SDGs) Campus Arc aligns with
@@ -109,12 +110,12 @@ const AboutTab = () => {
 
           <p className="z-20 text-xl relative mt-4">
             We aim to reach Target 4.4 of the 4th Goal (Quality Education),
-            which is &ldquo;By 2030, substantially increase the number of youth and
-            adults who have relevant skills, including technical and vocational
-            skills, for employment, decent jobs and entrepreneurship.&ldquo; Also,
-            specifically, we want to reach Target 4.4.1: &ldquo;Proportion of youth
-            and adults with information and communications technology (ICT)
-            skills, by type of skill.&ldquo;
+            which is &ldquo;By 2030, substantially increase the number of youth
+            and adults who have relevant skills, including technical and
+            vocational skills, for employment, decent jobs and
+            entrepreneurship.&ldquo; Also, specifically, we want to reach Target
+            4.4.1: &ldquo;Proportion of youth and adults with information and
+            communications technology (ICT) skills, by type of skill.&ldquo;
           </p>
         </CardSpotlight>
       </div>

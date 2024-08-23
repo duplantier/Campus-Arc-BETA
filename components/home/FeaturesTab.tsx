@@ -28,7 +28,6 @@ const FeaturesTab = () => {
             description={item.description}
             header={item.header}
             className={`${item.className} border border-gray-200`}
-            icon={item.icon}
           />
         ))}
       </BentoGrid>
@@ -38,54 +37,48 @@ const FeaturesTab = () => {
 
 const items = [
   {
-    title: "OC-ID Verification",
-    description: "Discover the beauty of thoughtful and functional design.",
+    title: "Open Campus ID Verification",
+    description:
+      "Both students and teachers are required to verify their OC-ID, ensuring a secure identity verification and safe learning environment.",
 
     header: "/open-campus.png",
     className: "md:col-span-2 ",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-300" />,
   },
   {
     title: "Interactive learning experience",
     description: "Dive into the transformative power of technology.",
-    header: "/",
+    header: "/collaboration.svg",
     className: "md:col-span-1 ",
-    icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: " Real-time collaboration with peers",
     description: "Work together with your peers in real-time.",
     header: "/collaboration.svg",
     className: "md:col-span-1",
-    icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: "Title ",
     description: "Desc ",
-    header: "",
+    header: "/collaboration.svg",
     className: "md:col-span-2",
-    icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: "Title 1",
     description: "description 1",
-    header: "",
+    header: "/collaboration.svg",
     className: "md:col-span-1",
-    icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: "Title 2",
     description: "Description 2",
-    header: "",
+    header: "/collaboration.svg",
     className: "md:col-span-1",
-    icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
   },
   {
     title: "Title 3",
     description: "Description 3",
-    header: "",
+    header: "/collaboration.svg",
     className: "md:col-span-1",
-    icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
   },
 ];
 

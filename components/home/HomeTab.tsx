@@ -1,18 +1,27 @@
+"use client";
 import React from "react";
-import { BackgroundBeamsWithCollision } from "../ui/background-beams-with-collision";
-import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { globeConfig, globeSampleArcs } from "@/constants";
-import Link from "next/link";
 import { Atom } from "lucide-react";
+import { useOCAuth } from "@opencampus/ocid-connect-js";
 
 const World = dynamic(() => import("../ui/globe").then((m) => m.World), {
   ssr: false,
 });
 
 const HomeTab = () => {
+  const { ocAuth } = useOCAuth();
+
+  const handleLogin = async () => {
+    try {
+      await ocAuth.signInWithRedirect({ state: "opencampus" });
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
   return (
-    <BackgroundBeamsWithCollision className="w-full overflow-hidden flex gap-10 relative h-[100vh] mb-20 bg-dot-white rounded-2xl text-xl md:text-4xl border  bg-gray-950 z-100 ">
+    <section className="w-full overflow-hidden flex gap-10 relative h-[80vh] mb-20 bg-dot-white/[0.4] rounded-2xl text-xl md:text-4xl border  bg-gray-950 z-100 ">
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-gray-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+
       <div className="w-full p-3 text-gray-50 flex flex-col gap-6 h-full items-center justify-center ">
         <h1 className="text-6xl font-sans tracking-tight z-50">
           E-learning.{" "}
@@ -27,19 +36,19 @@ const HomeTab = () => {
           </strong>
           , leveraging Open Campus.
         </p>
-        <Link
+        <button
           className="z-50 text-xl flex items-center gap-2 text-white justify-center rounded-xl text-center border-2 px-4 py-3 bg-brand-black w-[300px] border-brand-blue hover:border-brand-yellow"
-          href="/"
+          onClick={handleLogin}
         >
           <Atom /> Get Started
-        </Link>
+        </button>
       </div>
       {/*  <div className="w-[45%] flex justify-center items-center h-full  p-30">
         <div className="absolute w-[600px] top-auto h-[80vh] z-10 ">
           <World data={globeSampleArcs} globeConfig={globeConfig} />
         </div>
       </div> */}
-    </BackgroundBeamsWithCollision>
+    </section>
   );
 };
 

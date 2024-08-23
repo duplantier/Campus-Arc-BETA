@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-
+import { useOCAuth } from "@opencampus/ocid-connect-js";
+import LoginWithOCID from "../LoginWithOCID";
 type Tab = {
   title: string;
   value: string;
@@ -36,7 +37,20 @@ export const Tabs = ({
   };
 
   const [hovering, setHovering] = useState(false);
+  const { authState, ocAuth } = useOCAuth();
 
+  useEffect(() => {
+    console.log(authState);
+  }, [authState]); // Now it will log whenever authState changes
+
+  if (authState.error) {
+    console.log("Error:", authState.error.message);
+  }
+
+  // Add a loading state
+  if (authState.isLoading) {
+    console.log("Loading...");
+  }
   return (
     <>
       <div
@@ -50,6 +64,7 @@ export const Tabs = ({
           alt="Campus Arc BETA Logo"
           width={200}
           height={100}
+          className="w-48 h-auto"
         />
         <div>
           {propTabs.map((tab, idx) => (
@@ -81,6 +96,13 @@ export const Tabs = ({
               </span>
             </button>
           ))}
+          <div className="inline-block border rounded-full px-6 py-3 bg-brand-blue text-gray-50">
+            {authState.isAuthenticated ? (
+              <span> {JSON.stringify(ocAuth.getAuthInfo())}</span>
+            ) : (
+              <LoginWithOCID />
+            )}
+          </div>
         </div>
       </div>
       <FadeInDiv
