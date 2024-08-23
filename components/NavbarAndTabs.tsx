@@ -1,6 +1,10 @@
 import React from "react";
 import { Tabs } from "./ui/tabs";
 import HomeTab from "./home/HomeTab";
+import AboutTab from "./home/AboutTab";
+import FeaturesTab from "./home/FeaturesTab";
+import HowItWorksTab from "./home/HowItWorksTab";
+import CoursesTab from "./home/CoursesTab";
 
 const NavbarAndTabs = () => {
   const tabs = [
@@ -12,42 +16,26 @@ const NavbarAndTabs = () => {
     {
       title: "About",
       value: "about",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Services tab</p>
-        </div>
-      ),
+      content: <AboutTab />,
     },
     {
       title: "Features",
       value: "features",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Playground tab</p>
-        </div>
-      ),
+      content: <FeaturesTab />,
     },
     {
       title: "How It Works",
       value: "howitworks",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Content tab</p>
-        </div>
-      ),
+      content: <HowItWorksTab />,
     },
     {
-      title: "Random",
-      value: "random",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Random tab</p>
-        </div>
-      ),
+      title: "Courses",
+      value: "coures",
+      content: <CoursesTab />,
     },
   ];
   return (
-    <div className="h-[20rem] md:h-[40rem] [perspective:1000px]  ">
+    <div className="h-[20rem] md:h-[40rem] [perspective:1000px]">
       <Tabs tabs={tabs} />
     </div>
   );
