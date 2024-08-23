@@ -9,14 +9,14 @@ import CoursesTab from "./home/CoursesTab";
 const NavbarAndTabs = () => {
   const tabs = [
     {
-      title: "Features",
-      value: "features",
-      content: <FeaturesTab />,
-    },
-    {
       title: "Home",
       value: "home",
       content: <HomeTab />,
+    },
+    {
+      title: "Features",
+      value: "features",
+      content: <FeaturesTab />,
     },
 
     {

@@ -18,7 +18,7 @@ const FeaturesTab = () => {
         Features
       </h1>
       <p className="text-lg text-center w-full -mt-8 text-gray-500">
-        Explore the capabilities of Campus Arc.
+        Explore the capabilities of Campus Arc
       </p>
       <BentoGrid className="w-full mx-auto mb-16">
         {items.map((item, i) => (
@@ -45,39 +45,44 @@ const items = [
     className: "md:col-span-2 ",
   },
   {
-    title: "Interactive learning experience",
-    description: "Dive into the transformative power of technology.",
-    header: "/collaboration.svg",
+    title: "Blockchain Certificates",
+    description:
+      "Students can earn digital certificates on blockchain, using Blockcerts.",
+    header: "/blockchain-certificate.svg",
     className: "md:col-span-1 ",
   },
   {
-    title: " Real-time collaboration with peers",
-    description: "Work together with your peers in real-time.",
-    header: "/collaboration.svg",
+    title: "Real-Time Collaboration",
+    description:
+      "Students can collaborate in real-time on projects, thanks to WebSockets.",
+    header: "/realtime-collab.svg",
     className: "md:col-span-1",
   },
   {
-    title: "Title ",
-    description: "Desc ",
-    header: "/collaboration.svg",
+    title: "AI-Assisted Learning Experience",
+    description:
+      "Students can get help / feedback from ChatGPT while completing the project tasks.",
+    header: "/chatgpt.png",
     className: "md:col-span-2",
   },
   {
-    title: "Title 1",
-    description: "description 1",
-    header: "/collaboration.svg",
+    title: "Campus-based Community",
+    description: "Students can connect with their campus fellows.",
+    header: "/community.svg",
     className: "md:col-span-1",
   },
   {
-    title: "Title 2",
-    description: "Description 2",
-    header: "/collaboration.svg",
+    title: "Arc Modules",
+    description:
+      "Campus Arc introduces Arc Modules: the most innovative instruction modules ever designed.",
+    header: "/arc-module.svg",
     className: "md:col-span-1",
   },
   {
-    title: "Title 3",
-    description: "Description 3",
-    header: "/collaboration.svg",
+    title: "Arc Designers",
+    description:
+      "Campus Arc aims to teach its own Arc Module Designers: Arc Designers.",
+    header: "/arc-designer.svg",
     className: "md:col-span-1",
   },
 ];

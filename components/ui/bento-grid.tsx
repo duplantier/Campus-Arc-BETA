@@ -38,19 +38,22 @@ export const BentoGridItem = ({
         className
       )}
     >
-      <div className="flex flex-col justify-center items-center h-[150px]">
+      <div className="flex flex-col items-center w-full h-[150px]">
         <Image
           src={header}
           alt={title}
-          width={1000}
+          width={1920}
           height={1080}
-          sizes="100vw"
-          className="inline-block h-full select-none rounded-2xl object-cover"
+          className={`inline-block h-full w-full select-none rounded-2xl ${
+            header == "/open-campus.png" || header == "/chatgpt.png" || header == "/collaboration.svg"
+              ? "object-cover"
+              : "object-contain"
+          } `}
         />
       </div>
 
       <div className="group-hover/bento:translate-x-2 transition duration-200">
-        <div className="font-sans text-2xl font-bold text-neutral-600 dark:text-neutral-200 mb-2 mt-2">
+        <div className="font-sans text-2xl font-bold text-gray-800 dark:text-neutral-200 mb-2 mt-2">
           {title}
         </div>
         <div className="font-sans font-normal text-base text-neutral-600 mb-4 dark:text-neutral-300">

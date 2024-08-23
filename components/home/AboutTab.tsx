@@ -18,7 +18,7 @@ const AboutTab = () => {
         About Us
       </h1>
       <p className="text-lg text-center w-full -mt-8 text-gray-500">
-        Let&#39;s meet and shape the future together.
+        Learn more about Campus Arc and its mission
       </p>
       <div className="w-full flex justify-center items-center gap-10 h-auto">
         <CardSpotlight className=" py-8 w-[55%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
