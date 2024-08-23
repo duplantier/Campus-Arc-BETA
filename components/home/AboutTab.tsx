@@ -63,8 +63,8 @@ const AboutTab = () => {
             Throughout their college life, students have difficulties to
             involved in concrete projects on their expertise field. This
             situation turns into an incredible career and life anxiety for
-            students when they graduate. They most likely face an "inexperienced
-            wall" when they look for a job.
+            students when they graduate. They most likely face an &ldquo;inexperienced
+            wall&ldquo; when they look for a job.
           </p>
           <div className="relative w-full"></div>
         </CardSpotlight>
@@ -109,12 +109,12 @@ const AboutTab = () => {
 
           <p className="z-20 text-xl relative mt-4">
             We aim to reach Target 4.4 of the 4th Goal (Quality Education),
-            which is “By 2030, substantially increase the number of youth and
+            which is &ldquo;By 2030, substantially increase the number of youth and
             adults who have relevant skills, including technical and vocational
-            skills, for employment, decent jobs and entrepreneurship.” Also,
-            specifically, we want to reach Target 4.4.1: “Proportion of youth
+            skills, for employment, decent jobs and entrepreneurship.&ldquo; Also,
+            specifically, we want to reach Target 4.4.1: &ldquo;Proportion of youth
             and adults with information and communications technology (ICT)
-            skills, by type of skill.”
+            skills, by type of skill.&ldquo;
           </p>
         </CardSpotlight>
       </div>
