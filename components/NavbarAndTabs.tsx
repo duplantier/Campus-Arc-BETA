@@ -9,6 +9,11 @@ import CoursesTab from "./home/CoursesTab";
 const NavbarAndTabs = () => {
   const tabs = [
     {
+      title: "Features",
+      value: "features",
+      content: <FeaturesTab />,
+    },
+    {
       title: "Home",
       value: "home",
       content: <HomeTab />,
@@ -18,11 +23,7 @@ const NavbarAndTabs = () => {
       value: "about",
       content: <AboutTab />,
     },
-    {
-      title: "Features",
-      value: "features",
-      content: <FeaturesTab />,
-    },
+
     {
       title: "How It Works",
       value: "howitworks",
@@ -35,7 +36,7 @@ const NavbarAndTabs = () => {
     },
   ];
   return (
-    <div className="h-[20rem] md:h-[40rem] [perspective:1000px]">
+    <div className=" md:h-[90vh] [perspective:1000px] ">
       <Tabs tabs={tabs} />
     </div>
   );

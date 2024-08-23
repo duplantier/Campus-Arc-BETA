@@ -17,7 +17,7 @@ const AboutTab = () => {
         About Us
       </h1>
       <p className="text-lg text-center w-full -mt-8 text-gray-500">
-        Let's meet and shape the future together.
+        Let&#39;s meet and shape the future together.
       </p>
       <div className="w-full flex justify-center items-center gap-10 h-auto">
         <CardSpotlight className=" py-8 w-[55%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
@@ -55,7 +55,7 @@ const AboutTab = () => {
               className="z-50"
             />
             <h1 className="font-righteous text-3xl relative z-20 righteous-text flex">
-              The Problem With Today's College Life
+              The Problem With Today&#39;s College Life
             </h1>
           </div>
 
@@ -63,8 +63,8 @@ const AboutTab = () => {
             Throughout their college life, students have difficulties to
             involved in concrete projects on their expertise field. This
             situation turns into an incredible career and life anxiety for
-            students when they graduate. They most likely face an 'inexperienced
-            wall' when they look for a job.
+            students when they graduate. They most likely face an "inexperienced
+            wall" when they look for a job.
           </p>
           <div className="relative w-full"></div>
         </CardSpotlight>
