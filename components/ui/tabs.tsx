@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import LoginWithOCID from "../LoginWithOCID";
+import { CircleUser } from "lucide-react";
 type Tab = {
   title: string;
   value: string;
@@ -98,7 +99,10 @@ export const Tabs = ({
           ))}
           <div className="inline-block border rounded-full px-6 py-3 bg-brand-blue text-gray-50">
             {authState.isAuthenticated ? (
-              <span> {JSON.stringify(ocAuth.getAuthInfo())}</span>
+              <div className="flex justify-center items-center gap-2">
+                <CircleUser />{" "}
+                <span>{JSON.stringify(ocAuth.getAuthInfo().edu_username)}</span>
+              </div>
             ) : (
               <LoginWithOCID />
             )}

@@ -3,9 +3,6 @@ import { Poppins, Righteous } from "next/font/google";
 import "./globals.css";
 import OCConnectWrapper from "../components/OCConnectWrapper";
 
-const opts = {
-  redirectUri: "http://localhost:3001/redirect",
-};
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400"],
@@ -29,9 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const opts = {
-    redirectUri: "http://localhost:3000/redirect", // Adjust this URL
+    redirectUri: "http://localhost:3003/redirect",
   };
-
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${righteous.variable}`}>
