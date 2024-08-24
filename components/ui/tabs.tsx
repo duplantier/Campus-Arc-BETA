@@ -6,7 +6,15 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import LoginWithOCID from "../LoginWithOCID";
-import { ChevronDown, CircleUser } from "lucide-react";
+import {
+  ChevronDown,
+  CircleHelp,
+  CircleUser,
+  LibraryBig,
+  LogOut,
+  Settings,
+  UserPen,
+} from "lucide-react";
 
 type Tab = {
   title: string;
@@ -14,24 +22,24 @@ type Tab = {
   content?: string | React.ReactNode | any;
 };
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import HomeTab from "../home/HomeTab";
 import FeaturesTab from "../home/FeaturesTab";
 import AboutTab from "../home/AboutTab";
 import HowItWorksTab from "../home/HowItWorksTab";
-import CoursesTab from "../home/CoursesTab";
+import ArcModulesTab from "../home/ArcModulesTab";
 import { useRouter } from "next/navigation";
 
 export const Tabs = ({
@@ -69,9 +77,9 @@ export const Tabs = ({
       content: <HowItWorksTab />,
     },
     {
-      title: "Courses",
-      value: "coures",
-      content: <CoursesTab />,
+      title: "Arc Modules",
+      value: "arcModules",
+      content: <ArcModulesTab />,
     },
   ];
   const [active, setActive] = useState<Tab>(staticTabs[0]);
@@ -89,23 +97,10 @@ export const Tabs = ({
   const [hovering, setHovering] = useState(false);
   const { authState, ocAuth } = useOCAuth();
 
-  /* sessionStorage.setItem(
-    "username",
-    JSON.stringify(ocAuth.getAuthInfo().edu_username)
-  ); */
-
-  //console.log(JSON.stringify(ocAuth.getAuthInfo(), null, 2));
+  console.log("AuthState: ", authState);
+  console.log("ocAuth: ", ocAuth);
 
   let isLogOut = sessionStorage.getItem("isLogOut");
-
-  /*  useEffect(() => {
-    if (ocAuth !== undefined) {
-      const edu_username = ocAuth.authInfoManager._idInfo.edu_username;
-      const eth_address = ocAuth.authInfoManager._idInfo.eth_address;
-      console.log("edu_username: ", edu_username);
-      console.log("eth_address: ", eth_address);
-    }
-  }, [ocAuth]); */
 
   if (authState.isLoading) {
     console.log("Loading...");
@@ -113,6 +108,39 @@ export const Tabs = ({
   if (authState.error) {
     console.log("Error:", authState.error.message);
   }
+
+  /* Email login :
+  
+  {
+    "tokenManager": {
+        "storageManager": {
+            "storageProvider": {
+                "oc-token-storage": "{\"access_token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDY4LCJldGhfYWRkcmVzcyI6IjB4M2FjZmFiM2Q3NTE4MGQ1MmI0MmE5Y2M5YzgyNjEzZTg5NzU5MmE3NCIsImVkdV91c2VybmFtZSI6Imh1c2V5aW5sb3JhLmVkdSIsIm5vbmNlIjoiMDcxNmE0ZjE3YjM0OGE1YzVkYmEwNjBlOGMyNjJmMGRmYjJhYjYzNTMyOTRhOGFlYmEzMDcwMzhlZjY4Y2FjOSIsImlzcyI6Ik9wZW5DYW1wdXMiLCJpYXQiOjE3MjQ0OTMyMjYsImV4cCI6MTcyNDU3OTYyNiwiYXVkIjoibG9jYWxob3N0In0.07O_71X6VA3X0jr4HP-gsvCH-hzzduiRiPnZOg86EYeLvQcMEg5aqIqVzt_EYLAGfMTvgwRB60aPqM59XzmtjQ\",\"id_token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDY4LCJldGhfYWRkcmVzcyI6IjB4M2FjZmFiM2Q3NTE4MGQ1MmI0MmE5Y2M5YzgyNjEzZTg5NzU5MmE3NCIsImVkdV91c2VybmFtZSI6Imh1c2V5aW5sb3JhLmVkdSIsImlzcyI6Ik9wZW5DYW1wdXMiLCJpYXQiOjE3MjQ0OTMyMjYsImV4cCI6MTcyNDU3OTYyNiwiYXVkIjoibG9jYWxob3N0In0.nS22RSlL2zkq0wlqjtXZ5TmA41D2TZdxDUd7oma5GhVKHcx7Wp41DXt-DtshM0NFagTc9-49TuQRc6vusOVViA\",\"expired\":1724579626}"
+            },
+            "storageName": "oc-token-storage"
+        },
+        "tokenEndPoint": "https://api.login.sandbox.opencampus.xyz/auth/token",
+        "publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE/EymMLXd/MVYPK5r2xXQj91ZVvX3OQ+QagvR2N6lCvRVjnzmOtPRTf+u5g1RliWnmuxbV3gTm0/0VuV/40Salg=="
+    },
+    "authInfoManager": {
+        "_idInfo": {
+            "edu_username": "huseyinlora.edu",
+            "eth_address": "0x3acfab3d75180d52b42a9cc9c82613e897592a74"
+        },
+        "_authState": null
+    },
+    "transactionManager": {
+        "storageManager": {
+            "storageProvider": {
+                "oc-token-storage": "{\"access_token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDY4LCJldGhfYWRkcmVzcyI6IjB4M2FjZmFiM2Q3NTE4MGQ1MmI0MmE5Y2M5YzgyNjEzZTg5NzU5MmE3NCIsImVkdV91c2VybmFtZSI6Imh1c2V5aW5sb3JhLmVkdSIsIm5vbmNlIjoiMDcxNmE0ZjE3YjM0OGE1YzVkYmEwNjBlOGMyNjJmMGRmYjJhYjYzNTMyOTRhOGFlYmEzMDcwMzhlZjY4Y2FjOSIsImlzcyI6Ik9wZW5DYW1wdXMiLCJpYXQiOjE3MjQ0OTMyMjYsImV4cCI6MTcyNDU3OTYyNiwiYXVkIjoibG9jYWxob3N0In0.07O_71X6VA3X0jr4HP-gsvCH-hzzduiRiPnZOg86EYeLvQcMEg5aqIqVzt_EYLAGfMTvgwRB60aPqM59XzmtjQ\",\"id_token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDY4LCJldGhfYWRkcmVzcyI6IjB4M2FjZmFiM2Q3NTE4MGQ1MmI0MmE5Y2M5YzgyNjEzZTg5NzU5MmE3NCIsImVkdV91c2VybmFtZSI6Imh1c2V5aW5sb3JhLmVkdSIsImlzcyI6Ik9wZW5DYW1wdXMiLCJpYXQiOjE3MjQ0OTMyMjYsImV4cCI6MTcyNDU3OTYyNiwiYXVkIjoibG9jYWxob3N0In0.nS22RSlL2zkq0wlqjtXZ5TmA41D2TZdxDUd7oma5GhVKHcx7Wp41DXt-DtshM0NFagTc9-49TuQRc6vusOVViA\",\"expired\":1724579626}"
+            },
+            "storageName": "oc-transaction-storage"
+        }
+    },
+    "redirectUri": "http://localhost:3003/redirect",
+    "loginEndPoint": "https://api.login.sandbox.opencampus.xyz/auth/login"
+}
+  */
 
   /* Wallet addresiyle giriş yapan birinden dönen bilgiler */
   /* 
@@ -238,24 +266,42 @@ OCAUTH OBJECT:
                   <ChevronDown />
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white text-black w-[300px] rounded-xl border-brand-blue border-2">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuContent className="py-2 px-3 bg-white text-black w-[300px] rounded-xl  ">
+                <DropdownMenuLabel>MY ACCOUNT</DropdownMenuLabel>
                 <DropdownMenuGroup className="border-t pt-3 mt-2">
-                  <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
-                    Profile
+                  <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer flex items-center gap-1">
+                    <LibraryBig size={20} /> My Learning
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
-                    Settings
+                  <DropdownMenuItem className="hover:bg-[#fff6db] cursor-not-allowed flex items-center gap-1">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <CircleHelp size={20} className="text-brand-yellow" />
+                        </TooltipTrigger>
+                        <TooltipContent className="bg-white text-gray-950 border border-brand-yellow">
+                          <p>
+                            This feature is not available in the beta version.
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>{" "}
+                    Become An Arc Designer
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
-                <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
-                  Support
-                </DropdownMenuItem>
+                <DropdownMenuGroup className="border-y py-3 mt-2">
+                  <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer flex items-center gap-1">
+                    <UserPen size={20} /> Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer flex items-center gap-1">
+                    <Settings size={20} /> Settings
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+
                 <DropdownMenuItem
                   onClick={() => logOut()}
-                  className="border-t pt-2 mt-2 hover:bg-gray-100 cursor-pointer"
+                  className="mt-2 hover:bg-red-100 cursor-pointer hover:text-red-500 flex items-center gap-1"
                 >
-                  Log out
+                  <LogOut size={20} /> Log out
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

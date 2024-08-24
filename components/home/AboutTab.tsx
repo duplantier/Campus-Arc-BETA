@@ -4,13 +4,6 @@ import Image from "next/image";
 import { BackgroundBeamsWithCollision } from "../ui/background-beams-with-collision";
 
 const AboutTab = () => {
-  /* 
-    1. What is Campus Arc
-    2. The problem with current college life
-    3. The solution Campus Arc provides
-    4. The Sustainable Development Goal (SDGs) Campus Arc aligns with
-    5. How will Campus Arc address this goal?
-  */
 
   return (
     <section className="w-full  flex-col items-center px-20 overflow-auto flex gap-10 h-[80vh] mb-16 rounded-2xl text-xl md:text-4xl border  bg-gray-950 ">

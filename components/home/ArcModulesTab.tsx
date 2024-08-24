@@ -1,6 +1,6 @@
 import React from "react";
 
-const CoursesTab = () => {
+const ArcModulesTab = () => {
   return (
     <section className="w-full  flex-col items-center px-20 overflow-auto flex gap-10 h-[80vh] mb-16 rounded-2xl text-xl md:text-4xl border  bg-white ">
       <h1 className="text-center w-full text-gray-950 mt-10 text-5xl righteous-text">
@@ -13,4 +13,4 @@ const CoursesTab = () => {
   );
 };
 
-export default CoursesTab;
+export default ArcModulesTab;
