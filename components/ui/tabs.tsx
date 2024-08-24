@@ -6,31 +6,80 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import LoginWithOCID from "../LoginWithOCID";
-import { CircleUser } from "lucide-react";
+import { ChevronDown, CircleUser } from "lucide-react";
+
 type Tab = {
   title: string;
   value: string;
   content?: string | React.ReactNode | any;
 };
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import HomeTab from "../home/HomeTab";
+import FeaturesTab from "../home/FeaturesTab";
+import AboutTab from "../home/AboutTab";
+import HowItWorksTab from "../home/HowItWorksTab";
+import CoursesTab from "../home/CoursesTab";
+import { useRouter } from "next/navigation";
 
 export const Tabs = ({
-  tabs: propTabs,
   containerClassName,
   activeTabClassName,
   tabClassName,
   contentClassName,
 }: {
-  tabs: Tab[];
   containerClassName?: string;
   activeTabClassName?: string;
   tabClassName?: string;
   contentClassName?: string;
 }) => {
-  const [active, setActive] = useState<Tab>(propTabs[0]);
-  const [tabs, setTabs] = useState<Tab[]>(propTabs);
+  const staticTabs = [
+    {
+      title: "Home",
+      value: "home",
+      content: <HomeTab />,
+    },
+    {
+      title: "Features",
+      value: "features",
+      content: <FeaturesTab />,
+    },
+
+    {
+      title: "About",
+      value: "about",
+      content: <AboutTab />,
+    },
+
+    {
+      title: "How It Works",
+      value: "howitworks",
+      content: <HowItWorksTab />,
+    },
+    {
+      title: "Courses",
+      value: "coures",
+      content: <CoursesTab />,
+    },
+  ];
+  const [active, setActive] = useState<Tab>(staticTabs[0]);
+  const [tabs, setTabs] = useState<Tab[]>(staticTabs);
+  const router = useRouter();
 
   const moveSelectedTabToTop = (idx: number) => {
-    const newTabs = [...propTabs];
+    const newTabs = [...staticTabs];
     const selectedTab = newTabs.splice(idx, 1);
     newTabs.unshift(selectedTab[0]);
     setTabs(newTabs);
@@ -40,18 +89,98 @@ export const Tabs = ({
   const [hovering, setHovering] = useState(false);
   const { authState, ocAuth } = useOCAuth();
 
-  useEffect(() => {
-    console.log(authState);
-  }, [authState]); // Now it will log whenever authState changes
+  /* sessionStorage.setItem(
+    "username",
+    JSON.stringify(ocAuth.getAuthInfo().edu_username)
+  ); */
 
+  //console.log(JSON.stringify(ocAuth.getAuthInfo(), null, 2));
+
+  let isLogOut = sessionStorage.getItem("isLogOut");
+
+  /*  useEffect(() => {
+    if (ocAuth !== undefined) {
+      const edu_username = ocAuth.authInfoManager._idInfo.edu_username;
+      const eth_address = ocAuth.authInfoManager._idInfo.eth_address;
+      console.log("edu_username: ", edu_username);
+      console.log("eth_address: ", eth_address);
+    }
+  }, [ocAuth]); */
+
+  if (authState.isLoading) {
+    console.log("Loading...");
+  }
   if (authState.error) {
     console.log("Error:", authState.error.message);
   }
 
-  // Add a loading state
-  if (authState.isLoading) {
-    console.log("Loading...");
-  }
+  /* Wallet addresiyle giriş yapan birinden dönen bilgiler */
+  /* 
+  AUTHSTATE OBJECT
+  {
+    "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDUwLCJldGhfYWRkcmVzcyI6IjB4ZTc4OTIzNzRjYjViNzVjZjFjZDNlZWViNjc1YzNkY2I2Nzc2MmY1YSIsImVkdV91c2VybmFtZSI6ImR1cGxhbnRpZXIuZWR1Iiwibm9uY2UiOiJkODgzZDQ1NTNkYmRmNDlhNGJlOTQxMjQ3OTY2NjQ0YTYwYmM5OTZiN2ZmZGViNGY1YzUzYmMyMWViYjY5YWFmIiwiaXNzIjoiT3BlbkNhbXB1cyIsImlhdCI6MTcyNDQyOTQ2OSwiZXhwIjoxNzI0NTE1ODY5LCJhdWQiOiJsb2NhbGhvc3QifQ.NqADxce1xe73FxXJ_jhZG2WkuuTkDS4Pubha0LAO5EesHFsYbaA2tTwitt55gDdz_LS2XCZi46yhAgRHEcxm6g",
+    "idToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDUwLCJldGhfYWRkcmVzcyI6IjB4ZTc4OTIzNzRjYjViNzVjZjFjZDNlZWViNjc1YzNkY2I2Nzc2MmY1YSIsImVkdV91c2VybmFtZSI6ImR1cGxhbnRpZXIuZWR1IiwiaXNzIjoiT3BlbkNhbXB1cyIsImlhdCI6MTcyNDQyOTQ2OSwiZXhwIjoxNzI0NTE1ODY5LCJhdWQiOiJsb2NhbGhvc3QifQ.HQLtvzOxG0A9eNswrwh9I9aXZYSSdpLZ4S66t3qrqEXyzlxLDoUcq06_5w4tj_9vgiiP_BFMqo0Z609cIN9gXg",
+    "isAuthenticated": true
+}
+  */
+
+  /* 
+OCAUTH OBJECT:
+{
+    "tokenManager": {
+        "storageManager": {
+            "storageProvider": {
+                "-CBWSDK:VERSION": "4.0.4",
+                "ally-supports-cache": "{\"userAgent\":\"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36\",\"version\":\"1.4.1\",\"focusAreaImgTabindex\":false,\"focusAreaTabindex\":false,\"focusAreaWithoutHref\":false,\"focusAudioWithoutControls\":false,\"focusBrokenImageMap\":true,\"focusChildrenOfFocusableFlexbox\":false,\"focusFieldsetDisabled\":true,\"focusFieldset\":false,\"focusFlexboxContainer\":false,\"focusFormDisabled\":true,\"focusImgIsmap\":false,\"focusImgUsemapTabindex\":true,\"focusInHiddenIframe\":true,\"focusInvalidTabindex\":false,\"focusLabelTabindex\":true,\"focusObjectSvg\":true,\"focusObjectSvgHidden\":false,\"focusRedirectImgUsemap\":false,\"focusRedirectLegend\":\"\",\"focusScrollBody\":false,\"focusScrollContainerWithoutOverflow\":false,\"focusScrollContainer\":false,\"focusSummary\":true,\"focusSvgFocusableAttribute\":false,\"focusSvgTabindexAttribute\":true,\"focusSvgNegativeTabindexAttribute\":true,\"focusSvgUseTabindex\":true,\"focusSvgForeignobjectTabindex\":true,\"focusSvg\":false,\"focusTabindexTrailingCharacters\":true,\"focusTable\":false,\"focusVideoWithoutControls\":false,\"cssShadowPiercingDeepCombinator\":\"\",\"focusInZeroDimensionObject\":true,\"focusObjectSwf\":true,\"focusSvgInIframe\":false,\"tabsequenceAreaAtImgPosition\":false,\"time\":\"2024-08-23T16:50:44.655Z\"}",
+                "theme": "light",
+                "oc-token-storage": "{\"access_token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDUwLCJldGhfYWRkcmVzcyI6IjB4ZTc4OTIzNzRjYjViNzVjZjFjZDNlZWViNjc1YzNkY2I2Nzc2MmY1YSIsImVkdV91c2VybmFtZSI6ImR1cGxhbnRpZXIuZWR1Iiwibm9uY2UiOiJkODgzZDQ1NTNkYmRmNDlhNGJlOTQxMjQ3OTY2NjQ0YTYwYmM5OTZiN2ZmZGViNGY1YzUzYmMyMWViYjY5YWFmIiwiaXNzIjoiT3BlbkNhbXB1cyIsImlhdCI6MTcyNDQyOTQ2OSwiZXhwIjoxNzI0NTE1ODY5LCJhdWQiOiJsb2NhbGhvc3QifQ.NqADxce1xe73FxXJ_jhZG2WkuuTkDS4Pubha0LAO5EesHFsYbaA2tTwitt55gDdz_LS2XCZi46yhAgRHEcxm6g\",\"id_token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDUwLCJldGhfYWRkcmVzcyI6IjB4ZTc4OTIzNzRjYjViNzVjZjFjZDNlZWViNjc1YzNkY2I2Nzc2MmY1YSIsImVkdV91c2VybmFtZSI6ImR1cGxhbnRpZXIuZWR1IiwiaXNzIjoiT3BlbkNhbXB1cyIsImlhdCI6MTcyNDQyOTQ2OSwiZXhwIjoxNzI0NTE1ODY5LCJhdWQiOiJsb2NhbGhvc3QifQ.HQLtvzOxG0A9eNswrwh9I9aXZYSSdpLZ4S66t3qrqEXyzlxLDoUcq06_5w4tj_9vgiiP_BFMqo0Z609cIN9gXg\",\"expired\":1724515869}"
+            },
+            "storageName": "oc-token-storage"
+        },
+        "tokenEndPoint": "https://api.login.sandbox.opencampus.xyz/auth/token",
+        "publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE/EymMLXd/MVYPK5r2xXQj91ZVvX3OQ+QagvR2N6lCvRVjnzmOtPRTf+u5g1RliWnmuxbV3gTm0/0VuV/40Salg=="
+    },
+    "authInfoManager": {
+        "_idInfo": {
+            "edu_username": "duplantier.edu",
+            "eth_address": "0xe7892374cb5b75cf1cd3eeeb675c3dcb67762f5a"
+        },
+        "_authState": null
+    },
+    "transactionManager": {
+        "storageManager": {
+            "storageProvider": {
+                "-CBWSDK:VERSION": "4.0.4",
+                "ally-supports-cache": "{\"userAgent\":\"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36\",\"version\":\"1.4.1\",\"focusAreaImgTabindex\":false,\"focusAreaTabindex\":false,\"focusAreaWithoutHref\":false,\"focusAudioWithoutControls\":false,\"focusBrokenImageMap\":true,\"focusChildrenOfFocusableFlexbox\":false,\"focusFieldsetDisabled\":true,\"focusFieldset\":false,\"focusFlexboxContainer\":false,\"focusFormDisabled\":true,\"focusImgIsmap\":false,\"focusImgUsemapTabindex\":true,\"focusInHiddenIframe\":true,\"focusInvalidTabindex\":false,\"focusLabelTabindex\":true,\"focusObjectSvg\":true,\"focusObjectSvgHidden\":false,\"focusRedirectImgUsemap\":false,\"focusRedirectLegend\":\"\",\"focusScrollBody\":false,\"focusScrollContainerWithoutOverflow\":false,\"focusScrollContainer\":false,\"focusSummary\":true,\"focusSvgFocusableAttribute\":false,\"focusSvgTabindexAttribute\":true,\"focusSvgNegativeTabindexAttribute\":true,\"focusSvgUseTabindex\":true,\"focusSvgForeignobjectTabindex\":true,\"focusSvg\":false,\"focusTabindexTrailingCharacters\":true,\"focusTable\":false,\"focusVideoWithoutControls\":false,\"cssShadowPiercingDeepCombinator\":\"\",\"focusInZeroDimensionObject\":true,\"focusObjectSwf\":true,\"focusSvgInIframe\":false,\"tabsequenceAreaAtImgPosition\":false,\"time\":\"2024-08-23T16:50:44.655Z\"}",
+                "theme": "light",
+                "oc-token-storage": "{\"access_token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDUwLCJldGhfYWRkcmVzcyI6IjB4ZTc4OTIzNzRjYjViNzVjZjFjZDNlZWViNjc1YzNkY2I2Nzc2MmY1YSIsImVkdV91c2VybmFtZSI6ImR1cGxhbnRpZXIuZWR1Iiwibm9uY2UiOiJkODgzZDQ1NTNkYmRmNDlhNGJlOTQxMjQ3OTY2NjQ0YTYwYmM5OTZiN2ZmZGViNGY1YzUzYmMyMWViYjY5YWFmIiwiaXNzIjoiT3BlbkNhbXB1cyIsImlhdCI6MTcyNDQyOTQ2OSwiZXhwIjoxNzI0NTE1ODY5LCJhdWQiOiJsb2NhbGhvc3QifQ.NqADxce1xe73FxXJ_jhZG2WkuuTkDS4Pubha0LAO5EesHFsYbaA2tTwitt55gDdz_LS2XCZi46yhAgRHEcxm6g\",\"id_token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0.eyJ1c2VyX2lkIjo3NDUwLCJldGhfYWRkcmVzcyI6IjB4ZTc4OTIzNzRjYjViNzVjZjFjZDNlZWViNjc1YzNkY2I2Nzc2MmY1YSIsImVkdV91c2VybmFtZSI6ImR1cGxhbnRpZXIuZWR1IiwiaXNzIjoiT3BlbkNhbXB1cyIsImlhdCI6MTcyNDQyOTQ2OSwiZXhwIjoxNzI0NTE1ODY5LCJhdWQiOiJsb2NhbGhvc3QifQ.HQLtvzOxG0A9eNswrwh9I9aXZYSSdpLZ4S66t3qrqEXyzlxLDoUcq06_5w4tj_9vgiiP_BFMqo0Z609cIN9gXg\",\"expired\":1724515869}"
+            },
+            "storageName": "oc-transaction-storage"
+        }
+    },
+    "redirectUri": "http://localhost:3003/redirect",
+    "loginEndPoint": "https://api.login.sandbox.opencampus.xyz/auth/login"
+}
+*/
+
+  /* 
+
+{JSON.stringify(ocAuth.getAuthInfo(), null, 2)}:
+{
+  "edu_username": "duplantier.edu",
+  "eth_address": "0xe7892374cb5b75cf1cd3eeeb675c3dcb67762f5a"
+}
+
+*/
+
+  const logOut = () => {
+    authState.isAuthenticated = false;
+    console.log("authState.isAuthenticated, ", authState.isAuthenticated);
+
+    sessionStorage.setItem("isLogOut", "true");
+    window.location.reload();
+  };
+
   return (
     <>
       <div
@@ -67,8 +196,8 @@ export const Tabs = ({
           height={100}
           className="w-48 h-auto"
         />
-        <div>
-          {propTabs.map((tab, idx) => (
+        <div className="flex items-center">
+          {staticTabs.map((tab, idx) => (
             <button
               key={tab.title}
               onClick={() => {
@@ -97,16 +226,42 @@ export const Tabs = ({
               </span>
             </button>
           ))}
-          <div className="inline-block border rounded-full px-6 py-3 bg-brand-blue text-gray-50">
-            {authState.isAuthenticated ? (
-              <div className="flex justify-center items-center gap-2">
-                <CircleUser />{" "}
-                <span>{JSON.stringify(ocAuth.getAuthInfo().edu_username)}</span>
-              </div>
-            ) : (
-              <LoginWithOCID />
-            )}
-          </div>
+
+          {authState.isAuthenticated && isLogOut && isLogOut != "true" ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="rounded-full px-6 py-3 bg-brand-blue text-gray-50 inline-block">
+                <div className="justify-center items-center flex gap-2">
+                  <span className="font-bold">
+                    {ocAuth.getAuthInfo().edu_username}
+                    {/*  {ocAuth.getAuthInfo().eth_address} */}
+                  </span>
+                  <ChevronDown />
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white text-black w-[300px] rounded-xl border-brand-blue border-2">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuGroup className="border-t pt-3 mt-2">
+                  <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
+                    Settings
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer">
+                  Support
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => logOut()}
+                  className="border-t pt-2 mt-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <LoginWithOCID />
+          )}
         </div>
       </div>
       <FadeInDiv

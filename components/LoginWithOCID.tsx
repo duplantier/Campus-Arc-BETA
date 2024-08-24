@@ -14,7 +14,14 @@ const LoginWithOCID = () => {
     }
   };
 
-  return <button onClick={handleLogin}>Verify with Open Campus</button>;
+  return (
+    <button
+      className="rounded-full px-6 py-3 border-2 border-brand-blue text-gray-950 inline-block"
+      onClick={handleLogin}
+    >
+      Verify with OC ID
+    </button>
+  );
 };
 
 export default LoginWithOCID;
