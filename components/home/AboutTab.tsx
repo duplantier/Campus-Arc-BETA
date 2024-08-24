@@ -78,7 +78,7 @@ const AboutTab = () => {
               alt="The solution Campus Arc provides"
               width={200}
               height={200}
-              className="z-50"
+              className="z-50 w-48 h-auto"
             />
             <h1 className="text-3xl relative z-20 righteous-text">
               The Solution Campus Arc Provides
@@ -128,7 +128,7 @@ const AboutTab = () => {
               alt="Tohum Foundation"
               width={400}
               height={200}
-              className="z-50"
+              className="z-50 w-96 h-auto"
             />
           </div>
           <h1 className="text-3xl relative z-20 righteous-text">
