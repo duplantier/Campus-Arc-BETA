@@ -26,12 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const opts = {
-    redirectUri: "https://www.campusarc.io/redirect",
+    redirectUri: "http://localhost:3003/redirect",
   };
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${righteous.variable}`}>
-        <OCConnectWrapper opts={opts} sandboxMode={false}>
+        <OCConnectWrapper opts={opts} sandboxMode={true}>
           {children}
         </OCConnectWrapper>
       </body>
