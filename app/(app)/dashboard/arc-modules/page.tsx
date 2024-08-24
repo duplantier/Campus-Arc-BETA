@@ -15,4 +15,4 @@ const ArcModulesPage = () => {
   return <ClientOnlyArcModules />;
 };
 
-export default ClientOnlyArcModules;
+export default ArcModulesPage;
