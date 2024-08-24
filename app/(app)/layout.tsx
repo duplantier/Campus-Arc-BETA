@@ -20,7 +20,17 @@ export const metadata: Metadata = {
   title: "Campus Arc BETA",
   description: "This is the BETA version of the Campus Arc.",
 };
+import dynamic from "next/dynamic";
 
+const ClientOnlyAppNavbar = dynamic(
+  () =>
+    import("@/components/app/Navbar").then(
+      (mod) => mod as { default: React.ComponentType }
+    ),
+  {
+    ssr: false,
+  }
+);
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,8 +41,10 @@ export default function RootLayout({
   };
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${righteous.variable} bg-gray-100 `}>
-        <AppNavbar />
+      <body
+        className={`${poppins.variable} ${righteous.variable} bg-gray-100 `}
+      >
+        <ClientOnlyAppNavbar />
         <OCConnectWrapper opts={opts} sandboxMode={true}>
           {children}
         </OCConnectWrapper>

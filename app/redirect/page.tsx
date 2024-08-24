@@ -27,7 +27,6 @@ export default function RedirectPage() {
           width={350}
           height={100}
           className="w-64 h-auto"
-       
         />
         <div className="font-bold">
           Error Logging in: {authState.error?.message}
