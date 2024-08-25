@@ -1,31 +1,22 @@
 declare type Student = {
-  id?: string;
+  id?: number;
   eduUsername?: string;
   email?: string;
   ethAddress?: string;
   OCaccessToken?: string;
   OCIdtoken?: string;
-  arcModules?: ArcModule[];
+  registeredArcModules?: ArcModule[];
   registrationStakes?: RegistrationStake[];
 };
 
-declare type ArcModuleAPIEndpoint = {
-  reqType: string;
-  id?: string;
-  category: string;
-  level: string;
-  title: string;
-  imageSrc: string;
-  description: string;
-  lessons: string;
-  time: string;
-  projects: string;
-  studentId?: string;
-  adminKey: string;
+declare type ArcDesigner = {
+  id?: number;
+  fullName?: string;
+  arcModules?: ArcModule[];
 };
 
 declare type RegistrationStake = {
-  id: string;
+  id: number;
   hash: string;
   amount: number;
   student: Student;

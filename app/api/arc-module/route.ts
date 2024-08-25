@@ -17,9 +17,23 @@ export async function POST(req: Request) {
       lessons,
       time,
       projects,
-      studentId,
+      arcDesignerId,
       adminKey,
-    }: ArcModuleAPIEndpoint = body;
+    }: {
+      id?: number;
+      reqType: string;
+      adminKey: string;
+      category: string;
+      level: string;
+      title: string;
+      imageSrc: string;
+      description: string;
+      lessons: string;
+      time: string;
+      projects: string;
+      arcDesignerId?: number;
+      studentsRegistered?: Student[];
+    } = body;
 
     if (adminKey !== process.env.ADMIN_KEY) {
       return NextResponse.json({
@@ -35,30 +49,43 @@ export async function POST(req: Request) {
         },
       });
 
-      if (isArcModuleExist) {
+      if (isArcModuleExist !== null) {
         return NextResponse.json({
           error: "Arc Module already exists",
           isCreated: false,
           status: 400,
         });
       } else {
-        
+        const isArcDesignerExists = await db.arcDesigner.findUnique({
+          where: {
+            id: arcDesignerId,
+          },
+        });
+
+        if (isArcDesignerExists === null) {
+          return NextResponse.json({
+            error: "Arc Designer does not exist",
+            isCreated: false,
+            status: 400,
+          });
+        }
+
         const createdArcModule = await db.arcModule.create({
           data: {
-            id: id || "",
-            title: title || "",
-            imageSrc: imageSrc || "",
-            description: description || "",
-            lessons: lessons || "",
-            time: time || "",
-            projects: projects || "",
-            category: category || "",
-            level: level || "",
-            student: {
+            id: id || 0,
+            title: title,
+            imageSrc: imageSrc,
+            description: description,
+            lessons: lessons,
+            time: time,
+            projects: projects,
+            category: category,
+            level: level,
+            arcDesigner: {
               connect: {
-                id: studentId,
+                id: arcDesignerId || 0,
               },
-            },
+            } as any,
           },
         });
 

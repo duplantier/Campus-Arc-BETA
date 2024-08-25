@@ -9,37 +9,44 @@ datasource db {
 }
 
 model Student {
-  id                 String              @id @default(cuid())
-  eduUsername        String
-  email              String?
-  ethAddress         String?
-  OCaccessToken      String? // access_token from OC ID verification response
-  OCIdtoken          String? // id_token from OC ID verification response
-  arcModules         ArcModule[] // A student can register to many arcModules
-  registrationStakes RegistrationStake[] // A student can have many registrationStakes
+  id                   Int                 @id @default(autoincrement())
+  eduUsername          String
+  email                String?
+  ethAddress           String?
+  OCaccessToken        String? // access_token from OC ID verification response
+  OCIdtoken            String? // id_token from OC ID verification response
+  registeredArcModules ArcModule[] // A student can register to many arcModules
+  registrationStakes   RegistrationStake[] // A student can have many registrationStakes
+}
+
+model ArcDesigner {
+  id         Int         @id @default(autoincrement())
+  arcModules ArcModule[] //! An arcDesigner can have many arcModules
+  fullName       String
 }
 
 model ArcModule {
-  id          String   @id @default(cuid())
-  category    String
-  level       String
-  title       String
-  imageSrc    String
-  description String
-  lessons     String
-  time        String
-  projects    String
-  student     Student? @relation(fields: [studentId], references: [id]) // The student object who registered this one arcModule
-  studentId   String? // the id of the student who registered this one arcModule
+  id                 Int          @id @default(autoincrement())
+  category           String
+  level              String
+  title              String
+  imageSrc           String
+  description        String
+  lessons            String
+  time               String
+  projects           String
+  studentsRegistered Student[] //! The students who registered to this arcModule
+  arcDesigner        ArcDesigner? @relation(fields: [arcDesignerId], references: [id]) //! The arcDesigner object who created this one arcModule
+  arcDesignerId      Int? // Arc designer id
 }
 
 model RegistrationStake {
-  id                    String  @id @default(cuid())
+  id                    Int     @id @default(autoincrement())
   hash                  String
   amount                Int
   student               Student @relation(fields: [studentId], references: [id]) // The student object who approved this one registrationStake
-  studentId             String // the id of the student who registered this one registrationStake
-  registeredArcModuleId String // the id of the arcModule that this registrationStake is registered to
+  studentId             Int // the id of the student who registered this one registrationStake
+  registeredArcModuleId Int // the id of the arcModule that this registrationStake is registered to
 }
 
 enum Gender {

@@ -59,8 +59,10 @@ export async function POST(req: Request) {
           ethAddress: userObj.ethAddress || "",
           OCaccessToken: userObj.OCaccessToken || "",
           OCIdtoken: userObj.OCIdtoken || "",
-          arcModules: {
-            connect: userObj.arcModules?.map((module) => ({ id: module.id })),
+          registeredArcModules: {
+            connect: userObj.registeredArcModules?.map((module) => ({
+              id: module.id,
+            })),
           },
           registrationStakes: {
             connect: userObj.registrationStakes?.map((stake) => ({
@@ -87,7 +89,7 @@ export async function POST(req: Request) {
       const studentInfo = await db.student.findUnique({
         where: { id: userObj.id },
         include: {
-          arcModules: true,
+          registeredArcModules: true,
           registrationStakes: true,
         },
       });
