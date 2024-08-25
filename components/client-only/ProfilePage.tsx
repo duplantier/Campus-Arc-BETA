@@ -3,16 +3,338 @@ import React from "react";
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import NotAuthenticated from "@/components/app/NotAuthenticated";
 import SideNavigation from "@/components/app/SideNavigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  CircleHelp,
+  CircleUser,
+  Clipboard,
+  ClipboardCheck,
+  Clock,
+  FolderCode,
+  GraduationCap,
+} from "lucide-react";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { AnimatedTooltip } from "../ui/animated-tooltip";
+
 const ProfilePage = () => {
+  const [isCopied, setIsCopied] = React.useState(false);
   const { authState } = useOCAuth();
   let isLogOut = sessionStorage.getItem("isLogOut");
+  let edu_username = sessionStorage.getItem("edu_username");
+  let eth_address = sessionStorage.getItem("eth_address");
+
+  const exampleStudentData = {
+    eduUsername: "duplantier.edu",
+    email: "",
+    ethAddress: "0xaF6Ef7E769D4BAFCdc5bd60a036D89248086F4C1",
+    OCaccessToken:
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0",
+    registeredArcModules: [
+      {
+        id: 1,
+        title: "Introduction to HTML5",
+        description:
+          "Learn the basics of HTML5 and get started with web development.",
+        category: "Front-End Engineering",
+        imageSrc: "html-basics-module-image.png",
+        lessons: "23 Lessons",
+        time: "3.5 Hours",
+        projects: "5 Projects",
+        level: "Beginner",
+      },
+    ],
+    registrationStakes: [
+      {
+        id: 1,
+        hash: "0xc6942f890649807b36ed13d77fdf498a10d88da2bd615fd2e0579c229dc037a9",
+        amount: "0.01 EDU",
+        status: "Staked",
+        registeredArcModule: {
+          id: 1,
+          title: "Introduction to HTML5",
+          description:
+            "Learn the basics of HTML5 and get started with web development.",
+          category: "Front-End Engineering",
+          imageSrc: "html-basics-module-image.png",
+          lessons: "23 Lessons",
+          time: "3.5 Hours",
+          projects: "5 Projects",
+          level: "Beginner",
+        },
+        collabs: [
+          {
+            id: 1,
+            name: "Melik Toprakli",
+            designation: "Middle East Technichal University",
+            image: "/student1.webp",
+          },
+          {
+            id: 2,
+            name: "Baris Karaman",
+            designation: "Bahcesehir University",
+            image: "/student2.webp",
+          },
+        ],
+      },
+    ],
+  };
+
+  const copyStakeHash = () => {
+    navigator.clipboard.writeText(
+      exampleStudentData.registrationStakes[0].hash
+    );
+    setIsCopied(true);
+  };
 
   return authState.isAuthenticated && isLogOut && isLogOut != "true" ? (
-    <main className="text-gray-950 max-w-[80%] mx-auto py-12 flex justify-center  gap-8">
+    <main className="text-gray-950 max-w-[90%] mx-auto py-12 flex justify-center   gap-8">
       <SideNavigation />
-      <section className="w-[75%] bg-white rounded-3xl border min-h-[80vh] p-6">
-        <h1 className="text-5xl righteous-text">Profile</h1>
-        <p className="text-lg text-gray-500">Edit your profile here.</p>
+      <section className="w-[75%] bg-white rounded-3xl border max-h-[80vh] overflow-y-scroll p-6">
+        <h1 className="text-5xl  font-semibold flex justify-center items-center gap-2 mb-12">
+          {" "}
+          <CircleUser size={40} /> Profile
+        </h1>
+        <div className="flex gap-10 mt-6">
+          <div className="w-[50%]">
+            <h2 className="text-3xl righteous-text">Personal Information</h2>
+            <p className="text-lg text-gray-500">
+              Update your personal information.
+            </p>
+
+            <div className="mt-4">
+              <label htmlFor="email" className="text-sm">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={exampleStudentData.email}
+                className="w-full mt-2 p-2 border border-gray-300 rounded-lg text-gray-500 cursor-copy"
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="ethAddress" className="text-sm">
+                Ethereum Address
+              </label>
+              <input
+                type="text"
+                id="ethAddress"
+                name="ethAddress"
+                value={eth_address || exampleStudentData.ethAddress}
+                className="w-full mt-2 p-2 border border-gray-300 rounded-lg text-gray-500 cursor-copy"
+              />
+            </div>
+            <button className="w-[40%] flex items-center justify-center gap-2 cursor-not-allowed mt-4 rounded-lg text-gray-700 border py-2 bg-blue-200 border-blue-400 hover:bg-blue-300">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <CircleHelp size={20} className="text-brand-blue" />
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
+                    <p>This feature is not available in the beta version.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>{" "}
+              Update
+            </button>
+          </div>
+          <div className="w-[50%]">
+            <h2 className="text-3xl righteous-text">Open Campus Information</h2>
+            <p className="text-lg text-gray-500">
+              Update your Open Campus information.
+            </p>
+            <div className="mt-4">
+              <label htmlFor="eduUsername" className="text-sm">
+                EDU Username
+              </label>
+              <input
+                type="text"
+                id="eduUsername"
+                name="eduUsername"
+                value={edu_username || exampleStudentData.eduUsername}
+                className="w-full mt-2 p-2 border border-gray-300 rounded-lg px-3 text-gray-500 cursor-copy"
+              />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="OCaccessToken" className="text-sm">
+                Access Token
+              </label>
+              <input
+                type="text"
+                id="OCaccessToken"
+                name="OCaccessToken"
+                value={exampleStudentData.OCaccessToken}
+                className="w-full mt-2 p-2 border border-gray-300 rounded-lg text-gray-500 cursor-copy"
+              />
+            </div>
+            <button className="w-[40%] flex items-center justify-center gap-2 mt-4 cursor-not-allowed rounded-lg text-gray-700 border py-2 bg-blue-200 border-blue-400 hover:bg-blue-300">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <CircleHelp size={20} className="text-brand-blue" />
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
+                    <p>This feature is not available in the beta version.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>{" "}
+              Update
+            </button>
+          </div>
+        </div>
+        <div className="w-full mt-12">
+          <h2 className="text-3xl righteous-text">Registered Arc Modules</h2>
+          <p className="text-lg text-gray-500">
+            Manage your registered Arc Modules.
+          </p>
+
+          <div className="mt-8">
+            {exampleStudentData.registeredArcModules.map((module, index) => (
+              <Card className="w-[32%] rounded-3xl min-h-[450px]" key={index}>
+                <CardHeader>
+                  <CardTitle className="flex flex-col gap-4">
+                    <div className="flex justify-between items-center">
+                      <p className="text-sm font-normal">{module.category}</p>
+                      <p
+                        className={cn(
+                          "text-md font-normal px-2 py-1 border rounded-full",
+                          module.level === "Beginner"
+                            ? "border-green-500 bg-green-50 text-green-800"
+                            : module.level === "Intermediate"
+                            ? " border-blue-500 bg-blue-100 text-blue-500"
+                            : "border-orange-500 bg-orange-100 text-orange-500"
+                        )}
+                      >
+                        {module.level}
+                      </p>
+                    </div>
+                    <h1>{module.title}</h1>
+                    <Image
+                      alt="module image"
+                      width={300}
+                      height={200}
+                      src={`/arc-modules/${module.imageSrc}`}
+                      className="rounded-lg border"
+                    />
+                  </CardTitle>
+                  <CardDescription className="text-gray-500">
+                    {module.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex items-center gap-6 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <GraduationCap /> {module.lessons}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock /> {module.time}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FolderCode /> {module.projects}
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <button className="w-full rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50">
+                    Go to course
+                  </button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+        <div className="w-full mt-12">
+          <h2 className="text-3xl righteous-text">Registration Stakes</h2>
+          <p className="text-lg text-gray-500">
+            Review and manage your registration stakes.
+          </p>
+
+          <div className="mt-8">
+            {exampleStudentData.registrationStakes.map((item, index) => (
+              <Card className="w-[32%] rounded-3xl min-h-[400px]" key={index}>
+                <CardHeader>
+                  <CardTitle className="flex flex-col gap-4">
+                    <h1 className="text-xl">
+                      {item.registeredArcModule.title}
+                    </h1>
+                    <Image
+                      alt="module image"
+                      width={300}
+                      height={200}
+                      src={`/arc-modules/${item.registeredArcModule.imageSrc}`}
+                      className="rounded-lg border"
+                    />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="flex items-center gap-6 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-500">Stake Hash:</span>{" "}
+                    {item.hash.split("").slice(0, 10).join("")}...
+                    <button
+                      className="border border-gray-300 rounded-lg p-2"
+                      onClick={() => {
+                        copyStakeHash();
+                      }}
+                    >
+                      {isCopied ? (
+                        <ClipboardCheck size={18} className="text-green-500" />
+                      ) : (
+                        <Clipboard size={18} />
+                      )}
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-500">Stake Amount:</span>{" "}
+                    <div className="flex items-center gap-1">
+                      <Image
+                        alt="module image"
+                        width={20}
+                        height={200}
+                        src={`/oc-logo.svg`}
+                        className="w-6 h-auto rounded-lg border"
+                      />
+                      {item.amount}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-500">Status:</span>{" "}
+                    <div>
+                      <span
+                        className={cn(
+                          "px-2 py-1 rounded-full",
+                          item.status === "Staked"
+                            ? "bg-green-50 text-green-800 border-green-500 border"
+                            : "bg-red-50 text-red-800 border-red-500 border"
+                        )}
+                      >
+                        {item.status}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex   items-center gap-2">
+                    <span className="text-gray-500">Collab:</span>{" "}
+                    <div className="flex flex-row items-center justify-center w-full">
+                      <AnimatedTooltip items={item.collabs} />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </section>
     </main>
   ) : (
