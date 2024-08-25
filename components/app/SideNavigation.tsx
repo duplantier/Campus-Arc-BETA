@@ -104,18 +104,32 @@ const SideNavigation = () => {
       </div>
 
       <div className="flex flex-col gap-2 border-t pt-2">
-        <Link
-          className="flex items-center gap-2 py-2 px-1 hover:bg-gray-50 rounded-lg"
-          href="/support"
-        >
+        <button className="hover:bg-[#fff6db] cursor-not-allowed flex items-center gap-2 rounded-lg py-2 px-1">
           <LifeBuoy size={22} /> Support
-        </Link>
-        <Link
-          className="flex items-center gap-2 py-2 px-1 hover:bg-gray-50 rounded-lg"
-          href="/dashboard/settings"
-        >
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <CircleHelp size={18} className="text-brand-yellow" />
+              </TooltipTrigger>
+              <TooltipContent className="bg-white text-gray-950 border border-brand-yellow">
+                <p>This feature is not available in the beta version.</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </button>
+        <button className="hover:bg-[#fff6db] cursor-not-allowed flex items-center gap-2 rounded-lg py-2 px-1">
           <Settings size={24} /> Settings
-        </Link>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <CircleHelp size={18} className="text-brand-yellow" />
+              </TooltipTrigger>
+              <TooltipContent className="bg-white text-gray-950 border border-brand-yellow">
+                <p>This feature is not available in the beta version.</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </button>
       </div>
     </section>
   );

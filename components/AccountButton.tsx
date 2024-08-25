@@ -17,9 +17,11 @@ import {
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import LoginWithOCID from "./LoginWithOCID";
 import {
+  BookCheck,
   ChevronDown,
   CircleHelp,
   CircleUser,
+  Component,
   LayoutDashboard,
   LibraryBig,
   LifeBuoy,
@@ -41,7 +43,7 @@ const AccountButton = () => {
   if (authState.error) {
     console.log("Error:", authState.error.message);
   }
-  
+
   sessionStorage.setItem("edu_username", ocAuth.getAuthInfo().edu_username);
   sessionStorage.setItem("eth_address", ocAuth.getAuthInfo().eth_address);
 
@@ -66,14 +68,34 @@ const AccountButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="py-2 px-3 bg-white text-black w-[300px] rounded-xl  ">
         <DropdownMenuLabel>MY ACCOUNT</DropdownMenuLabel>
-        <DropdownMenuGroup className="border-t pt-3 mt-2">
+        <DropdownMenuGroup className="border-y pb-2 pt-3 mt-2">
           <DropdownMenuItem
             onClick={() => router.push("/dashboard")}
             className="hover:bg-gray-100 cursor-pointer flex items-center gap-1"
           >
             <LayoutDashboard size={20} /> Dashboard
           </DropdownMenuItem>
-          <DropdownMenuItem className="hover:bg-[#fff6db] cursor-not-allowed flex items-center gap-1">
+          <DropdownMenuItem
+            onClick={() => router.push("/dashboard/arc-modules")}
+            className="hover:bg-gray-100 cursor-pointer flex items-center gap-1"
+          >
+            <Component size={20} />
+            Arc Modules
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push("/dashboard/my-certificates")}
+            className="hover:bg-gray-100 cursor-pointer flex items-center gap-1"
+          >
+            <BookCheck size={20} />
+            My Certificates
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push("/dashboard/profile")}
+            className="hover:bg-gray-100 cursor-pointer flex items-center gap-1"
+          >
+            <CircleUser size={20} /> Profile
+          </DropdownMenuItem>
+         {/*  <DropdownMenuItem className="hover:bg-[#fff6db] cursor-not-allowed flex items-center gap-1">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
@@ -85,15 +107,10 @@ const AccountButton = () => {
               </Tooltip>
             </TooltipProvider>{" "}
             Arc Designer Panel
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
         </DropdownMenuGroup>
-        <DropdownMenuGroup className="border-y py-3 mt-2">
-          <DropdownMenuItem
-            onClick={() => router.push("/dashboard/profile")}
-            className="hover:bg-gray-100 cursor-pointer flex items-center gap-1"
-          >
-            <CircleUser size={20} /> Profile
-          </DropdownMenuItem>
+       {/*  <DropdownMenuGroup className="border-y py-3 mt-2">
+          
 
           <DropdownMenuItem
             onClick={() => router.push("/dashboard/settings")}
@@ -107,7 +124,7 @@ const AccountButton = () => {
           >
             <LifeBuoy size={19} /> Support
           </DropdownMenuItem>
-        </DropdownMenuGroup>
+        </DropdownMenuGroup> */}
 
         <DropdownMenuItem
           onClick={() => logOut()}
