@@ -15,6 +15,21 @@ declare type ArcDesigner = {
   arcModules?: ArcModule[];
 };
 
+declare type ArcModule = {
+  id?: number;
+  category: string;
+  level: string;
+  imageSrc: string
+  description: string;
+  lessons: string;
+  time: string;
+  projects: string;
+  studentsRegistered: Student[];
+  arcDesigner: ArcDesigner;
+  arcDesignerId: string;
+
+};
+
 declare type RegistrationStake = {
   id: number;
   hash: string;

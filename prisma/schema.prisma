@@ -21,7 +21,7 @@ model Student {
 
 model ArcDesigner {
   id         Int         @id @default(autoincrement())
-  arcModules ArcModule[] //! An arcDesigner can have many arcModules
+  arcModules ArcModule[] // An arcDesigner can have many arcModules
   fullName       String
 }
 
@@ -35,8 +35,8 @@ model ArcModule {
   lessons            String
   time               String
   projects           String
-  studentsRegistered Student[] //! The students who registered to this arcModule
-  arcDesigner        ArcDesigner? @relation(fields: [arcDesignerId], references: [id]) //! The arcDesigner object who created this one arcModule
+  studentsRegistered Student[] // The students who registered to this arcModule
+  arcDesigner        ArcDesigner? @relation(fields: [arcDesignerId], references: [id]) // The arcDesigner object who created this one arcModule
   arcDesignerId      Int? // Arc designer id
 }
 
