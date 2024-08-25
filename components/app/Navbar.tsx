@@ -11,7 +11,7 @@ const AppNavbar = () => {
   const router = useRouter();
   let isLogOut = sessionStorage.getItem("isLogOut");
   return authState.isAuthenticated && isLogOut && isLogOut != "true" ? (
-    <div className="w-full border-b bg-white">
+    <div className="w-full border-b bg-white z-50">
       <nav className="min-h-[10vh] py-6 flex items-center justify-between max-w-[90%] mx-auto">
         <Image
           src="/logo.svg"

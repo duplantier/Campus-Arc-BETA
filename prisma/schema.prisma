@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model ArcModule {
+  id          String   @id @default(cuid())
+  category    Category
+  level       Level
+  title       String
+  imageSrc    String
+  description String
+  lessons     String
+  time        String
+  projects    String
+  student        Student     @relation(fields: [studentId], references: [id]) // a student can have many arcModules
+  studentId      String // the id of the student who registered this one arcModule
+}
+
+model RegistrationStake {
+  id                    String @id @default(cuid())
+  hash                  String
+  amount                Int
+  student                  Student   @relation(fields: [studentId], references: [id]) // a student can have many registrationStakes
+  studentId                String // the id of the student who registered this one registrationStake
+  registeredArcModuleId String // the id of the arcModule that this registrationStake is registered to
+}
+
+model Student {
+  id                 String              @id @default(cuid())
+  eduUsername        String
+  email              String?
+  ethAddress         String?
+  OCaccessToken      String? // access_token from OC ID verification response
+  OCIdtoken          String? // id_token from OC ID verification response
+  arcModules         ArcModule[]
+  registrationStakes RegistrationStake[]
+}
+
+enum Category {
+  FrontEndEngineer
+  BackEndEngineer
+  FullStackEngineer
+}
+
+enum Level {
+  Beginner
+  Intermediate
+  Advanced
+}
+
+enum Gender {
+  Male
+  Female
+}
+
+// Notes: 
+// 1- Ekstra Student detayları daha sonra eklenecek.
+// 2- Arc Designer eklenecek

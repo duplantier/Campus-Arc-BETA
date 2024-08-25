@@ -42,8 +42,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${righteous.variable} bg-gray-100 `}
+        className={`${poppins.variable} ${righteous.variable} bg-dot-gray-400 `}
       >
+        
         <ClientOnlyAppNavbar />
         <OCConnectWrapper opts={opts} sandboxMode={true}>
           {children}
