@@ -15,7 +15,7 @@ const Dashboard = () => {
   let isLogOut = sessionStorage.getItem("isLogOut");
 
   return authState.isAuthenticated && isLogOut && isLogOut != "true" ? (
-    <main className="text-gray-950 max-w-[90%] mx-auto py-12 flex justify-center  gap-8">
+    <main className="text-gray-950 max-w-[90%] mx-auto py-12 flex justify-center raleway-text gap-8">
       <SideNavigation />
       <section className="w-[75%] bg-white rounded-3xl border min-h-[80vh] p-6">
         <h1 className="text-5xl  font-semibold flex justify-center items-center gap-2 ">

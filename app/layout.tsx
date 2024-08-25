@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Poppins, Righteous } from "next/font/google";
+import { Raleway, Righteous } from "next/font/google";
 import "./globals.css";
 import OCConnectWrapper from "../components/OCConnectWrapper";
 
-const poppins = Poppins({
+const raleway = Raleway({
   subsets: ["latin"],
   weight: ["400"],
-  variable: "--font-poppins",
+  variable: "--font-raleway",
 });
 
 const righteous = Righteous({
@@ -30,7 +30,7 @@ export default function RootLayout({
   };
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${righteous.variable}`}>
+      <body className={`raleway-text ${righteous.variable}`}>
         <OCConnectWrapper opts={opts} sandboxMode={true}>
           {children}
         </OCConnectWrapper>
