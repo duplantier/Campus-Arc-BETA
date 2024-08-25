@@ -8,29 +8,6 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model ArcModule {
-  id          String   @id @default(cuid())
-  category    Category
-  level       Level
-  title       String
-  imageSrc    String
-  description String
-  lessons     String
-  time        String
-  projects    String
-  student        Student     @relation(fields: [studentId], references: [id]) // a student can have many arcModules
-  studentId      String // the id of the student who registered this one arcModule
-}
-
-model RegistrationStake {
-  id                    String @id @default(cuid())
-  hash                  String
-  amount                Int
-  student                  Student   @relation(fields: [studentId], references: [id]) // a student can have many registrationStakes
-  studentId                String // the id of the student who registered this one registrationStake
-  registeredArcModuleId String // the id of the arcModule that this registrationStake is registered to
-}
-
 model Student {
   id                 String              @id @default(cuid())
   eduUsername        String
@@ -38,20 +15,31 @@ model Student {
   ethAddress         String?
   OCaccessToken      String? // access_token from OC ID verification response
   OCIdtoken          String? // id_token from OC ID verification response
-  arcModules         ArcModule[]
-  registrationStakes RegistrationStake[]
+  arcModules         ArcModule[] // A student can register to many arcModules
+  registrationStakes RegistrationStake[] // A student can have many registrationStakes
 }
 
-enum Category {
-  FrontEndEngineer
-  BackEndEngineer
-  FullStackEngineer
+model ArcModule {
+  id          String   @id @default(cuid())
+  category    String
+  level       String
+  title       String
+  imageSrc    String
+  description String
+  lessons     String
+  time        String
+  projects    String
+  student     Student? @relation(fields: [studentId], references: [id]) // The student object who registered this one arcModule
+  studentId   String? // the id of the student who registered this one arcModule
 }
 
-enum Level {
-  Beginner
-  Intermediate
-  Advanced
+model RegistrationStake {
+  id                    String  @id @default(cuid())
+  hash                  String
+  amount                Int
+  student               Student @relation(fields: [studentId], references: [id]) // The student object who approved this one registrationStake
+  studentId             String // the id of the student who registered this one registrationStake
+  registeredArcModuleId String // the id of the arcModule that this registrationStake is registered to
 }
 
 enum Gender {

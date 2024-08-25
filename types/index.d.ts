@@ -1,4 +1,5 @@
 declare type Student = {
+  id?: string;
   eduUsername?: string;
   email?: string;
   ethAddress?: string;
@@ -8,25 +9,20 @@ declare type Student = {
   registrationStakes?: RegistrationStake[];
 };
 
-declare type ArcModule = {
-  id: string;
-  category: Category;
-  level: Level;
+declare type ArcModuleAPIEndpoint = {
+  reqType: string;
+  id?: string;
+  category: string;
+  level: string;
   title: string;
   imageSrc: string;
   description: string;
   lessons: string;
   time: string;
   projects: string;
-  student: Student;
-  studentId: string;
+  studentId?: string;
+  adminKey: string;
 };
-
-declare type Category =
-  | "Front-End Engineer"
-  | "Back-End Engineer"
-  | "Solidity Engineer";
-declare type Level = "Beginner" | "Intermediate" | "Advanced";
 
 declare type RegistrationStake = {
   id: string;
