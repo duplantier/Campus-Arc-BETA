@@ -41,11 +41,12 @@ const AccountButton = () => {
   if (authState.error) {
     console.log("Error:", authState.error.message);
   }
+  
+  sessionStorage.setItem("edu_username", ocAuth.getAuthInfo().edu_username);
+  sessionStorage.setItem("eth_address", ocAuth.getAuthInfo().eth_address);
 
   const logOut = () => {
     authState.isAuthenticated = false;
-    console.log("authState.isAuthenticated, ", authState.isAuthenticated);
-
     sessionStorage.setItem("isLogOut", "true");
     window.location.reload();
   };
