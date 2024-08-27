@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { Clock, Component, FolderCode, GraduationCap } from "lucide-react";
+import { Clock, Component, FolderCode, GraduationCap, Loader } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { exampleArcModules } from "@/constants";
 import Link from "next/link";
@@ -20,6 +20,7 @@ import Link from "next/link";
 const ArcModulesPage = () => {
   const [allArcModules, setAllArcModules] = React.useState<ArcModule[]>([]);
   const { authState } = useOCAuth();
+  const [isArcModulesLoading, setIsArcModulesLoading] = useState(true);
   let isLogOut = sessionStorage.getItem("isLogOut");
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const ArcModulesPage = () => {
       });
       const data = await fetchAllResponse.json();
       setAllArcModules(data.allArcModules);
-      console.log("data", data);
+      setIsArcModulesLoading(false);
     };
     fetchArcModules();
   }, []);
@@ -52,6 +53,11 @@ const ArcModulesPage = () => {
           All the Arc Modules available for you to learn.
         </p>
         <div className="flex  items-center gap-2 mt-6 flex-wrap">
+          {isArcModulesLoading && (
+            <div className="flex items-center justify-center gap-2 w-full">
+              <Loader size={34} className="animate-spin text-brand-blue" />
+            </div>
+          )}
           {allArcModules.map((module, index) => (
             <Card className="w-[32%] rounded-3xl min-h-[450px]" key={index}>
               <CardHeader>
@@ -96,9 +102,10 @@ const ArcModulesPage = () => {
                 </div>
               </CardContent>
               <CardFooter>
-                <Link 
-                href={`/module/${module.id}`}
-                className="w-full text-center rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50">
+                <Link
+                  href={`/module/${module.id}`}
+                  className="w-full text-center rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50"
+                >
                   Go to course
                 </Link>
               </CardFooter>
