@@ -18,16 +18,6 @@ export async function POST(req: Request) {
         status: 401,
       });
     }
-    const allArcModules = await db.arcModule.findMany({
-      include: {
-        studentsRegistered: true, // Include related Student records
-      },
-    });
-    return NextResponse.json({
-      allArcModules: allArcModules,
-      isRead: true,
-      status: 200,
-    });
   } catch (error) {
     return NextResponse.json({ error: error, status: 500 });
   }
