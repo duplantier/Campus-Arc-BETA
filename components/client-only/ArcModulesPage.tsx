@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import NotAuthenticated from "@/components/app/NotAuthenticated";
 import SideNavigation from "@/components/app/SideNavigation";
@@ -15,23 +15,22 @@ import Image from "next/image";
 import { Clock, Component, FolderCode, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { exampleArcModules } from "@/constants";
+import Link from "next/link";
 
 const ArcModulesPage = () => {
-  const [allArcModules, setAllArcModules] = React.useState([]);
+  const [allArcModules, setAllArcModules] = React.useState<ArcModule[]>([]);
   const { authState } = useOCAuth();
   let isLogOut = sessionStorage.getItem("isLogOut");
-  const adminKey = process.env.NEXT_PUBLIC_ADMIN_KEY;
 
   useEffect(() => {
     const fetchArcModules = async () => {
-      const fetchAllResponse = await fetch("/api/arc-module", {
+      const fetchAllResponse = await fetch("/api/arc-modules/fetch-all", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          reqType: "fetchAll",
-          adminKey: adminKey,
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
         }),
       });
       const data = await fetchAllResponse.json();
@@ -53,7 +52,7 @@ const ArcModulesPage = () => {
           All the Arc Modules available for you to learn.
         </p>
         <div className="flex  items-center gap-2 mt-6 flex-wrap">
-          {exampleArcModules.map((module, index) => (
+          {allArcModules.map((module, index) => (
             <Card className="w-[32%] rounded-3xl min-h-[450px]" key={index}>
               <CardHeader>
                 <CardTitle className="flex flex-col gap-4">
@@ -87,7 +86,7 @@ const ArcModulesPage = () => {
               </CardHeader>
               <CardContent className="flex items-center gap-6 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <GraduationCap /> {module.lessons}
+                  <GraduationCap /> {module.lessonNumber} Lessons
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock /> {module.time}
@@ -97,9 +96,11 @@ const ArcModulesPage = () => {
                 </div>
               </CardContent>
               <CardFooter>
-                <button className="w-full rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50">
+                <Link 
+                href={`/module/${module.id}`}
+                className="w-full text-center rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50">
                   Go to course
-                </button>
+                </Link>
               </CardFooter>
             </Card>
           ))}
