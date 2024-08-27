@@ -160,7 +160,7 @@ const AboutTab = () => {
           </div>
 
           <p className="z-20 text-xl relative mt-4">
-            Campus Arc's Staking mechanishm allows students to earn while they
+            Campus Arc&lsquo;s Staking mechanishm allows students to earn while they
             learn. Students can stake their tokens and earn rewards by
             completing project-based courses, i.e., Arc Modules.
           </p>

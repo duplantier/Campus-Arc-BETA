@@ -11,7 +11,6 @@ import {
   LibraryBig,
   Loader,
 } from "lucide-react";
-import { exampleStudentData } from "@/constants";
 import Image from "next/image";
 import { AnimatedTooltip } from "../ui/animated-tooltip";
 import { Progress } from "../ui/progress";
