@@ -67,7 +67,7 @@ export const exampleStudentData = {
           "Learn the basics of HTML5 and get started with web development.",
         category: "Front-End Engineering",
         imageSrc: "html-basics-module-image.png",
-        lessons: "23 Lessons",
+        lessons: 23,
         time: "3.5 Hours",
         projects: "5 Projects",
         level: "Beginner",

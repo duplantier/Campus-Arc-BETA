@@ -8,12 +8,22 @@ export async function POST(req: Request) {
     const body = await req.json();
     const {
       reqType,
-      userObj,
+      eduUsername,
+      email,
+      ethAddress,
+      OCaccessToken,
       adminKey,
+      registeredArcModulesIds,
+      registrationStakesIds,
     }: {
       reqType: string;
-      userObj: Student;
       adminKey: string;
+      eduUsername?: string;
+      ethAddress?: string;
+      OCaccessToken?: string;
+      email?: string;
+      registeredArcModulesIds?: string[];
+      registrationStakesIds?: string[];
     } = body;
 
     if (adminKey !== process.env.NEXT_PUBLIC_ADMIN_KEY) {
@@ -25,81 +35,37 @@ export async function POST(req: Request) {
     }
 
     if (reqType === "create") {
-      const isStudentAlreadyExist = await db.student.findUnique({
-        where: { id: userObj.id },
+      const isStudentAlreadyExist = await db.student.findFirst({
+        where: { eduUsername: eduUsername },
       });
+
       if (isStudentAlreadyExist) {
         return NextResponse.json({
           error: "Student already exists",
           isCreated: false,
-          status: 400,
+          studentId: isStudentAlreadyExist.id,
+          status: 409, // Conflict
         });
       } else {
         const createdStudent = await db.student.create({
           data: {
-            eduUsername: userObj.eduUsername || "",
-            email: userObj.email || "",
-            ethAddress: userObj.ethAddress || "",
-            OCaccessToken: userObj.OCaccessToken || "",
-            OCIdtoken: userObj.OCIdtoken || "",
+            eduUsername: eduUsername || "",
+            email: email,
+            ethAddress: ethAddress,
+            OCaccessToken: OCaccessToken,
+            registeredArcModulesIds: [],
+            registrationStakesIds: [],
           },
         });
         return NextResponse.json({
           createdStudent: createdStudent,
           isCreated: true,
+          studentId: createdStudent.id,
           status: 201,
         });
       }
-    } else if (reqType === "update") {
-      const updatedStudent = await db.student.update({
-        where: { id: userObj.id }, // user id is required for updating
-        data: {
-          eduUsername: userObj.eduUsername || "",
-          email: userObj.email || "",
-          ethAddress: userObj.ethAddress || "",
-          OCaccessToken: userObj.OCaccessToken || "",
-          OCIdtoken: userObj.OCIdtoken || "",
-          registeredArcModules: {
-            connect: userObj.registeredArcModules?.map((module) => ({
-              id: module.id,
-            })),
-          },
-          registrationStakes: {
-            connect: userObj.registrationStakes?.map((stake) => ({
-              id: stake.id,
-            })),
-          },
-        },
-      });
-      return NextResponse.json({
-        updatedStudent: updatedStudent,
-        isUpdated: true,
-        status: 200,
-      });
-    } else if (reqType === "delete") {
-      const deletedStudent = await db.student.delete({
-        where: { id: userObj.id },
-      });
-      return NextResponse.json({
-        deletedStudent: deletedStudent,
-        isDeleted: true,
-        status: 200,
-      });
-    } else if (reqType === "read") {
-      const studentInfo = await db.student.findUnique({
-        where: { id: userObj.id },
-        include: {
-          registeredArcModules: true,
-          registrationStakes: true,
-        },
-      });
-      return NextResponse.json({
-        studentInfo: studentInfo,
-        isRead: true,
-        status: 200,
-      });
-    }
+    } 
   } catch (error) {
-    return NextResponse.json({ error: "Error", isCreated: false, status: 500 });
+    return NextResponse.json({ error: error, isCreated: false, status: 500 });
   }
 }

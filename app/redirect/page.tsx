@@ -6,9 +6,44 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function RedirectPage() {
+  const { authState, ocAuth } = useOCAuth();
   const router = useRouter();
 
   const loginSuccess = () => {
+    sessionStorage.setItem("edu_username", ocAuth.getAuthInfo().edu_username);
+    sessionStorage.setItem("eth_address", ocAuth.getAuthInfo().eth_address);
+    sessionStorage.setItem("OCaccessToken", authState.accessToken);
+
+    const userEduUsername = sessionStorage.getItem("edu_username");
+    const userEthAddress = sessionStorage.getItem("eth_address");
+    const userOCaccessToken = sessionStorage.getItem("OCaccessToken");
+
+    const createStudent = async () => {
+      const createStudentResponse = await fetch("/api/student", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          reqType: "create",
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
+          eduUsername: userEduUsername,
+          ethAddress: userEthAddress,
+          OCaccessToken: userOCaccessToken,
+        }),
+      });
+      console.log(process.env.NEXT_PUBLIC_ADMIN_KEY)
+      console.log(userEduUsername)
+      console.log(userEthAddress)
+      console.log(userOCaccessToken)
+
+      const createStudentData = await createStudentResponse.json();
+      const studentId = createStudentData.studentId;
+      sessionStorage.setItem("studentId", studentId);
+    };
+
+    createStudent(); // create student in the database
+
     sessionStorage.setItem("isLogOut", "false");
     router.push("/"); // Redirect after successful login
   };

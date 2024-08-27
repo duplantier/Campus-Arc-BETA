@@ -1,36 +1,133 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![]()
 
-## Getting Started
+# Important Notes for The EDU Chain Hackathon Judges
 
-First, run the development server:
+- Please run this project locally for EDU Chain evaluation purposes (guidelines are down below). While this project is live on www.campusarc.io, Open Campus has not whitelisted this domain yet, which prevents application from presenting a live demo.
+- Since this is the BETA version of the Campus Arc -which is mainly built for the EDU Chain Hackathon- many concepts and features that makes application complete in terms of being dynamic were skipped. This is because of the time limit of the hackathon and to focus on the Solidity-Contract side of the application, which was the crucial part of the hackathon. These features will be added in the next months and are listed on both the application and down below.
+- It is all-important to note that Campus Arc is not merely a hackthon project. It's roots are based on The Sustainable Development Goals of United Nations, as mentioned on the About section in detail. So, after this hackathon, Campus Arc will be held as a real start-up project which has its own economic sustainability structures, completely dynamic user experience, and all other listed features that are skipped for this hackathon.
+- To understand the imagined user/course data that will be fetched dynamically in the future better, please first take a look at constants/index.ts file.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<br>
+<br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# 🧩🪄 Campus Arc BETA
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Verify your identity with Open Campus ID, meet college students from your campus or the world, stake 0.01 EDU, and build together, real-time! For real!
 
-## Learn More
+<br>
 
-To learn more about Next.js, take a look at the following resources:
+## 📖 About The Project
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Campus Arc is a next-gen web-based e-learning and e-collaboration Web2/Web3 app where college students can match with their campus (or world) fellows, build meaningful projects in their field of expertise together, and increase their competency by gaining project-based experiences.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Campus Arc aims to spread project-based competency in the scope of college campuses and make graduations more meaningful. Thus, it has a relatively deeper meaning/purpose than just being one of the Learning Management Systems.
+<br>
+<br>
 
-## Deploy on Vercel
+### Key Web3 Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. ***Open Campus ID Verification:*** Campus Arc BETA has a simplistic authentication infrastructure that is based on OC-ID verification.
+2. ***Collaboration Staking:*** A student have to stake 0.01 EDU to register an Arc Module. After this, they can invite their friends for a Collaboration Staking, which makes it possible for these students to collaborate on a one common Arc Module page real-time. These stakes are returned if students can complete the Arc Module in a determined time (e.g., 28 days). If they can't, their stakes are not returned. 
+3. ***Blockchain Certificates:***
+<br>
+<br>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Key Web2 Features
+
+1. ***Real-Time Collaboration:*** 
+    1
+2. ***AI-Assisted Learning:***
+<br>
+<br>
+
+### Key Educational Features
+
+- ***Arc Modules:***
+- ***Community:***
+- ***Arc Designers:***
+<br>
+<br>
+
+### Skipped Features & Concepts for the Hackathon
+
+- Responsiveness
+- Completely Dynamic Data and Page Management
+- Arc Designer Panel Page
+- Community Page
+- Statistics Page
+- Support Page
+- Settings Page
+<br>
+<br>
+
+
+🔗 More on [The ETHGlobal Official Showcase Page]()
+
+🔗 [Live Demo](https://www.campusarc.io)
+
+<br>
+
+## 🌟 Project Development Progress
+
+Campus Arc BETA is builded for the EDU Chain Hackathon of Open Campus. 🔗 [See the official event page]()
+
+<br>
+
+## 🤝 Team
+
+- **Hüseyin Karataş:** Brand Design, UI/UX Design and Development, Front-End Engineering, Back-End Engineering, Implementing Back-End Interactions, Contract Design, Development and Deployment, Contract Interactions
+
+<br>
+
+## 🛠️ Technologies Used
+
+### 🖌️🎨 Front-End
+
+- Next.js
+- React.js
+- TypeScript
+- TailwindCSS
+- Shadcn/ui
+- Aceternity UI
+- Framer Motion
+- React Hook Form
+- Zod
+- Lucide React
+- WalletConnect APIs for wallet management
+- Worldcoin APIs
+- Vercel for deployment
+- esLint
+- Figma for brand design
+- Wagmi hooks for contract interactions
+
+### ⚙️ 🗄️ Back-End
+
+- TypeScript
+- Prisma
+- Prisma ORM
+- PostgreSQL
+- Vercel DB
+
+### 📜 Contract
+
+- Remix (Solidity)
+
+<br>
+
+### 📜 Installation
+
+## 🖼️ Screenshots From The App
+
+![](./)
+<br><br>
+![](./)
+<br><br>
+
+![](./)
+<br><br>
+
+![](./)
+<br><br>
+![](./)
+<br><br>

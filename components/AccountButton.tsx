@@ -43,13 +43,14 @@ const AccountButton = () => {
   if (authState.error) {
     console.log("Error:", authState.error.message);
   }
-
-  sessionStorage.setItem("edu_username", ocAuth.getAuthInfo().edu_username);
-  sessionStorage.setItem("eth_address", ocAuth.getAuthInfo().eth_address);
+  console.log(authState)
 
   const logOut = () => {
     authState.isAuthenticated = false;
     sessionStorage.setItem("isLogOut", "true");
+    sessionStorage.removeItem("edu_username");
+    sessionStorage.removeItem("eth_address");
+    sessionStorage.removeItem("OCaccessToken");
     window.location.reload();
   };
   return authState.isAuthenticated && isLogOut && isLogOut != "true" ? (
@@ -95,7 +96,7 @@ const AccountButton = () => {
           >
             <CircleUser size={20} /> Profile
           </DropdownMenuItem>
-         {/*  <DropdownMenuItem className="hover:bg-[#fff6db] cursor-not-allowed flex items-center gap-1">
+          {/*  <DropdownMenuItem className="hover:bg-[#fff6db] cursor-not-allowed flex items-center gap-1">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
@@ -109,7 +110,7 @@ const AccountButton = () => {
             Arc Designer Panel
           </DropdownMenuItem> */}
         </DropdownMenuGroup>
-       {/*  <DropdownMenuGroup className="border-y py-3 mt-2">
+        {/*  <DropdownMenuGroup className="border-y py-3 mt-2">
           
 
           <DropdownMenuItem
