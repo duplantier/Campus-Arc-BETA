@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Raleway, Righteous } from "next/font/google";
 import "./globals.css";
 import OCConnectWrapper from "../components/OCConnectWrapper";
+import { cookieToInitialState } from "wagmi";
+import { headers } from "next/headers";
 
+import { config } from "@/config";
+import AppKitProvider from "@/context";
 const raleway = Raleway({
   subsets: ["latin"],
   weight: ["400"],
@@ -30,13 +34,16 @@ export default function RootLayout({
   };
   /* 
   START YOUR LOCALHOST AS SUDO!!!!!!!!!!!!!!!!!!!!!!!!
-  */
+  */ const initialState = cookieToInitialState(config, headers().get("cookie"));
+
   return (
     <html lang="en">
       <body className={`raleway-text ${righteous.variable}`}>
-        <OCConnectWrapper opts={opts} sandboxMode={true}>
-          {children}
-        </OCConnectWrapper>
+        <AppKitProvider initialState={initialState}>
+          <OCConnectWrapper opts={opts} sandboxMode={true}>
+            {children}
+          </OCConnectWrapper>
+        </AppKitProvider>
       </body>
     </html>
   );

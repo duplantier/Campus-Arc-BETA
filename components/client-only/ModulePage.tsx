@@ -5,12 +5,14 @@ import { cn } from "@/lib/utils";
 import {
   AlarmClock,
   Book,
+  BookKey,
   Check,
   CircleCheck,
   CircleHelp,
   Clock,
   FolderCode,
   GraduationCap,
+  HandCoins,
   Linkedin,
   Loader,
   Twitter,
@@ -24,6 +26,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 const ArcModuleInfoPage = () => {
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [arcModuleInfo, setArcModuleInfo] = useState<ArcModule>();
@@ -95,24 +106,43 @@ const ArcModuleInfoPage = () => {
   }, [selectedArcModuleId, studentId]);
 
   const registerArcModule = async () => {
-    //! Approve al
-    const res = await fetch(`/api/student/register-arc-module`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
-        studentId: Number(studentId),
-        arcModuleId: Number(selectedArcModuleId),
-        stakeHash,
-        stakeAmount,
-        stakeStatus,
-      }),
-    });
-    const data = await res.json();
-    if (data.isRegistered) {
-      alert("You have successfully registered for the course.");
+    try {
+      const response = await fetch("/api/contract/stake", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: 100,
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
+        }),
+      });
+
+      const data = await response.json();
+      console.log("Stake incoming data", data);
+      setStakeStatus(data.status);
+    } catch (error) {
+      console.error("Error staking:", error);
+    }
+    if (stakeStatus === "Staked") {
+      const res = await fetch(`/api/student/register-arc-module`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
+          studentId: Number(studentId),
+          arcModuleId: Number(selectedArcModuleId),
+          stakeHash,
+          stakeAmount,
+          stakeStatus,
+        }),
+      });
+      const data = await res.json();
+      if (data.isRegistered) {
+        alert("You have successfully registered for the course.");
+      }
     }
   };
 
@@ -175,6 +205,7 @@ const ArcModuleInfoPage = () => {
                     <div className="flex items-center gap-2">
                       <AlarmClock /> {arcModuleInfo?.deadline}
                     </div>
+                    <w3m-button />
                   </div>
                   {studentsArcModules.length > 0 ? (
                     studentsArcModules.map((item, index) => {
@@ -203,7 +234,7 @@ const ArcModuleInfoPage = () => {
                                   className="w-full"
                                 />
                               </div>
-                              <button className="px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
+                              <div className="px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
                                 <TooltipProvider>
                                   <Tooltip>
                                     <TooltipTrigger>
@@ -221,7 +252,7 @@ const ArcModuleInfoPage = () => {
                                   </Tooltip>
                                 </TooltipProvider>
                                 Continue Learning
-                              </button>
+                              </div>
                             </div>
                           ) : item.arcModuleId !=
                             Number(selectedArcModuleId) ? (
@@ -234,12 +265,154 @@ const ArcModuleInfoPage = () => {
                     })
                   ) : (
                     <div className="flex justify-end items-center">
-                      <button
-                        onClick={registerArcModule}
-                        className="px-6 py-3 font-semibold w-[250px] rounded-lg bg-brand-blue text-white mt-6"
-                      >
-                        Register Now
-                      </button>
+                      <Dialog>
+                        <DialogTrigger className="px-6 py-3 font-semibold w-[250px] rounded-lg bg-brand-blue text-white mt-6">
+                          Register Now
+                        </DialogTrigger>
+                        <DialogContent className="bg-gray-100 max-h-[650px] overflow-y-scroll w-[600px]">
+                          <DialogHeader className="w-full">
+                            <DialogTitle className="text-3xl w-full">
+                              Registering Arc Module:
+                              <h2 className="text-2xl">
+                                {arcModuleInfo?.title}
+                              </h2>
+                            </DialogTitle>
+                            <div className="flex items-center gap-6 py-4 text-lg flex-wrap">
+                              <div className="flex items-center gap-2">
+                                <GraduationCap /> {arcModuleInfo?.lessonNumber}{" "}
+                                Lessons
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Clock size={22} /> {arcModuleInfo?.time}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <FolderCode /> {arcModuleInfo?.projects}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <AlarmClock /> {arcModuleInfo?.deadline}
+                              </div>
+
+                              <p
+                                className={cn(
+                                  "text-md font-normal px-2 py-1 border rounded-full",
+                                  arcModuleInfo?.level === "Beginner"
+                                    ? "border-green-500 bg-green-50 text-green-800"
+                                    : arcModuleInfo?.level === "Intermediate"
+                                    ? " border-blue-500 bg-blue-100 text-blue-500"
+                                    : "border-orange-500 bg-orange-100 text-orange-500"
+                                )}
+                              >
+                                Level: {arcModuleInfo?.level}
+                              </p>
+                            </div>
+
+                            <DialogDescription className="pt-4">
+                              <h3 className="font-bold  text-xl text-brand-blue">
+                                How It Works?
+                              </h3>
+                              <p className="text-base mb-4">
+                                In order to register for the course,{" "}
+                                <strong>
+                                  you have to stake a certain amount of
+                                  EDUTokens
+                                </strong>{" "}
+                                . This amount will be used to verify your{" "}
+                                <strong>commitment</strong> to the module and to
+                                calculate.
+                              </p>
+                              <h3 className="font-bold text-xl text-brand-blue mt-8">
+                                After Registration
+                              </h3>
+                              <p className="text-base mb-8">
+                                Once you have successfully staked the required
+                                amount, you will start to:
+                                <ul className="flex flex-col gap-4 mt-4 px-8">
+                                  <li>
+                                    📚 <strong>Learn:</strong> You will get
+                                    access to the Module content and start
+                                    learning.
+                                  </li>
+                                  <li>
+                                    💰 <strong>Earn:</strong> You will regularly
+                                    earn some certain amount* of EDUTokens until
+                                    the module deadline.
+                                  </li>
+                                </ul>
+                              </p>
+                              <h3 className="font-bold  text-xl">Conditions</h3>
+                              You need to confirm that you understand the
+                              following conditions:
+                              <p className="text-base mb-4">
+                                <ul className="flex flex-col gap-4 px-8 mt-4">
+                                  <li>
+                                    🔵 You need to stake{" "}
+                                    <strong>at least 10 EDUTokens</strong>
+                                    to register for the course.
+                                  </li>
+                                  <li>
+                                    🔴 You will not be able to withdraw your
+                                    staked tokens{" "}
+                                    <strong>until the module deadline</strong>.
+                                  </li>
+                                  <li>
+                                    🔴 You will not be able to withdraw your
+                                    staked tokens,{" "}
+                                    <strong>
+                                      if you cannot complete the module by the
+                                      deadline
+                                    </strong>
+                                    .
+                                  </li>
+                                  <li>
+                                    🟢 You will be able to withdraw your staked
+                                    tokens with its rewards,{" "}
+                                    <strong>
+                                      if you complete the module by the deadline
+                                    </strong>
+                                    .
+                                  </li>
+                                </ul>
+                              </p>
+                              <div className="border rounded-lg border-brand-yellow bg-yellow-50 text-gray-950 px-6 py-4">
+                                * 💰 <strong>The returning amount</strong> in
+                                the case you successfully completing the module
+                                is determined by the following calculation:{" "}
+                                <br />
+                                <strong>
+                                  staking time (i.e., the time limit or the
+                                  deadline of the Module) &times; EDUToken
+                                  amount you staked &times; Reward Rate**.
+                                </strong>
+                              </div>
+                              <div className="mt-6 border rounded-lg border-brand-yellow bg-yellow-50 text-gray-950 px-6 py-4">
+                                * 🎁 <strong>Reward Rate:</strong> 2592 EDUToken
+                                per 30 days / 86,4 EDUTokens per day
+                              </div>
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div
+                            className="px-6 py-3 flex items-center gap-2 justify-center font-semibold w-full rounded-lg bg-brand-blue text-white mt-6"
+                            onClick={registerArcModule}
+                          >
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <CircleHelp
+                                    size={20}
+                                    className="text-white"
+                                  />
+                                </TooltipTrigger>
+                                <TooltipContent className="w-[200px] z-50 text-sm bg-white text-gray-950 border border-brand-blue">
+                                  For the EDU Chain Hackathon purposes, students
+                                  are limited to stake a maximum of 100
+                                  EDUTokens.
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                            Stake 100 EDUTokens and Register Now
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   )}
                 </div>
