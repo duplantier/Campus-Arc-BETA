@@ -12,7 +12,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { Clock, Component, FolderCode, GraduationCap, Loader } from "lucide-react";
+import {
+  Clock,
+  Component,
+  FolderCode,
+  GraduationCap,
+  Loader,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { exampleArcModules } from "@/constants";
 import Link from "next/link";
@@ -103,7 +109,13 @@ const ArcModulesPage = () => {
               </CardContent>
               <CardFooter>
                 <Link
-                  href={`/module/${module.id}`}
+                  href={"/module"}
+                  onClick={() => {
+                    sessionStorage.setItem(
+                      "selectedArcModuleId",
+                      module.id.toString()
+                    );
+                  }}
                   className="w-full text-center rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50"
                 >
                   Go to course
