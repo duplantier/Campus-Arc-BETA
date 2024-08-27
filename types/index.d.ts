@@ -14,6 +14,11 @@ declare type ArcDesigner = {
   id: number;
   arcModulesIds: number[];
   fullName: string;
+  designation: string;
+  imageSrc: string;
+  twitter: string;
+  linkedin: string;
+  description: string;
 };
 
 // Declare the UsersArcModules model type
