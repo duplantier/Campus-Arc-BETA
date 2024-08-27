@@ -291,8 +291,8 @@ const ProfilePage = () => {
                     <FolderCode /> {module.projects}
                   </div>
                   <div className="flex items-center gap-2">
-                  <AlarmClock /> {module.deadline}
-                </div>
+                    <AlarmClock /> {module.deadline}
+                  </div>
                 </CardContent>
                 <CardFooter>
                   <button className="w-full rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50">
