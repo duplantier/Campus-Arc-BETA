@@ -312,14 +312,11 @@ const ProfilePage = () => {
               </div>
             )}
             {studentsRegistrationStakes.map((item, index) => (
-              <div>
+              <div key={index}>
                 {allArcModules.map((module, index) => (
-                  <div>
+                  <div key={index}>
                     {item.registeredArcModuleId === module.id && (
-                      <Card
-                        className="w-[32%] rounded-3xl min-h-[400px]"
-                        key={index}
-                      >
+                      <Card className="w-[32%] rounded-3xl min-h-[400px]">
                         <CardHeader>
                           <CardTitle className="flex flex-col gap-4">
                             <h1 className="text-xl">{module.title}</h1>
