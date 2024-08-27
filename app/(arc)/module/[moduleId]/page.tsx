@@ -115,7 +115,7 @@ const ArcModulePage = ({
           <h4 className="text-brand-blue font-semibold">Module Overview</h4>
           <h1 className="text-2xl font-bold mt-2">About The Course</h1>
           <hr className="my-6 border" />
-          <h5 className="font-semibold mb-3">What you'll learn</h5>
+          <h5 className="font-semibold mb-3">What you&lsquo;ll learn</h5>
           <ul className="list-none">
             {ArcModule?.whatYouWillLearn.map((item, index) => (
               <li className="flex items-center gap-2 mb-3" key={index}>
@@ -189,8 +189,8 @@ const Module1Description = () => {
       Master HTML5 Basics and Build Your Web Development Foundation!
       <br />
       <br />
-      Campus Arc's HTML5 Basics course is your gateway to the world of web
-      development. Whether you're a complete beginner or someone with a bit of
+      Campus Arc&lsquo;s HTML5 Basics course is your gateway to the world of web
+      development. Whether you&lsquo;re a complete beginner or someone with a bit of
       coding experience, this course is designed to equip you with the essential
       skills needed to create modern, responsive websites using HTML5.
       <br />
@@ -201,7 +201,7 @@ const Module1Description = () => {
       <br />
       Our HTML5 Basics course is the most comprehensive, easy-to-follow
       introduction to HTML5 ever created. With a focus on practical learning,
-      you'll quickly move from understanding basic HTML concepts to building
+      you&lsquo;ll quickly move from understanding basic HTML concepts to building
       fully functional web pages. Over 150,000 students have kickstarted their
       web development careers with this course.
       <br />
@@ -217,7 +217,7 @@ const Module1Description = () => {
       <br />
       <br />
       This course will take you from complete beginner to confident web
-      developer, even with zero prior experience. Here's why:
+      developer, even with zero prior experience. Here&lsquo;s why:
       <br />
       <br />
       <ul>
@@ -247,7 +247,7 @@ const Module1Description = () => {
           HTML5 education without any cost.
         </li>
         <li>
-          We'll guide you step-by-step through the process of understanding
+          We&lsquo;ll guide you step-by-step through the process of understanding
           HTML5, from basic tags to building complex web page structures.
           Engaging video tutorials and interactive coding exercises will make
           sure you grasp the material fully.
@@ -258,7 +258,7 @@ const Module1Description = () => {
       hands-on projects to ensure you can apply what you learn effectively.
       <br />
       <br />
-      You'll cover topics such as:
+      You&lsquo;ll cover topics such as:
       <ul>
         <li>Introduction to HTML5 and its importance in web development</li>
         <li>Creating and structuring web pages with semantic HTML5 elements</li>
