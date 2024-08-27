@@ -1,41 +1,70 @@
+// Declare the Student model type
 declare type Student = {
-  id?: number;
-  eduUsername?: string;
+  id: number;
+  eduUsername: string;
   email?: string;
   ethAddress?: string;
   OCaccessToken?: string;
-  OCIdtoken?: string;
-  registeredArcModules?: ArcModule[];
-  registrationStakes?: RegistrationStake[];
+  registeredArcModulesIds: string[];
+  registrationStakesIds: string[];
 };
 
+// Declare the ArcDesigner model type
 declare type ArcDesigner = {
-  id?: number;
-  fullName?: string;
-  arcModules?: ArcModule[];
+  id: number;
+  arcModulesIds: string[];
+  fullName: string;
 };
 
+// Declare the UsersArcModules model type
+declare type UsersArcModules = {
+  id: number;
+  userId: number;
+  arcModuleId: number;
+  isRegistered: boolean;
+  completedLessonsIds: string[];
+  isCollaborate: boolean;
+};
+
+// Declare the ArcModule model type
 declare type ArcModule = {
-  id?: number;
+  id: number;
   category: string;
   level: string;
-  imageSrc: string
+  title: string;
+  imageSrc: string;
   description: string;
-  lessons: number;
+  lessonsIds: string[];
+  lessonNumber: number;
   time: string;
   projects: string;
   whatYouWillLearn: string[];
-  studentsRegistered: Student[];
-  arcDesigner: ArcDesigner;
-  arcDesignerId: string;
-
+  studentsRegisteredIds: string[];
+  arcDesignersId: number[];
 };
 
+// Declare the Lesson model type
+declare type Lesson = {
+  id: number;
+  title: string;
+  description: string;
+  videoSrc: string;
+  arcModuleId: number;
+  isCompleted: boolean;
+};
+
+// Declare the RegistrationStake model type
 declare type RegistrationStake = {
   id: number;
   hash: string;
   amount: number;
-  student: Student;
-  studentId: string;
-  registeredArcModuleId: string;
+  studentId: number;
+  registeredArcModuleId: number;
+  collabStudentsId: string[];
 };
+
+// Declare the Gender enum type
+declare enum Gender {
+  Male = "Male",
+  Female = "Female",
+}
