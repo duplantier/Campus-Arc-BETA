@@ -34,7 +34,7 @@ model UsersArcModules {
   userId              Int
   arcModuleId         Int // The id of the arcModule that this user is registered to.
   isRegistered        Boolean
-  completedLessonsIds String[]
+  completedLessonsIds Int[]
   isCollaborate       Boolean
 }
 
@@ -51,7 +51,7 @@ model ArcModule {
   time                  String // basic string
   projects              String // basic string
   whatYouWillLearn      String[]
-  studentsRegisteredIds String[] // The ALL students who registered this arcModule
+  studentsRegisteredIds Int[] // The ALL students who registered this arcModule
   arcDesignersId        Int[] // Arc designers id
 }
 
@@ -70,7 +70,7 @@ model RegistrationStake {
   amount                Int
   studentId             Int // the id of the student who registered this one registrationStake
   registeredArcModuleId Int // the id of the arcModule that this registrationStake is registered to
-  collabStudentsId      String[] // the students who are collaborating with the student who registered this registrationStake
+  collabStudentsIds      Int[] // the students who are collaborating with the student who registered this registrationStake
 }
 
 enum Gender {
