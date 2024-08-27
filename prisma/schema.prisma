@@ -9,51 +9,66 @@ datasource db {
 }
 
 model Student {
-  id                   Int                 @id @default(autoincrement())
-  eduUsername          String
-  email                String?
-  ethAddress           String?
-  OCaccessToken        String? // access_token from OC ID verification response
-  OCIdtoken            String? // id_token from OC ID verification response
-  registeredArcModules ArcModule[] // A student can register to many arcModules
-  registrationStakes   RegistrationStake[] // A student can have many registrationStakes
+  id                      Int      @id @default(autoincrement())
+  eduUsername             String   @unique
+  email                   String?
+  ethAddress              String?
+  OCaccessToken           String? // access_token from OC ID verification response
+  registeredArcModulesIds String[] // UsersArcModules objelerini çekeceksin buradan.
+  registrationStakesIds   String[] // A student can have many registrationStakes
 }
 
 model ArcDesigner {
-  id         Int         @id @default(autoincrement())
-  arcModules ArcModule[] // An arcDesigner can have many arcModules
-  fullName       String
+  id            Int      @id @default(autoincrement())
+  arcModulesIds String[] // An arcDesigner can have many arcModules
+  fullName      String
 }
 
+model UsersArcModules {
+  id                  Int      @id @default(autoincrement())
+  userId              Int
+  arcModuleId         Int // The id of the arcModule that this user is registered to.
+  isRegistered        Boolean
+  completedLessonsIds String[]
+  isCollaborate       Boolean
+}
+
+// Genel olarak listelenen arc modülleri.
 model ArcModule {
-  id                 Int          @id @default(autoincrement())
-  category           String
-  level              String
-  title              String
-  imageSrc           String
-  description        String
-  lessons            String
-  time               String
-  projects           String
-  studentsRegistered Student[] // The students who registered to this arcModule
-  arcDesigner        ArcDesigner? @relation(fields: [arcDesignerId], references: [id]) // The arcDesigner object who created this one arcModule
-  arcDesignerId      Int? // Arc designer id
+  id                    Int      @id @default(autoincrement())
+  category              String
+  level                 String
+  title                 String
+  imageSrc              String
+  description           String
+  lessonsIds            String[] // The lessons that this arcModule has
+  lessonNumber          Int      @default(0)
+  time                  String // basic string
+  projects              String // basic string
+  whatYouWillLearn      String[]
+  studentsRegisteredIds String[] // The ALL students who registered this arcModule
+  arcDesignersId        Int[] // Arc designers id
+}
+
+model Lesson {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  videoSrc    String
+  arcModuleId Int // The id of the arcModule that this lesson belongs to.
+  isCompleted Boolean
 }
 
 model RegistrationStake {
-  id                    Int     @id @default(autoincrement())
+  id                    Int      @id @default(autoincrement())
   hash                  String
   amount                Int
-  student               Student @relation(fields: [studentId], references: [id]) // The student object who approved this one registrationStake
   studentId             Int // the id of the student who registered this one registrationStake
   registeredArcModuleId Int // the id of the arcModule that this registrationStake is registered to
+  collabStudentsId      String[] // the students who are collaborating with the student who registered this registrationStake
 }
 
 enum Gender {
   Male
   Female
 }
-
-// Notes: 
-// 1- Ekstra Student detayları daha sonra eklenecek.
-// 2- Arc Designer eklenecek
