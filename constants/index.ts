@@ -89,3 +89,33 @@ export const exampleStudentData = {
     },
   ],
 };
+
+export const ArcModule1 = {
+  title: "Introduction to HTML5",
+  description:
+    "Unlock the foundational skills of web development with our HTML5 Basics course. Whether you're a beginner or looking to refresh your knowledge, this course will empower you to create robust, modern websites from the ground up.",
+  category: "Front-End Engineering",
+  imageSrc: "html-basics-module-image.png",
+  lessons: 23,
+  time: "3.5 Hours",
+  projects: "5 Projects",
+  level: "Beginner",
+  whatYouWillLearn: [
+    "HTML5 Structure: Understand the core elements and structure of HTML5 to build clean and organized web pages.",
+    "Semantic Markup: Learn to use semantic tags to improve accessibility and SEO for your web projects",
+    "Forms and Inputs: Master the creation and styling of user input forms, including text fields, checkboxes, and buttons.",
+    "Multimedia Integration: Embed and control audio, video, and other multimedia elements directly in your web pages.",
+    "Linking and Navigation: Create internal and external links, and develop intuitive navigation systems for users.",
+  ],
+  arcDesigner: {
+    name: "Hüseyin Karataş",
+    designation: "Full-Stack Engineer",
+    image: "/huseyinkaratas.jpg",
+    twitter: "https://x.com/0xDuplantier",
+    linkedin: "https://www.linkedin.com/in/huseyinlorakaratas/",
+    description:
+      "A Full-Stack Engineer with a passion for teaching. He has been working in the tech industry for over 3.5 years and has experience in building web applications with React, Next.js, and Node.js. Hüseyin is excited to share his knowledge with students and help them become successful developers.",
+  },
+  studentsRegistered: [],
+  arcDesignerId: "",
+};

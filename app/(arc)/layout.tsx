@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Raleway, Righteous } from "next/font/google";
-import "./globals.css";
-import OCConnectWrapper from "../components/OCConnectWrapper";
+import "../globals.css";
+import OCConnectWrapper from "@/components/OCConnectWrapper";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -19,18 +19,29 @@ export const metadata: Metadata = {
   title: "Campus Arc BETA",
   description: "This is the BETA version of the Campus Arc.",
 };
+import dynamic from "next/dynamic";
 
+const ClientOnlyAppNavbar = dynamic(
+  () =>
+    import("@/components/app/Navbar").then(
+      (mod) => mod as { default: React.ComponentType }
+    ),
+  {
+    ssr: false,
+  }
+);
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const opts = {
-    redirectUri: "http://localhost:3004/redirect",
+    redirectUri: "http://localhost:3003/redirect",
   };
   return (
     <html lang="en">
-      <body className={`raleway-text ${righteous.variable}`}>
+      <body className={`raleway-text ${righteous.variable} bg-gray-50 `}>
+        <ClientOnlyAppNavbar />
         <OCConnectWrapper opts={opts} sandboxMode={true}>
           {children}
         </OCConnectWrapper>

@@ -72,7 +72,7 @@ const Dashboard = () => {
                   </div>
                 ))}
                 <Link
-                  href={`/arc/${module.id}`}
+                  href={`/module/${module.id}`}
                   className="rounded-xl border py-2 px-10 border-brand-blue hover:bg-brand-blue hover:text-white"
                 >
                   Continue

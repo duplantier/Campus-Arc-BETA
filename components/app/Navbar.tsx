@@ -25,7 +25,22 @@ const AppNavbar = () => {
         <AccountButton />
       </nav>
     </div>
-  ) : null;
+  ) : (
+    <div className="w-full border-b bg-white z-50">
+      <nav className="min-h-[10vh] py-6 flex items-center justify-between max-w-[90%] mx-auto">
+        <Image
+          src="/logo.svg"
+          alt="Campus Arc BETA Logo"
+          width={200}
+          height={100}
+          className="w-48 h-auto cursor-pointer"
+          onClick={() => router.push("/")}
+        />
+
+        <AccountButton />
+      </nav>
+    </div>
+  );
 };
 
 export default AppNavbar;

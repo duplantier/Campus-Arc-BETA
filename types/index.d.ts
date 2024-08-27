@@ -21,9 +21,10 @@ declare type ArcModule = {
   level: string;
   imageSrc: string
   description: string;
-  lessons: string;
+  lessons: number;
   time: string;
   projects: string;
+  whatYouWillLearn: string[];
   studentsRegistered: Student[];
   arcDesigner: ArcDesigner;
   arcDesignerId: string;
