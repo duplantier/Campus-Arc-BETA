@@ -51,6 +51,7 @@ const AccountButton = () => {
     sessionStorage.removeItem("edu_username");
     sessionStorage.removeItem("eth_address");
     sessionStorage.removeItem("OCaccessToken");
+    sessionStorage.removeItem("studentId");
     window.location.reload();
   };
   return authState.isAuthenticated && isLogOut && isLogOut != "true" ? (
