@@ -9,18 +9,18 @@ datasource db {
 }
 
 model Student {
-  id                      Int      @id @default(autoincrement())
-  eduUsername             String   @unique
+  id                      Int     @id @default(autoincrement())
+  eduUsername             String  @unique
   email                   String?
   ethAddress              String?
   OCaccessToken           String? // access_token from OC ID verification response
-  registeredArcModulesIds String[] // UsersArcModules objelerini çekeceksin buradan.
-  registrationStakesIds   String[] // A student can have many registrationStakes
+  registeredArcModulesIds Int[] // UsersArcModules objelerini çekeceksin buradan.
+  registrationStakesIds   Int[] // A student can have many registrationStakes
 }
 
 model ArcDesigner {
   id            Int      @id @default(autoincrement())
-  arcModulesIds String[] // An arcDesigner can have many arcModules
+  arcModulesIds Int[] // An arcDesigner can have many arcModules
   fullName      String
   designation   String
   imageSrc      String
@@ -30,7 +30,7 @@ model ArcDesigner {
 }
 
 model UsersArcModules {
-  id                  Int      @id @default(autoincrement())
+  id                  Int     @id @default(autoincrement())
   userId              Int
   arcModuleId         Int // The id of the arcModule that this user is registered to.
   isRegistered        Boolean
@@ -46,7 +46,7 @@ model ArcModule {
   title                 String
   imageSrc              String
   description           String
-  lessonsIds            String[] // The lessons that this arcModule has
+  lessonsIds            Int[] // The lessons that this arcModule has
   lessonNumber          Int      @default(0)
   time                  String // basic string
   projects              String // basic string
@@ -65,12 +65,12 @@ model Lesson {
 }
 
 model RegistrationStake {
-  id                    Int      @id @default(autoincrement())
+  id                    Int    @id @default(autoincrement())
   hash                  String
   amount                Int
   studentId             Int // the id of the student who registered this one registrationStake
   registeredArcModuleId Int // the id of the arcModule that this registrationStake is registered to
-  collabStudentsIds      Int[] // the students who are collaborating with the student who registered this registrationStake
+  collabStudentsIds     Int[] // the students who are collaborating with the student who registered this registrationStake
 }
 
 enum Gender {
