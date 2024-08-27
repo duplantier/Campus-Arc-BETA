@@ -19,7 +19,7 @@ model Student {
 }
 
 model ArcDesigner {
-  id            Int      @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   arcModulesIds Int[] // An arcDesigner can have many arcModules
   fullName      String
   designation   String
@@ -47,7 +47,7 @@ model ArcModule {
   imageSrc              String
   description           String
   lessonsIds            Int[] // The lessons that this arcModule has
-  lessonNumber          Int      @default(0)
+  lessonNumber          Int
   time                  String // basic string
   projects              String // basic string
   whatYouWillLearn      String[]
