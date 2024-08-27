@@ -22,6 +22,11 @@ model ArcDesigner {
   id            Int      @id @default(autoincrement())
   arcModulesIds String[] // An arcDesigner can have many arcModules
   fullName      String
+  designation   String
+  imageSrc      String
+  twitter       String?
+  linkedin      String?
+  description   String
 }
 
 model UsersArcModules {
