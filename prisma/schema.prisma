@@ -53,6 +53,7 @@ model ArcModule {
   whatYouWillLearn      String[]
   studentsRegisteredIds Int[] // The ALL students who registered this arcModule
   arcDesignersId        Int[] // Arc designers id
+  deadline              String
 }
 
 model Lesson {
