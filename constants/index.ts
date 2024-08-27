@@ -1,121 +1,131 @@
-export const exampleArcModules = [
+export const ABI = [
   {
-    title: "Introduction to HTML5",
-    description:
-      "Learn the basics of HTML5 and get started with web development.",
-    category: "Front-End Engineering",
-    imageSrc: "html-basics-module-image.png",
-    lessons: "23 Lessons",
-    time: "3.5 Hours",
-    projects: "5 Projects",
-    level: "Beginner",
+    inputs: [
+      {
+        internalType: "address",
+        name: "_eduTokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_rewardRate",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
-    title: "CSS3 Fundamentals",
-    description: "Master the fundamentals of CSS3 and web design skills.",
-    category: "Front-End Engineering",
-    imageSrc: "css3-fundamentals.png",
-    lessons: "56 Lessons",
-    time: "6 Hours",
-    projects: "8 Projects",
-    level: "Intermediate",
+    name: "stake",
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
-    title: "Full-Stack Development with Next.js",
-    description:
-      " Learn how to build full-stack applications with Next.js and React.",
-    category: "Full-Stack Engineering",
-    imageSrc: "fullstack-nextjs-dev.png",
-    lessons: "87 Lessons",
-    time: "11 Hours",
-    projects: "3 Projects",
-    level: "Advanced",
+    name: "withdraw",
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    name: "calculateRewards",
+    inputs: [
+      {
+        internalType: "address",
+        name: "_staker",
+        type: "address",
+      },
+    ],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    name: "setRewardRate",
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_newRate",
+        type: "uint256",
+      },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    name: "eduToken",
+    inputs: [],
+    outputs: [
+      {
+        internalType: "contract IERC20",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    name: "stakes",
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    name: "rewardRate",
+    inputs: [],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
 ];
-
-export const exampleStudentData = {
-  eduUsername: "duplantier.edu",
-  email: "",
-  ethAddress: "0xaF6Ef7E769D4BAFCdc5bd60a036D89248086F4C1",
-  OCaccessToken:
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6ImFybjphd3M6a21zOmFwLW5vcnRoZWFzdC0yOjQ5NTEzMDE4NjU2OTprZXkvNDk4OWM3MTItZTdhYi00ZjJkLWFlMjEtZDE3MGJiNmE0MTMyIn0",
-  registeredArcModules: [
-    {
-      id: 1,
-      title: "Introduction to HTML5",
-      description:
-        "Learn the basics of HTML5 and get started with web development.",
-      category: "Front-End Engineering",
-      imageSrc: "html-basics-module-image.png",
-      lessons: 23,
-      time: "3.5 Hours",
-      projects: "5 Projects",
-      level: "Beginner",
-      completedLessons: 5,
-    },
-  ],
-  registrationStakes: [
-    {
-      id: 1,
-      hash: "0xc6942f890649807b36ed13d77fdf498a10d88da2bd615fd2e0579c229dc037a9",
-      amount: "0.01 EDU",
-      status: "Staked",
-      registeredArcModule: {
-        id: 1,
-        title: "Introduction to HTML5",
-        description:
-          "Learn the basics of HTML5 and get started with web development.",
-        category: "Front-End Engineering",
-        imageSrc: "html-basics-module-image.png",
-        lessons: 23,
-        time: "3.5 Hours",
-        projects: "5 Projects",
-        level: "Beginner",
-      },
-      collabs: [
-        {
-          id: 1,
-          name: "Melik Toprakli",
-          designation: "Middle East Technichal University",
-          image: "/student1.webp",
-        },
-        {
-          id: 2,
-          name: "Baris Karaman",
-          designation: "Bahcesehir University",
-          image: "/student2.webp",
-        },
-      ],
-    },
-  ],
-};
-
-export const ArcModule1 = {
-  title: "Introduction to HTML5",
-  description:
-    "Unlock the foundational skills of web development with our HTML5 Basics course. Whether you're a beginner or looking to refresh your knowledge, this course will empower you to create robust, modern websites from the ground up.",
-  category: "Front-End Engineering",
-  imageSrc: "html-basics-module-image.png",
-  lessons: 23,
-  time: "3.5 Hours",
-  projects: "5 Projects",
-  level: "Beginner",
-  whatYouWillLearn: [
-    "HTML5 Structure: Understand the core elements and structure of HTML5 to build clean and organized web pages.",
-    "Semantic Markup: Learn to use semantic tags to improve accessibility and SEO for your web projects",
-    "Forms and Inputs: Master the creation and styling of user input forms, including text fields, checkboxes, and buttons.",
-    "Multimedia Integration: Embed and control audio, video, and other multimedia elements directly in your web pages.",
-    "Linking and Navigation: Create internal and external links, and develop intuitive navigation systems for users.",
-  ],
-  arcDesigner: {
-    name: "Hüseyin Karataş",
-    designation: "Full-Stack Engineer",
-    image: "/huseyinkaratas.jpg",
-    twitter: "https://x.com/0xDuplantier",
-    linkedin: "https://www.linkedin.com/in/huseyinlorakaratas/",
-    description:
-      "",
-  },
-  studentsRegistered: [],
-  arcDesignerId: "",
-};

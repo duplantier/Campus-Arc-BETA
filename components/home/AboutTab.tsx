@@ -4,7 +4,6 @@ import Image from "next/image";
 import { BackgroundBeamsWithCollision } from "../ui/background-beams-with-collision";
 
 const AboutTab = () => {
-
   return (
     <section className="w-full  flex-col items-center px-20 overflow-auto flex gap-10 h-[80vh] mb-16 rounded-2xl text-xl md:text-4xl border  bg-gray-950 ">
       <h1 className="text-center w-full text-gray-50 mt-10 text-5xl righteous-text">
@@ -13,6 +12,10 @@ const AboutTab = () => {
       <p className="text-lg text-center w-full -mt-8 text-gray-500">
         Learn more about Campus Arc and its mission
       </p>
+
+      <h3 className="text-3xl text-center font-semibold text-gray-50">
+        Web2 & Education Side
+      </h3>
       <div className="w-full flex justify-center items-center gap-10 h-auto">
         <CardSpotlight className=" py-8 w-[55%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
           <div className="flex  gap-10 items-center z-50 mb-6">
@@ -134,6 +137,52 @@ const AboutTab = () => {
             expertise field. By providing proper conditions and chances, we can
             significantly increase the number of competent young people and
             fresh graduates.
+          </p>
+        </CardSpotlight>
+      </div>
+
+      <h3 className="text-3xl text-center font-semibold text-gray-50">
+        Web3 & Blockchain (EduFi) Side
+      </h3>
+      <div className="w-full flex justify-center items-center gap-10 h-auto mb-20">
+        <CardSpotlight className=" py-8 w-[50%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
+          <div className="flex gap-10  items-center z-50 mb-6">
+            <Image
+              src="/earn.svg"
+              alt="Earn and Learn"
+              width={250}
+              height={200}
+              className="z-50 w-60 h-auto"
+            />
+            <h1 className="text-3xl relative z-20 righteous-text">
+              Earn and Learn
+            </h1>
+          </div>
+
+          <p className="z-20 text-xl relative mt-4">
+            Campus Arc's Staking mechanishm allows students to earn while they
+            learn. Students can stake their tokens and earn rewards by
+            completing project-based courses, i.e., Arc Modules.
+          </p>
+        </CardSpotlight>
+        <CardSpotlight className=" py-8 w-[50%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
+          <div className="flex gap-10  items-center z-50 mb-6">
+            <Image
+              src="/blockchain-certificate.svg"
+              alt="The solution Campus Arc provides"
+              width={150}
+              height={200}
+              className="z-50 w-36 h-auto"
+            />
+            <h1 className="text-3xl relative z-20 righteous-text">
+              Blockchain Certificates
+            </h1>
+          </div>
+
+          <p className="z-20 text-xl relative mt-4">
+            Campus Arc will provide blockchain certificates for students who
+            complete their project-based courses. These certificates will be
+            stored on the blockchain and can be verified by anyone.
           </p>
         </CardSpotlight>
       </div>

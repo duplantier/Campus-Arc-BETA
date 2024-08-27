@@ -25,6 +25,7 @@
     "clsx": "^2.1.1",
     "connectkit": "^1.8.2",
     "dotenv": "^16.4.5",
+    "ethers": "^6.13.2",
     "framer-motion": "^11.3.29",
     "lucide-react": "^0.429.0",
     "mini-svg-data-uri": "^1.4.4",

@@ -31,7 +31,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { AnimatedTooltip } from "../ui/animated-tooltip";
-import { exampleStudentData } from "@/constants";
 
 const ProfilePage = () => {
   const [isCopied, setIsCopied] = React.useState(false);
@@ -54,10 +53,8 @@ const ProfilePage = () => {
   let eth_address = sessionStorage.getItem("eth_address");
   let studentId = sessionStorage.getItem("studentId");
 
-  const copyStakeHash = () => {
-    navigator.clipboard.writeText(
-      exampleStudentData.registrationStakes[0].hash
-    );
+  const copyStakeHash = (hash: string) => {
+    navigator.clipboard.writeText(hash);
     setIsCopied(true);
   };
 
@@ -162,7 +159,7 @@ const ProfilePage = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={exampleStudentData.email}
+                value={""}
                 className="w-full mt-2 p-2 border border-gray-300 rounded-lg text-gray-500 cursor-copy"
               />
             </div>
@@ -174,7 +171,7 @@ const ProfilePage = () => {
                 type="text"
                 id="ethAddress"
                 name="ethAddress"
-                value={eth_address || exampleStudentData.ethAddress}
+                value={eth_address || ""}
                 className="w-full mt-2 p-2 border border-gray-300 rounded-lg text-gray-500 cursor-copy"
               />
             </div>
@@ -205,11 +202,11 @@ const ProfilePage = () => {
                 type="text"
                 id="eduUsername"
                 name="eduUsername"
-                value={edu_username || exampleStudentData.eduUsername}
+                value={edu_username || ""}
                 className="w-full mt-2 p-2 border border-gray-300 rounded-lg px-3 text-gray-500 cursor-copy"
               />
             </div>
-            <div className="mt-4">
+            {/*  <div className="mt-4">
               <label htmlFor="OCaccessToken" className="text-sm">
                 Access Token
               </label>
@@ -217,10 +214,10 @@ const ProfilePage = () => {
                 type="text"
                 id="OCaccessToken"
                 name="OCaccessToken"
-                value={exampleStudentData.OCaccessToken}
+                value={oc}
                 className="w-full mt-2 p-2 border border-gray-300 rounded-lg text-gray-500 cursor-copy"
               />
-            </div>
+            </div> */}
             <button className="w-[40%] flex items-center justify-center gap-2 mt-4 cursor-not-allowed rounded-lg text-gray-700 border py-2 bg-blue-200 border-blue-400 hover:bg-blue-300">
               <TooltipProvider>
                 <Tooltip>
@@ -340,7 +337,7 @@ const ProfilePage = () => {
                             <button
                               className="border border-gray-300 rounded-lg p-2"
                               onClick={() => {
-                                copyStakeHash();
+                                copyStakeHash(item.hash);
                               }}
                             >
                               {isCopied ? (

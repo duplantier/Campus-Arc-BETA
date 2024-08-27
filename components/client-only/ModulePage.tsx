@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { ethers } from "ethers";
 
 import { cn } from "@/lib/utils";
 import {
@@ -35,6 +36,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useWalletInfo, useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAccount, useWriteContract } from "wagmi";
+import { ABI } from "@/constants";
 const ArcModuleInfoPage = () => {
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [arcModuleInfo, setArcModuleInfo] = useState<ArcModule>();
@@ -42,9 +46,16 @@ const ArcModuleInfoPage = () => {
   const [studentsArcModules, setStudentsArcModules] = useState<
     UsersArcModules[]
   >([]);
-  const [stakeHash, setStakeHash] = useState<string>("");
-  const [stakeAmount, setStakeAmount] = useState<number>(0);
+  const [stakeAmount, setStakeAmount] = useState<number>(100);
   const [stakeStatus, setStakeStatus] = useState<string>("pending");
+  const { open: openWalletConnectionModal, close } = useWeb3Modal();
+  const { walletInfo } = useWalletInfo();
+  const { address, isConnected } = useAccount();
+  const {
+    data: stakeHash,
+    writeContract: stakeWriteContract,
+    isPending,
+  } = useWriteContract();
 
   const selectedArcModuleId = sessionStorage.getItem("selectedArcModuleId");
   const studentId = sessionStorage.getItem("studentId");
@@ -106,21 +117,19 @@ const ArcModuleInfoPage = () => {
   }, [selectedArcModuleId, studentId]);
 
   const registerArcModule = async () => {
+    if (!isConnected) {
+      openWalletConnectionModal();
+    }
     try {
-      const response = await fetch("/api/contract/stake", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount: 100,
-          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
-        }),
+      stakeWriteContract({
+        abi: ABI,
+        address: process.env
+          .NEXT_PUBLIC_STAKING_CONTRACT_ADDRESS as `0x${string}`,
+        functionName: "stake",
+        args: [ethers.parseUnits(stakeAmount.toString(), 18)],
       });
 
-      const data = await response.json();
-      console.log("Stake incoming data", data);
-      setStakeStatus(data.status);
+      console.log("Stake Hash:", stakeHash);
     } catch (error) {
       console.error("Error staking:", error);
     }
@@ -205,7 +214,6 @@ const ArcModuleInfoPage = () => {
                     <div className="flex items-center gap-2">
                       <AlarmClock /> {arcModuleInfo?.deadline}
                     </div>
-                    <w3m-button />
                   </div>
                   {studentsArcModules.length > 0 ? (
                     studentsArcModules.map((item, index) => {
@@ -234,7 +242,7 @@ const ArcModuleInfoPage = () => {
                                   className="w-full"
                                 />
                               </div>
-                              <div className="px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
+                              <div className="cursor-pointer px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
                                 <TooltipProvider>
                                   <Tooltip>
                                     <TooltipTrigger>
@@ -390,8 +398,13 @@ const ArcModuleInfoPage = () => {
                               </div>
                             </DialogDescription>
                           </DialogHeader>
+                          {isConnected && (
+                            <p className="text-center text-gray-500 mt-6">
+                              Active Account Address: {address}
+                            </p>
+                          )}
                           <div
-                            className="px-6 py-3 flex items-center gap-2 justify-center font-semibold w-full rounded-lg bg-brand-blue text-white mt-6"
+                            className="cursor-pointer px-6 py-3 flex items-center gap-2 justify-center font-semibold w-full rounded-lg bg-brand-blue text-white "
                             onClick={registerArcModule}
                           >
                             <TooltipProvider>
@@ -534,7 +547,9 @@ export default ArcModuleInfoPage;
 const Module1Description = () => {
   return (
     <div>
-      Master HTML5 Basics and Build Your Web Development Foundation!
+      <h3 className="font-bold text-xl">
+        Master HTML5 Basics and Build Your Web Development Foundation!
+      </h3>
       <br />
       <br />
       Campus Arc&lsquo;s HTML5 Basics course is your gateway to the world of web
@@ -568,17 +583,17 @@ const Module1Description = () => {
       developer, even with zero prior experience. Here&lsquo;s why:
       <br />
       <br />
-      <ul>
+      <ul className="flex flex-col gap-4 px-6">
         <li>
-          Taught by experienced web developers who understand what beginners
+          - Taught by experienced web developers who understand what beginners
           need to succeed.
         </li>
         <li>
-          Regularly updated to include the latest HTML5 standards, practices,
+          - Regularly updated to include the latest HTML5 standards, practices,
           and development tools.
         </li>
         <li>
-          Learn practical skills that are directly applicable to real-world
+          - Learn practical skills that are directly applicable to real-world
           projects and web development jobs.
         </li>
         <li>
@@ -586,16 +601,16 @@ const Module1Description = () => {
           students to ensure clarity and effectiveness.
         </li>
         <li>
-          Over 150,000 students have launched their web development journey with
-          this course, many of whom have gone on to create their own websites or
-          start web development careers.
+          - Over 150,000 students have launched their web development journey
+          with this course, many of whom have gone on to create their own
+          websites or start web development careers.
         </li>
         <li>
-          The course is completely free, giving you full access to a top-notch
+          - The course is completely free, giving you full access to a top-notch
           HTML5 education without any cost.
         </li>
         <li>
-          We&lsquo;ll guide you step-by-step through the process of
+          - We&lsquo;ll guide you step-by-step through the process of
           understanding HTML5, from basic tags to building complex web page
           structures. Engaging video tutorials and interactive coding exercises
           will make sure you grasp the material fully.
@@ -607,13 +622,15 @@ const Module1Description = () => {
       <br />
       <br />
       You&lsquo;ll cover topics such as:
-      <ul>
-        <li>Introduction to HTML5 and its importance in web development</li>
-        <li>Creating and structuring web pages with semantic HTML5 elements</li>
-        <li>Embedding multimedia, such as images, audio, and video</li>
-        <li>Building responsive forms for user input</li>
+      <ul className="flex flex-col gap-4 px-6">
+        <li>- Introduction to HTML5 and its importance in web development</li>
         <li>
-          Best practices for writing clean, accessible, and SEO-friendly HTML5
+          - Creating and structuring web pages with semantic HTML5 elements
+        </li>
+        <li>- Embedding multimedia, such as images, audio, and video</li>
+        <li>- Building responsive forms for user input</li>
+        <li>
+          - Best practices for writing clean, accessible, and SEO-friendly HTML5
           code
         </li>
       </ul>
@@ -635,7 +652,9 @@ const Module1Description = () => {
 const Module2Description = () => {
   return (
     <div>
-      **Elevate Your Web Design Skills with CSS3 Fundamentals!**
+      <h3 className="font-bold text-xl">
+        Elevate Your Web Design Skills with CSS3 Fundamentals!
+      </h3>
       <p>
         Master advanced styling techniques, create responsive layouts, and bring
         your designs to life with captivating animations. Our CSS3 Fundamentals
@@ -643,51 +662,51 @@ const Module2Description = () => {
         craft stunning and modern web interfaces.
       </p>
       <p>
-        **Key Topics:**
-        <ul>
+        <h3 className="font-bold text-xl">Key Topics:</h3>
+        <ul className="flex flex-col gap-4 px-6">
           <li>
-            CSS3 Selectors: Target specific elements and styles with precision.
+            - CSS3 Selectors: Target specific elements and styles with
+            precision.
           </li>
           <li>
-            CSS3 Properties: Control layout, appearance, and behavior of your
+            - CSS3 Properties: Control layout, appearance, and behavior of your
             web pages.
           </li>
           <li>
-            CSS3 Layout Techniques: Explore flexbox and grid for responsive and
-            dynamic designs.
+            - CSS3 Layout Techniques: Explore flexbox and grid for responsive
+            and dynamic designs.
           </li>
           <li>
-            CSS3 Animations and Transitions: Add movement and interactivity to
+            - CSS3 Animations and Transitions: Add movement and interactivity to
             your web pages.
           </li>
           <li>
-            CSS3 Typography: Customize fonts, text styles, and layout for
+            - CSS3 Typography: Customize fonts, text styles, and layout for
             enhanced readability and visual appeal.
           </li>
         </ul>
       </p>
-      <p>
-        **Why Choose Our CSS3 Fundamentals Course?**
-        <ul>
+      <div className="mt-4">
+        <h3>Why Choose Our CSS3 Fundamentals Course?</h3>
+        <ul className="flex flex-col gap-4 px-6">
           <li>
-            Learn from experienced web designers who understand the nuances of
+            - Learn from experienced web designers who understand the nuances of
             CSS3.
           </li>
           <li>
-            Gain practical skills that are directly applicable to real-world
+            - Gain practical skills that are directly applicable to real-world
             projects.
           </li>
           <li>
-            Benefit from a comprehensive curriculum that covers all the
+            - Benefit from a comprehensive curriculum that covers all the
             essential aspects of CSS3.
           </li>
           <li>
-            Join a supportive learning community where you can ask questions and
-            get help.
+            - Join a supportive learning community where you can ask questions
+            and get help.
           </li>
         </ul>
-      </p>
-      <p>**Enroll today and start your journey to becoming a CSS3 master!**</p>
+      </div>
     </div>
   );
 };

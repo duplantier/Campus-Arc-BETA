@@ -83,13 +83,13 @@ const AccountButton = () => {
             <Component size={20} />
             Arc Modules
           </DropdownMenuItem>
-          <DropdownMenuItem
+         {/*  <DropdownMenuItem
             onClick={() => router.push("/dashboard/my-certificates")}
             className="hover:bg-gray-100 cursor-pointer flex items-center gap-1"
           >
             <BookCheck size={20} />
             My Certificates
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem
             onClick={() => router.push("/dashboard/profile")}
             className="hover:bg-gray-100 cursor-pointer flex items-center gap-1"

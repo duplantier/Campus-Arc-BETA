@@ -46,7 +46,7 @@ export const Tabs = ({
       value: "features",
       content: <FeaturesTab />,
     },
-    {
+  /*   {
       title: "How It Works",
       value: "howitworks",
       content: <HowItWorksTab />,
@@ -55,7 +55,7 @@ export const Tabs = ({
       title: "Arc Modules",
       value: "arcModules",
       content: <ArcModulesTab />,
-    },
+    }, */
   ];
   const [active, setActive] = useState<Tab>(staticTabs[0]);
   const [tabs, setTabs] = useState<Tab[]>(staticTabs);

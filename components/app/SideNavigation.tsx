@@ -41,13 +41,7 @@ const SideNavigation = () => {
             <Component size={24} />
             Arc Modules
           </Link>
-          <Link
-            className="flex items-center gap-2 py-2 px-1 hover:bg-gray-50 rounded-lg"
-            href="/dashboard/my-certificates"
-          >
-            <BookCheck size={24} />
-            My Certificates
-          </Link>
+
           <Link
             className="flex items-center gap-2 py-2 px-1 hover:bg-gray-50 rounded-lg"
             href="/dashboard/profile"
@@ -55,6 +49,27 @@ const SideNavigation = () => {
             <CircleUser size={24} />
             Profile
           </Link>
+          <button className="hover:bg-[#fff6db] cursor-not-allowed flex items-center gap-2 rounded-lg py-2 px-1">
+            <WandSparkles size={24} />
+            My Certificates
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <CircleHelp size={18} className="text-brand-yellow" />
+                </TooltipTrigger>
+                <TooltipContent className="bg-white text-gray-950 border border-brand-yellow">
+                  <p>This feature is not available in the beta version.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </button>
+          {/*  <Link
+            className="flex items-center gap-2 py-2 px-1 hover:bg-gray-50 rounded-lg"
+            href="/dashboard/my-certificates"
+          >
+            <BookCheck size={24} />
+            My Certificates
+          </Link> */}
 
           <hr className="my-4" />
 
