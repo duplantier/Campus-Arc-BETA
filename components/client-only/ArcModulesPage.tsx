@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import {
+  AlarmClock,
   Clock,
   Component,
   FolderCode,
@@ -105,6 +106,9 @@ const ArcModulesPage = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <FolderCode /> {module.projects}
+                </div>
+                <div className="flex items-center gap-2">
+                  <AlarmClock /> {module.deadline}
                 </div>
               </CardContent>
               <CardFooter>

@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  AlarmClock,
   CircleHelp,
   CircleUser,
   Clipboard,
@@ -289,6 +290,9 @@ const ProfilePage = () => {
                   <div className="flex items-center gap-2">
                     <FolderCode /> {module.projects}
                   </div>
+                  <div className="flex items-center gap-2">
+                  <AlarmClock /> {module.deadline}
+                </div>
                 </CardContent>
                 <CardFooter>
                   <button className="w-full rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50">

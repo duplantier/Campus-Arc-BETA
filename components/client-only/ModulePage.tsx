@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import {
+  AlarmClock,
   Book,
   Check,
   CircleCheck,
@@ -136,7 +137,7 @@ const ArcModuleInfoPage = () => {
                     {arcModuleInfo?.description}
                   </p>
                   <hr className="border" />
-                  <div className="flex items-center gap-6 mt-4 text-lg">
+                  <div className="flex items-center gap-6 mt-4 text-lg flex-wrap">
                     <div className="flex items-center gap-2">
                       <GraduationCap /> {arcModuleInfo?.lessonNumber} Lessons
                     </div>
@@ -146,62 +147,73 @@ const ArcModuleInfoPage = () => {
                     <div className="flex items-center gap-2">
                       <FolderCode /> {arcModuleInfo?.projects}
                     </div>
+                    <div className="flex items-center gap-2">
+                      <AlarmClock /> {arcModuleInfo?.deadline}
+                    </div>
                   </div>
-
-                  {studentsArcModules.map((item, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="flex items-center justify-end mt-8 w-full"
-                      >
-                        {item.arcModuleId == Number(selectedArcModuleId) ? (
-                          <div className=" flex-col flex gap-6 items-end w-full">
-                            <div key={index} className="w-full">
-                              Progress (
-                              {(
-                                (Number(item.completedLessonsIds.length) /
-                                  (arcModuleInfo?.lessonNumber ?? 0)) *
-                                100
-                              ).toFixed(0)}
-                              %) ({Number(item.completedLessonsIds.length)}{" "}
-                              Lessons Completed)
-                              <Progress
-                                value={
+                  {studentsArcModules.length > 0 ? (
+                    studentsArcModules.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-center justify-end mt-8 w-full"
+                        >
+                          {item.arcModuleId == Number(selectedArcModuleId) ? (
+                            <div className=" flex-col flex gap-6 items-end w-full">
+                              <div key={index} className="w-full">
+                                Progress (
+                                {(
                                   (Number(item.completedLessonsIds.length) /
                                     (arcModuleInfo?.lessonNumber ?? 0)) *
                                   100
-                                }
-                                className="w-full"
-                              />
+                                ).toFixed(0)}
+                                %) ({Number(item.completedLessonsIds.length)}{" "}
+                                Lessons Completed)
+                                <Progress
+                                  value={
+                                    (Number(item.completedLessonsIds.length) /
+                                      (arcModuleInfo?.lessonNumber ?? 0)) *
+                                    100
+                                  }
+                                  className="w-full"
+                                />
+                              </div>
+                              <button className="px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger>
+                                      <CircleHelp
+                                        size={20}
+                                        className="text-white"
+                                      />
+                                    </TooltipTrigger>
+                                    <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
+                                      <p>
+                                        This feature is not available in the
+                                        beta version.
+                                      </p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                                Continue Learning
+                              </button>
                             </div>
-                            <button className="px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
-                              <TooltipProvider>
-                                <Tooltip>
-                                  <TooltipTrigger>
-                                    <CircleHelp
-                                      size={20}
-                                      className="text-white"
-                                    />
-                                  </TooltipTrigger>
-                                  <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
-                                    <p>
-                                      This feature is not available in the beta
-                                      version.
-                                    </p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                              Continue Learning
+                          ) : item.arcModuleId !=
+                            Number(selectedArcModuleId) ? (
+                            <button className="px-6 py-3 font-semibold rounded-lg bg-brand-blue text-white">
+                              Register Now
                             </button>
-                          </div>
-                        ) : (
-                          <button className="px-6 py-3 font-semibold rounded-lg bg-brand-blue text-white">
-                            Register Now
-                          </button>
-                        )}
-                      </div>
-                    );
-                  })}
+                          ) : null}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="flex justify-end items-center">
+                      <button className="px-6 py-3 font-semibold w-[250px] rounded-lg bg-brand-blue text-white mt-6">
+                        Register Now
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </>
