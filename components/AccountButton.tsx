@@ -43,7 +43,6 @@ const AccountButton = () => {
   if (authState.error) {
     console.log("Error:", authState.error.message);
   }
-  console.log(authState)
 
   const logOut = () => {
     authState.isAuthenticated = false;

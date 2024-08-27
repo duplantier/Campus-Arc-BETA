@@ -114,7 +114,7 @@ export const ArcModule1 = {
     twitter: "https://x.com/0xDuplantier",
     linkedin: "https://www.linkedin.com/in/huseyinlorakaratas/",
     description:
-      "A Full-Stack Engineer with a passion for teaching. He has been working in the tech industry for over 3.5 years and has experience in building web applications with React, Next.js, and Node.js. Hüseyin is excited to share his knowledge with students and help them become successful developers.",
+      "",
   },
   studentsRegistered: [],
   arcDesignerId: "",
