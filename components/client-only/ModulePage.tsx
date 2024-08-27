@@ -485,7 +485,7 @@ const Module3Description = () => {
       <p>
         Build powerful and scalable web applications with our comprehensive
         Next.js course. Learn to leverage the power of React, server-side
-        rendering, and Next.js's advanced features to create top-notch
+        rendering, and Next.js&lsquo;s advanced features to create top-notch
         full-stack applications.
       </p>
       <p>
@@ -496,12 +496,12 @@ const Module3Description = () => {
             Next.js.
           </li>
           <li>
-            React Components and State Management: Master React's
+            React Components and State Management: Master React&lsquo;s
             component-based architecture and state management.
           </li>
           <li>
             API Routing and Data Fetching: Build efficient APIs and fetch data
-            using Next.js's built-in features.
+            using Next.js&lsquo;s built-in features.
           </li>
           <li>
             Server-Side Rendering (SSR): Learn the benefits of SSR and implement
