@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/prisma";
@@ -64,7 +63,7 @@ export async function POST(req: Request) {
           status: 201,
         });
       }
-    } 
+    }
   } catch (error) {
     return NextResponse.json({ error: error, isCreated: false, status: 500 });
   }

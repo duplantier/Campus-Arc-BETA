@@ -26,8 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const opts = {
-    redirectUri: "http://localhost:3004/redirect",
+    redirectUri: "http://localhost:3003/redirect",
   };
+  /* 
+  START YOUR LOCALHOST AS SUDO!!!!!!!!!!!!!!!!!!!!!!!!
+  */
   return (
     <html lang="en">
       <body className={`raleway-text ${righteous.variable}`}>
