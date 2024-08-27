@@ -21,7 +21,6 @@ import {
   Loader,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { exampleArcModules } from "@/constants";
 import Link from "next/link";
 
 const ArcModulesPage = () => {
