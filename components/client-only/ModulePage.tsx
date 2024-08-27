@@ -31,6 +31,9 @@ const ArcModuleInfoPage = () => {
   const [studentsArcModules, setStudentsArcModules] = useState<
     UsersArcModules[]
   >([]);
+  const [stakeHash, setStakeHash] = useState<string>("");
+  const [stakeAmount, setStakeAmount] = useState<number>(0);
+  const [stakeStatus, setStakeStatus] = useState<string>("pending");
 
   const selectedArcModuleId = sessionStorage.getItem("selectedArcModuleId");
   const studentId = sessionStorage.getItem("studentId");
@@ -90,6 +93,28 @@ const ArcModuleInfoPage = () => {
     fetchArcDesignersInfo();
     fetchStudentsModules();
   }, [selectedArcModuleId, studentId]);
+
+  const registerArcModule = async () => {
+    //! Approve al
+    const res = await fetch(`/api/student/register-arc-module`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
+        studentId: Number(studentId),
+        arcModuleId: Number(selectedArcModuleId),
+        stakeHash,
+        stakeAmount,
+        stakeStatus,
+      }),
+    });
+    const data = await res.json();
+    if (data.isRegistered) {
+      alert("You have successfully registered for the course.");
+    }
+  };
 
   return (
     <main className="text-gray-950 max-w-[95%] mx-auto py-12 flex justify-center  gap-12 raleway-text">
@@ -209,7 +234,10 @@ const ArcModuleInfoPage = () => {
                     })
                   ) : (
                     <div className="flex justify-end items-center">
-                      <button className="px-6 py-3 font-semibold w-[250px] rounded-lg bg-brand-blue text-white mt-6">
+                      <button
+                        onClick={registerArcModule}
+                        className="px-6 py-3 font-semibold w-[250px] rounded-lg bg-brand-blue text-white mt-6"
+                      >
                         Register Now
                       </button>
                     </div>
