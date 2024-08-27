@@ -66,6 +66,7 @@ declare type RegistrationStake = {
   studentId: number;
   registeredArcModuleId: number;
   collabStudentsId: number[];
+  status: string;
 };
 
 // Declare the Gender enum type

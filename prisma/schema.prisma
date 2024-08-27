@@ -71,6 +71,7 @@ model RegistrationStake {
   studentId             Int // the id of the student who registered this one registrationStake
   registeredArcModuleId Int // the id of the arcModule that this registrationStake is registered to
   collabStudentsIds     Int[] // the students who are collaborating with the student who registered this registrationStake
+  status                String
 }
 
 enum Gender {
