@@ -46,6 +46,7 @@ declare type ArcModule = {
   whatYouWillLearn: string[];
   studentsRegisteredIds: number[];
   arcDesignersId: number[];
+  deadline: string;
 };
 
 // Declare the Lesson model type

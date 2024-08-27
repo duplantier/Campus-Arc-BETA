@@ -19,6 +19,7 @@ export async function POST(req: Request) {
       whatYouWillLearn,
       studentsRegisteredIds,
       arcDesignersIds,
+      deadline,
     }: {
       adminKey: string;
       category: string;
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
       description: string;
       lessonsIds: number[];
       lessonNumber: number;
+      deadline: string;
       time: string;
       projects: string;
       whatYouWillLearn: string[];
@@ -53,6 +55,7 @@ export async function POST(req: Request) {
         lessonsIds: lessonsIds,
         lessonNumber: lessonNumber,
         time: time,
+        deadline: deadline,
         projects: projects,
         whatYouWillLearn: whatYouWillLearn,
         studentsRegisteredIds: studentsRegisteredIds,

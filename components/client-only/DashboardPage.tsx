@@ -4,6 +4,7 @@ import { useOCAuth } from "@opencampus/ocid-connect-js";
 import NotAuthenticated from "@/components/app/NotAuthenticated";
 import SideNavigation from "@/components/app/SideNavigation";
 import {
+  AlarmClock,
   Clock,
   FolderCode,
   GraduationCap,
@@ -96,6 +97,9 @@ const Dashboard = () => {
                 <div className="flex items-center gap-2">
                   <FolderCode /> {module.projects}
                 </div>
+                <div className="flex items-center gap-2">
+                  <AlarmClock /> {module.deadline}
+                </div>
               </div>
               {studentsArcModules.map((item, index) => (
                 <>
@@ -118,7 +122,7 @@ const Dashboard = () => {
                     />
                   </div>
                   <div className="flex justify-between items-center gap-6 w-full">
-                    {exampleStudentData.registrationStakes.map(
+                    {/*  {exampleStudentData.registrationStakes.map(
                       (item, index) => (
                         <div key={index} className="flex items-center gap-2">
                           <span className="text-gray-500">Collab:</span>{" "}
@@ -127,7 +131,7 @@ const Dashboard = () => {
                           </div>
                         </div>
                       )
-                    )}
+                    )} */}
                     <Link
                       href={"/module"}
                       onClick={() => {
