@@ -1,4 +1,6 @@
 "use client";
+import React, { useEffect, useState } from "react";
+
 import { cn } from "@/lib/utils";
 import {
   Book,
@@ -14,7 +16,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import { Progress } from "../ui/progress";
 import {
   Tooltip,
@@ -22,7 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-const arcModuleInfoPage = () => {
+const ArcModuleInfoPage = () => {
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [arcModuleInfo, setArcModuleInfo] = useState<ArcModule>();
   const [arcDesignersInfo, setArcDesignersInfo] = useState<ArcDesigner[]>([]);
@@ -87,7 +88,7 @@ const arcModuleInfoPage = () => {
     fetchModuleInfo();
     fetchArcDesignersInfo();
     fetchStudentsModules();
-  }, []);
+  }, [selectedArcModuleId, studentId]);
 
   return (
     <main className="text-gray-950 max-w-[95%] mx-auto py-12 flex justify-center  gap-12 raleway-text">
@@ -315,7 +316,7 @@ const arcModuleInfoPage = () => {
   );
 };
 
-export default arcModuleInfoPage;
+export default ArcModuleInfoPage;
 
 const Module1Description = () => {
   return (

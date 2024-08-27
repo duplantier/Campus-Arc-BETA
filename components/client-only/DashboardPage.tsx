@@ -52,7 +52,7 @@ const Dashboard = () => {
       setIsDataLoading(false);
     };
     fetchStudentsModules();
-  }, []);
+  }, [studentId]);
 
   return authState.isAuthenticated && isLogOut && isLogOut != "true" ? (
     <main className="text-gray-950 max-w-[90%] mx-auto py-12 flex justify-center raleway-text gap-8">
