@@ -12,3 +12,4 @@ contract EDUToken is ERC20 {
         _mint(msg.sender, initialSupply); // Mint initial supply to the deployer
     }
 }
+// npx hardhat run scripts/deploy.js --network opencampus

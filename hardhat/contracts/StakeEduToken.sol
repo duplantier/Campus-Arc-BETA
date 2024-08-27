@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/utils/Context.sol";
 // Yani öğrenci 28 günlük bir Arc Module sonunda hem harika bir eğitim almış hem de para kazanmış oluyor.
 // It inherits from Ownable to ensure that only the owner can set the reward rate.
 
-contract Staking is Ownable {
+contract StakeEduToken is Ownable {
     // The ERC20 token that users will stake
     IERC20 public eduToken;
 
