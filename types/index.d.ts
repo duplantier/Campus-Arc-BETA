@@ -12,7 +12,7 @@ declare type Student = {
 // Declare the ArcDesigner model type
 declare type ArcDesigner = {
   id: number;
-  arcModulesIds: string[];
+  arcModulesIds: number[];
   fullName: string;
 };
 
@@ -22,7 +22,7 @@ declare type UsersArcModules = {
   userId: number;
   arcModuleId: number;
   isRegistered: boolean;
-  completedLessonsIds: string[];
+  completedLessonsIds: number[];
   isCollaborate: boolean;
 };
 
@@ -34,12 +34,12 @@ declare type ArcModule = {
   title: string;
   imageSrc: string;
   description: string;
-  lessonsIds: string[];
+  lessonsIds: number[];
   lessonNumber: number;
   time: string;
   projects: string;
   whatYouWillLearn: string[];
-  studentsRegisteredIds: string[];
+  studentsRegisteredIds: number[];
   arcDesignersId: number[];
 };
 
@@ -60,7 +60,7 @@ declare type RegistrationStake = {
   amount: number;
   studentId: number;
   registeredArcModuleId: number;
-  collabStudentsId: string[];
+  collabStudentsId: number[];
 };
 
 // Declare the Gender enum type
