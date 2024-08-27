@@ -98,42 +98,51 @@ const Dashboard = () => {
                 </div>
               </div>
               {studentsArcModules.map((item, index) => (
-                <div key={index} className="w-full">
-                  Progress (
-                  {(
-                    (Number(item.completedLessonsIds.length) /
-                      module.lessonNumber) *
-                    100
-                  ).toFixed(0)}
-                  %) ({Number(item.completedLessonsIds.length)} Lessons
-                  Completed)
-                  <Progress
-                    value={
+                <>
+                  <div key={index} className="w-full">
+                    Progress (
+                    {(
                       (Number(item.completedLessonsIds.length) /
                         module.lessonNumber) *
                       100
-                    }
-                    className="w-full"
-                  />
-                </div>
-              ))}
-
-              <div className="flex justify-between items-center gap-6 w-full">
-                {exampleStudentData.registrationStakes.map((item, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span className="text-gray-500">Collab:</span>{" "}
-                    <div className="flex flex-row items-center justify-center w-full">
-                      <AnimatedTooltip items={item.collabs} />
-                    </div>
+                    ).toFixed(0)}
+                    %) ({Number(item.completedLessonsIds.length)} Lessons
+                    Completed)
+                    <Progress
+                      value={
+                        (Number(item.completedLessonsIds.length) /
+                          module.lessonNumber) *
+                        100
+                      }
+                      className="w-full"
+                    />
                   </div>
-                ))}
-                <Link
-                  href={`/module/${module.id}`}
-                  className="rounded-xl border py-2 px-10 border-brand-blue hover:bg-brand-blue hover:text-white"
-                >
-                  Continue
-                </Link>
-              </div>
+                  <div className="flex justify-between items-center gap-6 w-full">
+                    {exampleStudentData.registrationStakes.map(
+                      (item, index) => (
+                        <div key={index} className="flex items-center gap-2">
+                          <span className="text-gray-500">Collab:</span>{" "}
+                          <div className="flex flex-row items-center justify-center w-full">
+                            <AnimatedTooltip items={item.collabs} />
+                          </div>
+                        </div>
+                      )
+                    )}
+                    <Link
+                      href={"/module"}
+                      onClick={() => {
+                        sessionStorage.setItem(
+                          "selectedArcModuleId",
+                          item.arcModuleId.toString()
+                        );
+                      }}
+                      className="rounded-xl border py-2 px-10 border-brand-blue hover:bg-brand-blue hover:text-white"
+                    >
+                      Continue
+                    </Link>
+                  </div>
+                </>
+              ))}
             </div>
           </div>
         ))}
