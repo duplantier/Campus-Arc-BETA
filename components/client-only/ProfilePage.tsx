@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import NotAuthenticated from "@/components/app/NotAuthenticated";
 import SideNavigation from "@/components/app/SideNavigation";
@@ -19,6 +19,7 @@ import {
   Clock,
   FolderCode,
   GraduationCap,
+  Loader,
 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -34,9 +35,23 @@ import { exampleStudentData } from "@/constants";
 const ProfilePage = () => {
   const [isCopied, setIsCopied] = React.useState(false);
   const { authState } = useOCAuth();
+  const [isDataLoading, setIsDataLoading] = useState(true);
+
+  const [allArcModules, setAllArcModules] = React.useState<ArcModule[]>([]);
+  const [registeredArcModulesInfo, setRegisteredArcModulesInfo] = useState<
+    ArcModule[]
+  >([]);
+  const [studentsArcModules, setStudentsArcModules] = useState<
+    UsersArcModules[]
+  >([]);
+  const [studentsRegistrationStakes, setStudentsRegistrationStakes] = useState<
+    RegistrationStake[]
+  >([]);
+  const [collabStudents, setCollabStudents] = useState<Student[]>([]);
   let isLogOut = sessionStorage.getItem("isLogOut");
   let edu_username = sessionStorage.getItem("edu_username");
   let eth_address = sessionStorage.getItem("eth_address");
+  let studentId = sessionStorage.getItem("studentId");
 
   const copyStakeHash = () => {
     navigator.clipboard.writeText(
@@ -44,6 +59,84 @@ const ProfilePage = () => {
     );
     setIsCopied(true);
   };
+
+  useEffect(() => {
+    const fetchStudentsModules = async () => {
+      const fetchAllResponse = await fetch(
+        "/api/student/fetch-registered-arc-modules",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
+            studentId: Number(studentId),
+          }),
+        }
+      );
+      const data = await fetchAllResponse.json();
+      setRegisteredArcModulesInfo(data.registeredArcModulesInfo);
+      setStudentsArcModules(data.studentsArcModules); // completedLessons olayı burada.
+      setIsDataLoading(false);
+    };
+
+    const fetchStudentsStakeRecords = async () => {
+      const fetchAllResponse = await fetch("/api/stakes/fetch-by-student-id", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
+          studentId: Number(studentId),
+        }),
+      });
+      const data = await fetchAllResponse.json();
+      setStudentsRegistrationStakes(data.studentsRegistrationStakes);
+      setIsDataLoading(false);
+    };
+
+    const fetchAllArcModules = async () => {
+      const fetchAllResponse = await fetch("/api/arc-modules/fetch-all", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
+        }),
+      });
+      const data = await fetchAllResponse.json();
+      setAllArcModules(data.allArcModules);
+      setIsDataLoading(false);
+    };
+
+    const fetchCollabStudents = async () => {
+      const fetchAllResponse = await fetch(
+        "/api/student/fetch-collabs-by-id-array",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
+            studentIds: studentsRegistrationStakes.map(
+              (stake) => stake.collabStudentsId
+            ),
+          }),
+        }
+      );
+      const data = await fetchAllResponse.json();
+      setCollabStudents(data.collabStudents);
+      setIsDataLoading(false);
+    };
+
+    fetchStudentsModules();
+    fetchStudentsStakeRecords();
+    fetchAllArcModules();
+  }, []);
 
   return authState.isAuthenticated && isLogOut && isLogOut != "true" ? (
     <main className="text-gray-950 max-w-[90%] mx-auto py-12 flex justify-center   gap-8">
@@ -149,7 +242,12 @@ const ProfilePage = () => {
           </p>
 
           <div className="mt-8">
-            {exampleStudentData.registeredArcModules.map((module, index) => (
+            {isDataLoading && (
+              <div className="flex items-center justify-center gap-2 w-full">
+                <Loader size={34} className="animate-spin text-brand-blue" />
+              </div>
+            )}
+            {registeredArcModulesInfo.map((module, index) => (
               <Card className="w-[32%] rounded-3xl min-h-[450px]" key={index}>
                 <CardHeader>
                   <CardTitle className="flex flex-col gap-4">
@@ -183,7 +281,7 @@ const ProfilePage = () => {
                 </CardHeader>
                 <CardContent className="flex items-center gap-6 flex-wrap">
                   <div className="flex items-center gap-2">
-                    <GraduationCap /> {module.lessons}
+                    <GraduationCap /> {module.lessonNumber} Lessons
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock /> {module.time}
@@ -208,75 +306,92 @@ const ProfilePage = () => {
           </p>
 
           <div className="mt-8">
-            {exampleStudentData.registrationStakes.map((item, index) => (
-              <Card className="w-[32%] rounded-3xl min-h-[400px]" key={index}>
-                <CardHeader>
-                  <CardTitle className="flex flex-col gap-4">
-                    <h1 className="text-xl">
-                      {item.registeredArcModule.title}
-                    </h1>
-                    <Image
-                      alt="module image"
-                      width={300}
-                      height={200}
-                      src={`/arc-modules/${item.registeredArcModule.imageSrc}`}
-                      className="rounded-lg border"
-                    />
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="flex items-center gap-6 flex-wrap">
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-500">Stake Hash:</span>{" "}
-                    {item.hash.split("").slice(0, 10).join("")}...
-                    <button
-                      className="border border-gray-300 rounded-lg p-2"
-                      onClick={() => {
-                        copyStakeHash();
-                      }}
-                    >
-                      {isCopied ? (
-                        <ClipboardCheck size={18} className="text-green-500" />
-                      ) : (
-                        <Clipboard size={18} />
-                      )}
-                    </button>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-500">Stake Amount:</span>{" "}
-                    <div className="flex items-center gap-1">
-                      <Image
-                        alt="module image"
-                        width={20}
-                        height={200}
-                        src={`/oc-logo.svg`}
-                        className="w-6 h-auto rounded-lg border"
-                      />
-                      {item.amount}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-500">Status:</span>{" "}
-                    <div>
-                      <span
-                        className={cn(
-                          "px-2 py-1 rounded-full",
-                          item.status === "Staked"
-                            ? "bg-green-50 text-green-800 border-green-500 border"
-                            : "bg-red-50 text-red-800 border-red-500 border"
-                        )}
+            {isDataLoading && (
+              <div className="flex items-center justify-center gap-2 w-full">
+                <Loader size={34} className="animate-spin text-brand-blue" />
+              </div>
+            )}
+            {studentsRegistrationStakes.map((item, index) => (
+              <div>
+                {allArcModules.map((module, index) => (
+                  <div>
+                    {item.registeredArcModuleId === module.id && (
+                      <Card
+                        className="w-[32%] rounded-3xl min-h-[400px]"
+                        key={index}
                       >
-                        {item.status}
-                      </span>
-                    </div>
+                        <CardHeader>
+                          <CardTitle className="flex flex-col gap-4">
+                            <h1 className="text-xl">{module.title}</h1>
+                            <Image
+                              alt="module image"
+                              width={300}
+                              height={200}
+                              src={`/arc-modules/${module.imageSrc}`}
+                              className="rounded-lg border"
+                            />
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex items-center gap-6 flex-wrap">
+                          <div className="flex items-center gap-2">
+                            <span className="text-gray-500">Stake Hash:</span>{" "}
+                            {item.hash.split("").slice(0, 10).join("")}...
+                            <button
+                              className="border border-gray-300 rounded-lg p-2"
+                              onClick={() => {
+                                copyStakeHash();
+                              }}
+                            >
+                              {isCopied ? (
+                                <ClipboardCheck
+                                  size={18}
+                                  className="text-green-500"
+                                />
+                              ) : (
+                                <Clipboard size={18} />
+                              )}
+                            </button>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-gray-500">Stake Amount:</span>{" "}
+                            <div className="flex items-center gap-1">
+                              <Image
+                                alt="module image"
+                                width={20}
+                                height={200}
+                                src={`/oc-logo.svg`}
+                                className="w-6 h-auto rounded-lg border"
+                              />
+                              {item.amount} EDU
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-gray-500">Status:</span>{" "}
+                            <div>
+                              <span
+                                className={cn(
+                                  "px-2 py-1 rounded-full",
+                                  item.status === "Staked"
+                                    ? "bg-green-50 text-green-800 border-green-500 border"
+                                    : "bg-red-50 text-red-800 border-red-500 border"
+                                )}
+                              >
+                                {item.status}
+                              </span>
+                            </div>
+                          </div>
+                          {/* <div className="flex   items-center gap-2">
+                            <span className="text-gray-500">Collab:</span>{" "}
+                            <div className="flex flex-row items-center justify-center w-full">
+                              <AnimatedTooltip items={collabStudents} />
+                            </div>
+                          </div> */}
+                        </CardContent>
+                      </Card>
+                    )}
                   </div>
-                  <div className="flex   items-center gap-2">
-                    <span className="text-gray-500">Collab:</span>{" "}
-                    <div className="flex flex-row items-center justify-center w-full">
-                      <AnimatedTooltip items={item.collabs} />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                ))}
+              </div>
             ))}
           </div>
         </div>
