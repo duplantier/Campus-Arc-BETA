@@ -4,17 +4,26 @@ import {
   Book,
   Check,
   CircleCheck,
+  CircleHelp,
   Clock,
   FolderCode,
   GraduationCap,
   Linkedin,
+  Loader,
   Twitter,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
+import { Progress } from "../ui/progress";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 const arcModuleInfoPage = () => {
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const [arcModuleInfo, setArcModuleInfo] = useState<ArcModule>();
   const [arcDesignersInfo, setArcDesignersInfo] = useState<ArcDesigner[]>([]);
   const [studentsArcModules, setStudentsArcModules] = useState<
@@ -41,6 +50,7 @@ const arcModuleInfoPage = () => {
       );
       const data = await fetchAllResponse.json();
       setStudentsArcModules(data.studentsArcModules); // completedLessons olayı burada.
+      setIsDataLoading(false);
     };
 
     const fetchModuleInfo = async () => {
@@ -56,6 +66,7 @@ const arcModuleInfoPage = () => {
       });
       const data = await res.json();
       setArcModuleInfo(data.foundArcModuleInfo);
+      setIsDataLoading(false);
     };
 
     const fetchArcDesignersInfo = async () => {
@@ -71,6 +82,7 @@ const arcModuleInfoPage = () => {
       });
       const data = await res.json();
       setArcDesignersInfo(data.arcDesignersOfTheArcModule);
+      setIsDataLoading(false);
     };
     fetchModuleInfo();
     fetchArcDesignersInfo();
@@ -85,138 +97,219 @@ const arcModuleInfoPage = () => {
       >
         <div
           id="header"
-          className="w-full border rounded-2xl flex flex-col p-8 gap-8 shadow-md bg-white"
+          className="w-full border rounded-2xl flex flex-col p-8 gap-8 shadow-md bg-white min-h-[350px]"
         >
-          <div className="flex justify-between items-center">
-            <h1 className="text-5xl righteous-text">{arcModuleInfo?.title}</h1>
-            <p
-              className={cn(
-                "text-md font-normal px-2 py-1 border rounded-full",
-                arcModuleInfo?.level === "Beginner"
-                  ? "border-green-500 bg-green-50 text-green-800"
-                  : arcModuleInfo?.level === "Intermediate"
-                  ? " border-blue-500 bg-blue-100 text-blue-500"
-                  : "border-orange-500 bg-orange-100 text-orange-500"
-              )}
-            >
-              {arcModuleInfo?.level}
-            </p>
-          </div>
-          <div className="flex justify-between items-center gap-8">
-            <Image
-              alt="module image"
-              width={500}
-              height={200}
-              src={`/arc-modules/${arcModuleInfo?.imageSrc}`}
-              className="rounded-lg border w-1/2"
-            />
-            <div className=" w-1/2 min-h-[300px]">
-              <p className="text-gray-700 mb-8 text-lg">
-                {arcModuleInfo?.description}
-              </p>
-              <hr className="border" />
-              <div className="flex items-center gap-6 mt-8 text-lg">
-                <div className="flex items-center gap-2">
-                  <GraduationCap /> {arcModuleInfo?.lessonNumber} Lessons
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock size={22} /> {arcModuleInfo?.time}
-                </div>
-                <div className="flex items-center gap-2">
-                  <FolderCode /> {arcModuleInfo?.projects}
+          {isDataLoading ? (
+            <div className="flex items-center justify-center gap-2 w-full">
+              <Loader size={34} className="animate-spin text-brand-blue" />
+            </div>
+          ) : (
+            <>
+              <div className="flex justify-between items-center">
+                <h1 className="text-5xl righteous-text">
+                  {arcModuleInfo?.title}
+                </h1>
+                <p
+                  className={cn(
+                    "text-md font-normal px-2 py-1 border rounded-full",
+                    arcModuleInfo?.level === "Beginner"
+                      ? "border-green-500 bg-green-50 text-green-800"
+                      : arcModuleInfo?.level === "Intermediate"
+                      ? " border-blue-500 bg-blue-100 text-blue-500"
+                      : "border-orange-500 bg-orange-100 text-orange-500"
+                  )}
+                >
+                  {arcModuleInfo?.level}
+                </p>
+              </div>
+              <div className="flex justify-between items-center gap-8">
+                <Image
+                  alt="module image"
+                  width={500}
+                  height={200}
+                  src={`/arc-modules/${arcModuleInfo?.imageSrc}`}
+                  className="rounded-lg border w-1/2"
+                />
+                <div className=" w-1/2 min-h-[300px]">
+                  <p className="text-gray-700 mb-4 text-lg">
+                    {arcModuleInfo?.description}
+                  </p>
+                  <hr className="border" />
+                  <div className="flex items-center gap-6 mt-4 text-lg">
+                    <div className="flex items-center gap-2">
+                      <GraduationCap /> {arcModuleInfo?.lessonNumber} Lessons
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock size={22} /> {arcModuleInfo?.time}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FolderCode /> {arcModuleInfo?.projects}
+                    </div>
+                  </div>
+
+                  {studentsArcModules.map((item, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex items-center justify-end mt-8 w-full"
+                      >
+                        {item.arcModuleId == Number(selectedArcModuleId) ? (
+                          <div className=" flex-col flex gap-6 items-end w-full">
+                            <div key={index} className="w-full">
+                              Progress (
+                              {(
+                                (Number(item.completedLessonsIds.length) /
+                                  (arcModuleInfo?.lessonNumber ?? 0)) *
+                                100
+                              ).toFixed(0)}
+                              %) ({Number(item.completedLessonsIds.length)}{" "}
+                              Lessons Completed)
+                              <Progress
+                                value={
+                                  (Number(item.completedLessonsIds.length) /
+                                    (arcModuleInfo?.lessonNumber ?? 0)) *
+                                  100
+                                }
+                                className="w-full"
+                              />
+                            </div>
+                            <button className="px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger>
+                                    <CircleHelp
+                                      size={20}
+                                      className="text-white"
+                                    />
+                                  </TooltipTrigger>
+                                  <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
+                                    <p>
+                                      This feature is not available in the beta
+                                      version.
+                                    </p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                              Continue Learning
+                            </button>
+                          </div>
+                        ) : (
+                          <button className="px-6 py-3 font-semibold rounded-lg bg-brand-blue text-white">
+                            Register Now
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-
-              {studentsArcModules.map((item, index) => {
-                return (
-                  <div key={index} className="flex items-center mt-8">
-                    {item.arcModuleId == Number(selectedArcModuleId) ? (
-                      <button className="px-6 py-3 font-semibold rounded-lg bg-brand-blue text-white">
-                        Continue Learning
-                      </button>
-                    ) : (
-                      <button className="px-6 py-3 font-semibold rounded-lg bg-brand-blue text-white">
-                        Register Now
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+            </>
+          )}
         </div>
         <div
           id="moduleOverview"
           className="w-full border rounded-2xl  p-8 shadow-md bg-white"
         >
-          <h4 className="text-brand-blue font-semibold">Module Overview</h4>
-          <h1 className="text-2xl font-bold mt-2">About The Course</h1>
-          <hr className="my-6 border" />
-          <h5 className="font-semibold mb-3">What you&lsquo;ll learn</h5>
-          <ul className="list-none">
-            {arcModuleInfo?.whatYouWillLearn.map((item, index) => (
-              <li className="flex items-center gap-2 mb-3" key={index}>
-                <CircleCheck className="text-brand-blue" size={20} />
-                {item}
-              </li>
-            ))}
-          </ul>
-          <hr className="my-6 border" />
-          <h5 className="font-semibold mb-3">Module Description</h5>
-          {selectedArcModuleId === "1" ? (
-            <Module1Description />
-          ) : selectedArcModuleId === "2" ? (
-            <Module2Description />
-          ) : selectedArcModuleId === "3" ? (
-            <Module3Description />
-          ) : null}
-          <hr className="my-6 border" />
-          <h5 className="font-semibold mb-3">Arc Designers</h5>
-          {arcDesignersInfo.map((designer, index) => (
-            <div key={index} className="flex flex-col w-[400px] gap-4">
-              <div className="flex items-center gap-4">
-                <Image
-                  alt="module image"
-                  width={100}
-                  height={100}
-                  src={`${designer.imageSrc}`}
-                  className="rounded-lg border"
-                />
-                <div className="flex flex-col ">
-                  <p className="text-lg font-semibold">{designer.fullName}</p>
-                  <p className="text-gray-500">{designer.designation}</p>
-                  <div className="flex items-center gap-4 mt-2">
-                    <Link
-                      className="p-2 border rounded-lg hover:bg-gray-50"
-                      href={designer.twitter || "#"}
-                    >
-                      <Twitter />
-                    </Link>
-                    <Link
-                      className="p-2 border rounded-lg"
-                      href={designer.linkedin || "#"}
-                    >
-                      <Linkedin />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              <p>{designer.description}</p>
+          {isDataLoading ? (
+            <div className="flex items-center justify-center gap-2 w-full">
+              <Loader size={34} className="animate-spin text-brand-blue" />
             </div>
-          ))}
+          ) : (
+            <>
+              <h4 className="text-brand-blue font-semibold">Module Overview</h4>
+              <h1 className="text-2xl font-bold mt-2">About The Course</h1>
+              <hr className="my-6 border" />
+              <h5 className="font-semibold mb-3">What you&lsquo;ll learn</h5>
+              <ul className="list-none">
+                {arcModuleInfo?.whatYouWillLearn.map((item, index) => (
+                  <li className="flex items-center gap-2 mb-3" key={index}>
+                    <CircleCheck className="text-brand-blue" size={20} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <hr className="my-6 border" />
+              <h5 className="font-semibold mb-3">Module Description</h5>
+              {selectedArcModuleId === "1" ? (
+                <Module1Description />
+              ) : selectedArcModuleId === "2" ? (
+                <Module2Description />
+              ) : selectedArcModuleId === "3" ? (
+                <Module3Description />
+              ) : null}
+              <hr className="my-6 border" />
+              <h5 className="font-semibold mb-3">Arc Designers</h5>
+              {arcDesignersInfo.map((designer, index) => (
+                <div key={index} className="flex flex-col w-[400px] gap-4">
+                  <div className="flex items-center gap-4">
+                    <Image
+                      alt="module image"
+                      width={100}
+                      height={100}
+                      src={`${designer.imageSrc}`}
+                      className="rounded-lg border"
+                    />
+                    <div className="flex flex-col ">
+                      <p className="text-lg font-semibold">
+                        {designer.fullName}
+                      </p>
+                      <p className="text-gray-500">{designer.designation}</p>
+                      <div className="flex items-center gap-4 mt-2">
+                        <Link
+                          className="p-2 border rounded-lg hover:bg-gray-50"
+                          href={designer.twitter || "#"}
+                        >
+                          <Twitter />
+                        </Link>
+                        <Link
+                          className="p-2 border rounded-lg"
+                          href={designer.linkedin || "#"}
+                        >
+                          <Linkedin />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  <p>{designer.description}</p>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </section>
       <section
         id="contentNavigation"
-        className="w-[25%] bg-white rounded-2xl border min-h-[80vh] p-6"
+        className="w-[25%] bg-white rounded-2xl border h-[140px] p-6 flex flex-col items-center"
       >
-        <div className="flex items-center gap-2">
-          <Book />
-          <div className="flex flex-col">
-            <span className="text-sm">{arcModuleInfo?.category}</span>
-            <h2 className="font-semibold text-xl">{arcModuleInfo?.title}</h2>
+        {isDataLoading ? (
+          <div className="flex items-center justify-center gap-2 w-full">
+            <Loader size={34} className="animate-spin text-brand-blue" />
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="flex items-center gap-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <CircleHelp size={28} className="text-brand-blue" />
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
+                    <p>
+                      Module content tracking feature is not available in the
+                      beta version.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <div className="flex flex-col">
+                <span className="text-sm">{arcModuleInfo?.category}</span>
+                <h2 className="font-semibold text-xl">
+                  {arcModuleInfo?.title}
+                </h2>
+              </div>
+            </div>
+          </>
+        )}
       </section>
     </main>
   );

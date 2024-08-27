@@ -118,7 +118,7 @@ const ArcModulesPage = () => {
                   }}
                   className="w-full text-center rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50"
                 >
-                  Go to course
+                  Go to Module
                 </Link>
               </CardFooter>
             </Card>
