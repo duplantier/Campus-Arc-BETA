@@ -127,7 +127,7 @@ export async function POST(req: Request) {
       updatedUserObject: updatedUserObject,
       updatedArcModuleObject: updatedArcModuleObject,
       createdRegistrationStakeObject: createdRegistrationStakeObject,
-      isCreated: true,
+      isRegistered: true,
       status: 201,
     });
   } catch (error) {

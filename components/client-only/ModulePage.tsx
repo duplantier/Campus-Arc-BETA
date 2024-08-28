@@ -16,6 +16,7 @@ import {
   HandCoins,
   Linkedin,
   Loader,
+  TicketCheck,
   Twitter,
 } from "lucide-react";
 import Image from "next/image";
@@ -38,7 +39,8 @@ import {
 } from "@/components/ui/dialog";
 import { useWalletInfo, useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useWriteContract } from "wagmi";
-import { ABI } from "@/constants";
+import { stakeAbi, tokenAbi } from "@/constants";
+import { config } from "@/config";
 const ArcModuleInfoPage = () => {
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [arcModuleInfo, setArcModuleInfo] = useState<ArcModule>();
@@ -46,19 +48,68 @@ const ArcModuleInfoPage = () => {
   const [studentsArcModules, setStudentsArcModules] = useState<
     UsersArcModules[]
   >([]);
-  const [stakeAmount, setStakeAmount] = useState<number>(100);
+  const [stakeAmount, setStakeAmount] = useState<number>(0.1);
   const [stakeStatus, setStakeStatus] = useState<string>("pending");
   const { open: openWalletConnectionModal, close } = useWeb3Modal();
   const { walletInfo } = useWalletInfo();
-  const { address, isConnected } = useAccount();
+  const { address: userAccountAddress, isConnected } = useAccount();
   const {
-    data: stakeHash,
-    writeContract: stakeWriteContract,
-    isPending,
+    data: approveData,
+    writeContractAsync: approveWriteContractAsync,
+    isPending: isApprovingLoading,
+    isSuccess: isApprovingSuccess,
   } = useWriteContract();
+
+  const {
+    data: stakeData,
+    writeContractAsync: stakeWriteContractAsync,
+    isPending: isStakingLoading,
+    isSuccess: isStakingSuccess,
+    error: stakeError,
+    isError: isStakingError,
+    failureReason: stakeFailureReason,
+  } = useWriteContract();
+
+  const {
+    data: allowanceData,
+    writeContractAsync: allowanceWriteContractAsync,
+    isPending: isAllowanceLoading,
+    isSuccess: isAllowanceSuccess,
+  } = useWriteContract();
+
+  const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false);
 
   const selectedArcModuleId = sessionStorage.getItem("selectedArcModuleId");
   const studentId = sessionStorage.getItem("studentId");
+  const [currentModule, setCurrentModule] = useState<UsersArcModules>();
+
+  const contractAddress = process.env
+    .NEXT_PUBLIC_STAKING_CONTRACT_ADDRESS as `0x${string}`;
+  const eduTokenAddress = process.env
+    .NEXT_PUBLIC_EDU_TOKEN_ADDRESS as `0x${string}`;
+  const handleApprove = async () => {
+    if (!isConnected) {
+      openWalletConnectionModal();
+      return;
+    }
+    try {
+      await allowanceWriteContractAsync({
+        abi: tokenAbi,
+        address: eduTokenAddress,
+        functionName: "allowance",
+        args: [userAccountAddress, contractAddress],
+      });
+
+      await approveWriteContractAsync({
+        abi: tokenAbi,
+        address: eduTokenAddress,
+        functionName: "approve",
+        args: [contractAddress, ethers.parseUnits(stakeAmount.toString(), 18)],
+      });
+    } catch (error) {
+      console.error("Approval failed:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchStudentsModules = async () => {
@@ -114,26 +165,37 @@ const ArcModuleInfoPage = () => {
     fetchModuleInfo();
     fetchArcDesignersInfo();
     fetchStudentsModules();
-  }, [selectedArcModuleId, studentId]);
 
-  const registerArcModule = async () => {
-    if (!isConnected) {
-      openWalletConnectionModal();
-    }
-    try {
-      stakeWriteContract({
-        abi: ABI,
-        address: process.env
-          .NEXT_PUBLIC_STAKING_CONTRACT_ADDRESS as `0x${string}`,
-        functionName: "stake",
-        args: [ethers.parseUnits(stakeAmount.toString(), 18)],
-      });
+    const handleStake = async () => {
+      if (!isApprovingSuccess) {
+        console.error("Approval is required before staking.");
+        return;
+      }
+      try {
+        await stakeWriteContractAsync({
+          abi: stakeAbi,
+          address: contractAddress,
+          functionName: "stake",
+          args: [ethers.parseUnits("0.01", 18)],
+        });
+        /* const receipt = tx;
+        console.log("stake receipt:", receipt);
+        console.log("stakeData after the staking interaction:", stakeData);
+        console.log("stakeError:", stakeError);
+        console.log("isStakeError:", isStakingError);
+        console.log("stakeFailureReason", stakeFailureReason);
+        console.log("tx", tx); */
+      } catch (error) {
+        console.error("Staking failed:", error);
+      }
+    };
 
-      console.log("Stake Hash:", stakeHash);
-    } catch (error) {
-      console.error("Error staking:", error);
+    if (isApprovingSuccess && !isStakingSuccess) {
+      console.log("Approve success geldi");
+      handleStake();
     }
-    if (stakeStatus === "Staked") {
+
+    const register = async () => {
       const res = await fetch(`/api/student/register-arc-module`, {
         method: "POST",
         headers: {
@@ -143,17 +205,41 @@ const ArcModuleInfoPage = () => {
           adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
           studentId: Number(studentId),
           arcModuleId: Number(selectedArcModuleId),
-          stakeHash,
-          stakeAmount,
-          stakeStatus,
+          stakeHash: stakeData,
+          stakeAmount: stakeAmount,
+          stakeStatus: "Staked",
         }),
       });
       const data = await res.json();
       if (data.isRegistered) {
         alert("You have successfully registered for the course.");
+        window.location.reload();
+      }
+    };
+    if (isApprovingSuccess && isStakingSuccess) {
+      register();
+    }
+
+    if (currentModule === undefined) {
+      if (studentsArcModules.length > 0) {
+        const module = studentsArcModules.find(
+          (item) => item.arcModuleId == Number(selectedArcModuleId)
+        );
+        setCurrentModule(module as UsersArcModules);
+        if (currentModule !== undefined) {
+          setIsAlreadyRegistered(true);
+        }
+      } else {
+        setIsAlreadyRegistered(false);
       }
     }
-  };
+  }, [
+    selectedArcModuleId,
+    studentId,
+    isApprovingSuccess,
+    isStakingSuccess,
+    currentModule,
+  ]);
 
   return (
     <main className="text-gray-950 max-w-[95%] mx-auto py-12 flex justify-center  gap-12 raleway-text">
@@ -215,64 +301,8 @@ const ArcModuleInfoPage = () => {
                       <AlarmClock /> {arcModuleInfo?.deadline}
                     </div>
                   </div>
-                  {studentsArcModules.length > 0 ? (
-                    studentsArcModules.map((item, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="flex items-center justify-end mt-8 w-full"
-                        >
-                          {item.arcModuleId == Number(selectedArcModuleId) ? (
-                            <div className=" flex-col flex gap-6 items-end w-full">
-                              <div key={index} className="w-full">
-                                Progress (
-                                {(
-                                  (Number(item.completedLessonsIds.length) /
-                                    (arcModuleInfo?.lessonNumber ?? 0)) *
-                                  100
-                                ).toFixed(0)}
-                                %) ({Number(item.completedLessonsIds.length)}{" "}
-                                Lessons Completed)
-                                <Progress
-                                  value={
-                                    (Number(item.completedLessonsIds.length) /
-                                      (arcModuleInfo?.lessonNumber ?? 0)) *
-                                    100
-                                  }
-                                  className="w-full"
-                                />
-                              </div>
-                              <div className="cursor-pointer px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
-                                <TooltipProvider>
-                                  <Tooltip>
-                                    <TooltipTrigger>
-                                      <CircleHelp
-                                        size={20}
-                                        className="text-white"
-                                      />
-                                    </TooltipTrigger>
-                                    <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
-                                      <p>
-                                        This feature is not available in the
-                                        beta version.
-                                      </p>
-                                    </TooltipContent>
-                                  </Tooltip>
-                                </TooltipProvider>
-                                Continue Learning
-                              </div>
-                            </div>
-                          ) : item.arcModuleId !=
-                            Number(selectedArcModuleId) ? (
-                            <button className="px-6 py-3 font-semibold rounded-lg bg-brand-blue text-white">
-                              Register Now
-                            </button>
-                          ) : null}
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <div className="flex justify-end items-center">
+                  {currentModule === undefined || !isAlreadyRegistered ? (
+                    <>
                       <Dialog>
                         <DialogTrigger className="px-6 py-3 font-semibold w-[250px] rounded-lg bg-brand-blue text-white mt-6">
                           Register Now
@@ -314,7 +344,7 @@ const ArcModuleInfoPage = () => {
                               </p>
                             </div>
 
-                            <DialogDescription className="pt-4">
+                            <div className="pt-4">
                               <h3 className="font-bold  text-xl text-brand-blue">
                                 How It Works?
                               </h3>
@@ -393,39 +423,104 @@ const ArcModuleInfoPage = () => {
                                 </strong>
                               </div>
                               <div className="mt-6 border rounded-lg border-brand-yellow bg-yellow-50 text-gray-950 px-6 py-4">
-                                * 🎁 <strong>Reward Rate:</strong> 2592 EDUToken
-                                per 30 days / 86,4 EDUTokens per day
+                                * 🎁{" "}
+                                <strong>
+                                  Reward Rate (For staking 100 EDUToken):
+                                </strong>{" "}
+                                2592 EDUToken per 30 days / 86,4 EDUTokens per
+                                day
                               </div>
-                            </DialogDescription>
+                            </div>
                           </DialogHeader>
-                          {isConnected && (
-                            <p className="text-center text-gray-500 mt-6">
-                              Active Account Address: {address}
-                            </p>
-                          )}
+
                           <div
-                            className="cursor-pointer px-6 py-3 flex items-center gap-2 justify-center font-semibold w-full rounded-lg bg-brand-blue text-white "
-                            onClick={registerArcModule}
+                            className="cursor-pointer px-6 py-3 flex items-center gap-2 justify-center font-semibold w-[80%] mx-auto rounded-lg bg-brand-blue text-white "
+                            onClick={handleApprove}
                           >
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger>
-                                  <CircleHelp
-                                    size={20}
-                                    className="text-white"
-                                  />
-                                </TooltipTrigger>
-                                <TooltipContent className="w-[200px] z-50 text-sm bg-white text-gray-950 border border-brand-blue">
-                                  For the EDU Chain Hackathon purposes, students
-                                  are limited to stake a maximum of 100
-                                  EDUTokens.
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                            Stake 100 EDUTokens and Register Now
+                            {isAllowanceLoading ? (
+                              <div className="flex items-center text-white justify-center gap-2 w-full">
+                                <Loader size={26} className="animate-spin " />
+                                <p className="animate-pulse ">
+                                  Waiting for allowance...
+                                </p>
+                              </div>
+                            ) : isApprovingLoading ? (
+                              <div className="flex items-center text-white justify-center gap-2 w-full">
+                                <Loader size={26} className="animate-spin " />
+                                <p className="animate-pulse ">
+                                  Waiting for approval...
+                                </p>
+                              </div>
+                            ) : isStakingLoading ? (
+                              <div className="flex items-center text-white justify-center gap-2 w-full">
+                                <Loader size={26} className="animate-spin " />
+                                <p className="animate-pulse ">Staking...</p>
+                              </div>
+                            ) : isApprovingSuccess && isStakingSuccess ? (
+                              <div className="flex items-center animate-pulse text-white justify-center gap-2 w-full">
+                                <TicketCheck size={26} />
+                                <p>Staked Successfully.</p>
+                              </div>
+                            ) : (
+                              <>
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger>
+                                      <CircleHelp
+                                        size={20}
+                                        className="text-white"
+                                      />
+                                    </TooltipTrigger>
+                                    <TooltipContent className="w-[200px] z-50 text-sm bg-white text-gray-950 border border-brand-blue">
+                                      For the EDU Chain Hackathon purposes,
+                                      students are limited to stake a maximum of
+                                      0.1 EDUTokens.
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                                Stake 0.1 EDUTokens and Register Now
+                              </>
+                            )}
                           </div>
                         </DialogContent>
                       </Dialog>
+                    </>
+                  ) : (
+                    <div className=" flex-col flex gap-6 items-end w-full">
+                      <div key={currentModule.id} className="w-full">
+                        Progress (
+                        {(
+                          (Number(currentModule.completedLessonsIds.length) /
+                            (arcModuleInfo?.lessonNumber ?? 0)) *
+                          100
+                        ).toFixed(0)}
+                        %) ({Number(currentModule.completedLessonsIds.length)}{" "}
+                        Lessons Completed)
+                        <Progress
+                          value={
+                            (Number(currentModule.completedLessonsIds.length) /
+                              (arcModuleInfo?.lessonNumber ?? 0)) *
+                            100
+                          }
+                          className="w-full"
+                        />
+                      </div>
+                      <div className="cursor-pointer px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <CircleHelp size={20} className="text-white" />
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
+                              <p>
+                                This feature is not available in the beta
+                                version.
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        Continue Learning
+                      </div>
                     </div>
                   )}
                 </div>
@@ -442,7 +537,7 @@ const ArcModuleInfoPage = () => {
               <Loader size={34} className="animate-spin text-brand-blue" />
             </div>
           ) : (
-            <>
+            <div>
               <h4 className="text-brand-blue font-semibold">Module Overview</h4>
               <h1 className="text-2xl font-bold mt-2">About The Course</h1>
               <hr className="my-6 border" />
@@ -500,7 +595,7 @@ const ArcModuleInfoPage = () => {
                   <p>{designer.description}</p>
                 </div>
               ))}
-            </>
+            </div>
           )}
         </div>
       </section>
@@ -661,8 +756,8 @@ const Module2Description = () => {
         course is designed to equip you with the essential skills needed to
         craft stunning and modern web interfaces.
       </p>
-      <p>
-        <h3 className="font-bold text-xl">Key Topics:</h3>
+      <div>
+        <h3 className="font-bold text-xl mt-6">Key Topics:</h3>
         <ul className="flex flex-col gap-4 px-6">
           <li>
             - CSS3 Selectors: Target specific elements and styles with
@@ -685,9 +780,12 @@ const Module2Description = () => {
             enhanced readability and visual appeal.
           </li>
         </ul>
-      </p>
+      </div>
       <div className="mt-4">
-        <h3>Why Choose Our CSS3 Fundamentals Course?</h3>
+        <h3 className="font-bold text-xl mt-6">
+          {" "}
+          Why Choose Our CSS3 Fundamentals Arc Module?
+        </h3>
         <ul className="flex flex-col gap-4 px-6">
           <li>
             - Learn from experienced web designers who understand the nuances of
@@ -721,7 +819,7 @@ const Module3Description = () => {
         rendering, and Next.js&lsquo;s advanced features to create top-notch
         full-stack applications.
       </p>
-      <p>
+      <div>
         **Key Topics:**
         <ul>
           <li>
@@ -748,8 +846,8 @@ const Module3Description = () => {
             Advanced Topics: Explore SSG, ISR, and custom server configurations.
           </li>
         </ul>
-      </p>
-      <p>
+      </div>
+      <div>
         **Why Choose Our Next.js Course?**
         <ul>
           <li>
@@ -768,7 +866,7 @@ const Module3Description = () => {
             get help.
           </li>
         </ul>
-      </p>
+      </div>
       <p>
         **Enroll today and start building your full-stack development skills!**
       </p>

@@ -5,6 +5,7 @@ import AccountButton from "../AccountButton";
 import Link from "next/link";
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import { useRouter } from "next/navigation";
+import { Github } from "lucide-react";
 
 const AppNavbar = () => {
   const { authState } = useOCAuth();
@@ -22,7 +23,10 @@ const AppNavbar = () => {
           onClick={() => router.push("/")}
         />
 
-        <AccountButton />
+        <div className="flex justify-center items-center gap-2">
+          <w3m-button />
+          <AccountButton />
+        </div>
       </nav>
     </div>
   ) : (
@@ -37,7 +41,10 @@ const AppNavbar = () => {
           onClick={() => router.push("/")}
         />
 
-        <AccountButton />
+        <div className="flex justify-center items-center gap-2">
+          <w3m-button />
+          <AccountButton />
+        </div>
       </nav>
     </div>
   );
