@@ -222,10 +222,10 @@ const ArcModuleInfoPage = () => {
 
     if (currentModule === undefined) {
       if (studentsArcModules.length > 0) {
-        const module = studentsArcModules.find(
+        const mdll = studentsArcModules.find(
           (item) => item.arcModuleId == Number(selectedArcModuleId)
         );
-        setCurrentModule(module as UsersArcModules);
+        setCurrentModule(mdll as UsersArcModules);
         if (currentModule !== undefined) {
           setIsAlreadyRegistered(true);
         }
