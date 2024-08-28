@@ -245,59 +245,60 @@ const ProfilePage = () => {
                 <Loader size={34} className="animate-spin text-brand-blue" />
               </div>
             )}
-            {registeredArcModulesInfo.map((module, index) => (
-              <Card className="w-[32%] rounded-3xl min-h-[450px]" key={index}>
-                <CardHeader>
-                  <CardTitle className="flex flex-col gap-4">
-                    <div className="flex justify-between items-center">
-                      <p className="text-sm font-normal">{module.category}</p>
-                      <p
-                        className={cn(
-                          "text-md font-normal px-2 py-1 border rounded-full",
-                          module.level === "Beginner"
-                            ? "border-green-500 bg-green-50 text-green-800"
-                            : module.level === "Intermediate"
-                            ? " border-blue-500 bg-blue-100 text-blue-500"
-                            : "border-orange-500 bg-orange-100 text-orange-500"
-                        )}
-                      >
-                        {module.level}
-                      </p>
+            {registeredArcModulesInfo.length > 0 &&
+              registeredArcModulesInfo.map((module, index) => (
+                <Card className="w-[32%] rounded-3xl min-h-[450px]" key={index}>
+                  <CardHeader>
+                    <CardTitle className="flex flex-col gap-4">
+                      <div className="flex justify-between items-center">
+                        <p className="text-sm font-normal">{module.category}</p>
+                        <p
+                          className={cn(
+                            "text-md font-normal px-2 py-1 border rounded-full",
+                            module.level === "Beginner"
+                              ? "border-green-500 bg-green-50 text-green-800"
+                              : module.level === "Intermediate"
+                              ? " border-blue-500 bg-blue-100 text-blue-500"
+                              : "border-orange-500 bg-orange-100 text-orange-500"
+                          )}
+                        >
+                          {module.level}
+                        </p>
+                      </div>
+                      <h1>{module.title}</h1>
+                      <Image
+                        alt="module image"
+                        width={300}
+                        height={200}
+                        src={`/arc-modules/${module.imageSrc}`}
+                        className="rounded-lg border"
+                      />
+                    </CardTitle>
+                    <CardDescription className="text-gray-500">
+                      {module.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex items-center gap-6 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <GraduationCap /> {module.lessonNumber} Lessons
                     </div>
-                    <h1>{module.title}</h1>
-                    <Image
-                      alt="module image"
-                      width={300}
-                      height={200}
-                      src={`/arc-modules/${module.imageSrc}`}
-                      className="rounded-lg border"
-                    />
-                  </CardTitle>
-                  <CardDescription className="text-gray-500">
-                    {module.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex items-center gap-6 flex-wrap">
-                  <div className="flex items-center gap-2">
-                    <GraduationCap /> {module.lessonNumber} Lessons
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Clock /> {module.time}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <FolderCode /> {module.projects}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <AlarmClock /> {module.deadline}
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <button className="w-full rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50">
-                    Go to course
-                  </button>
-                </CardFooter>
-              </Card>
-            ))}
+                    <div className="flex items-center gap-2">
+                      <Clock /> {module.time}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FolderCode /> {module.projects}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <AlarmClock /> {module.deadline}
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <button className="w-full rounded-lg text-gray-700 border py-2 bg-white border-gray-400 hover:bg-gray-50">
+                      Go to course
+                    </button>
+                  </CardFooter>
+                </Card>
+              ))}
           </div>
         </div>
         <div className="w-full mt-12">
