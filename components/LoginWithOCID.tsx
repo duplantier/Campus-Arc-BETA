@@ -17,7 +17,7 @@ const LoginWithOCID = () => {
 
   return (
     <button
-      className="rounded-full  px-6 py-3 border-2 transition-all duration-300 border-brand-blue hover:bg-brand-blue hover:text-gray-50 text-gray-950 inline-block"
+      className="rounded-full  px-6 py-3 border-2 bg-white transition-all duration-300 border-brand-blue hover:bg-brand-blue hover:text-gray-50 text-gray-950 inline-block"
       onClick={handleLogin}
     >
       <span className="flex justify-center items-center gap-2">

@@ -18,6 +18,8 @@ import HowItWorksTab from "../home/HowItWorksTab";
 import ArcModulesTab from "../home/ArcModulesTab";
 import AccountButton from "../AccountButton";
 import { useRouter } from "next/navigation";
+import { Github } from "lucide-react";
+import Link from "next/link";
 
 export const Tabs = ({
   containerClassName,
@@ -46,7 +48,7 @@ export const Tabs = ({
       value: "features",
       content: <FeaturesTab />,
     },
-  /*   {
+    /*   {
       title: "How It Works",
       value: "howitworks",
       content: <HowItWorksTab />,
@@ -87,7 +89,8 @@ export const Tabs = ({
           className="w-48 h-auto cursor-pointer"
           onClick={() => router.push("/")}
         />
-        <div className="flex items-center">
+
+        <div className="flex items-center gap-3">
           {staticTabs.map((tab, idx) => (
             <button
               key={tab.title}
@@ -117,6 +120,15 @@ export const Tabs = ({
               </span>
             </button>
           ))}
+          <Link
+            href="https://github.com/duplantier/Campus-Arc-BETA-EDU-Chain-Hackathon-Semester1"
+            target="_blank"
+          >
+            <Github
+              className="p-2 border rounded-full bg-white hover:bg-gray-50"
+              size={40}
+            />
+          </Link>
           <AccountButton />
         </div>
       </div>

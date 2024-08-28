@@ -2,6 +2,7 @@ import React from "react";
 import { CardSpotlight } from "../ui/card-spotlight";
 import Image from "next/image";
 import { BackgroundBeamsWithCollision } from "../ui/background-beams-with-collision";
+import Link from "next/link";
 
 const AboutTab = () => {
   return (
@@ -10,11 +11,11 @@ const AboutTab = () => {
         About Us
       </h1>
       <p className="text-lg text-center w-full -mt-8 text-gray-500">
-        Learn more about Campus Arc and its mission
+        Learn more about Campus Arc, its mission and its purpose.
       </p>
 
       <h3 className="text-3xl text-center font-semibold text-gray-50">
-        Web2 & Education Side
+        Web2 & Educational Aspect
       </h3>
       <div className="w-full flex justify-center items-center gap-10 h-auto">
         <CardSpotlight className=" py-8 w-[55%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
@@ -33,13 +34,20 @@ const AboutTab = () => {
 
           <p className="z-20 text-xl relative mt-4">
             Campus Arc is a next-gen web-based e-learning application where
-            college students can match with their campus fellows, build
+            college students can match with their (campus) fellows, build
             meaningful projects in their field of expertise together, and
             increase their competency by gaining project-based experiences.
             <br />
             <br />
-            Campus Arc aims to spread project-based competency in the scope of
-            college campuses and make graduations more meaningful
+            Campus Arc aims to spread{" "}
+            <strong className="text-brand-yellow">
+              project-based competency
+            </strong>{" "}
+            in the scope of college campuses and{" "}
+            <strong className="text-brand-yellow">
+              make graduations more meaningful
+            </strong>{" "}
+            .
           </p>
         </CardSpotlight>
         <CardSpotlight className=" py-8 w-[45%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
@@ -59,9 +67,16 @@ const AboutTab = () => {
           <p className="z-20 text-xl relative mt-4">
             Throughout their college life, students have difficulties to
             involved in concrete projects on their expertise field. This
-            situation turns into an incredible career and life anxiety for
-            students when they graduate. They most likely face an
-            &ldquo;inexperienced wall&ldquo; when they look for a job.
+            situation turns into an{" "}
+            <strong className="text-brand-yellow">
+              incredible career and life anxiety
+            </strong>{" "}
+            for students when they graduate. They most likely face an
+            <em className="text-brand-yellow">
+              {" "}
+              &ldquo;inexperienced wall&ldquo;
+            </em>{" "}
+            when they look for a job.
           </p>
           <div className="relative w-full"></div>
         </CardSpotlight>
@@ -82,12 +97,17 @@ const AboutTab = () => {
           </div>
 
           <p className="z-20 text-xl relative mt-4">
-            With the help of Campus Arc, college students will have a chance to
-            find and meet other students from similar expertise fields with them
-            and on the same campus, be involved in a project together, and gain
-            project-based experience in their fields while doing so. Campus Arc
-            will play a guiding role with its engaging interface and qualified
-            Arc Modules that are developed in the light of instruction science.
+            With the help of Campus Arc,{" "}
+            <strong className="text-brand-yellow">
+              college students will have a chance
+            </strong>{" "}
+            to find and meet other students from similar expertise fields with
+            them and on the same campus or from the world, be involved in a
+            project together, and{" "}
+            <strong className="text-brand-yellow">
+              gain project-based experience
+            </strong>{" "}
+            in their fields while doing so.
           </p>
         </CardSpotlight>
         <CardSpotlight className=" py-8 w-[50%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
@@ -105,13 +125,19 @@ const AboutTab = () => {
           </div>
 
           <p className="z-20 text-xl relative mt-4">
-            We aim to reach Target 4.4 of the 4th Goal (Quality Education),
-            which is &ldquo;By 2030, substantially increase the number of youth
-            and adults who have relevant skills, including technical and
-            vocational skills, for employment, decent jobs and
-            entrepreneurship.&ldquo; Also, specifically, we want to reach Target
-            4.4.1: &ldquo;Proportion of youth and adults with information and
-            communications technology (ICT) skills, by type of skill.&ldquo;
+            Campus Arc aims to contribute the Target 4.4 of the 4th Goal
+            (Quality Education), which is &ldquo;By 2030,{" "}
+            <strong className="text-brand-yellow">
+              substantially increase the number of youth and adults who have
+              relevant skills{" "}
+            </strong>
+            , including technical and vocational skills, for employment, decent
+            jobs and entrepreneurship.&ldquo; Also, specifically, we want to
+            reach Target 4.4.1:{" "}
+            <strong className="text-brand-yellow">
+              &ldquo;Proportion of youth and adults with information and
+              communications technology (ICT) skills, by type of skill.&ldquo;
+            </strong>
           </p>
         </CardSpotlight>
       </div>
@@ -132,59 +158,50 @@ const AboutTab = () => {
           </h1>
 
           <p className="z-20 text-xl relative mt-4">
-            We believe there are insufficient opportunities for youth to reveal
-            their potential through gaining project-based experience in their
-            expertise field. By providing proper conditions and chances, we can
-            significantly increase the number of competent young people and
-            fresh graduates.
+            We believe that{" "}
+            <strong className="text-brand-yellow">
+              there are insufficient opportunities for youth to reveal their
+              potential{" "}
+            </strong>{" "}
+            through gaining project-based experience in their expertise field.
+            By providing proper conditions and chances,{" "}
+            <strong className="text-brand-yellow">
+              we can significantly increase the number of competent young people
+              and fresh graduates.
+            </strong>
           </p>
         </CardSpotlight>
       </div>
 
       <h3 className="text-3xl text-center font-semibold text-gray-50">
-        Web3 & Blockchain (EduFi) Side
+        Web3 & Blockchain (EduFi) Aspect
       </h3>
       <div className="w-full flex justify-center items-center gap-10 h-auto mb-20">
-        <CardSpotlight className=" py-8 w-[50%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
-          <div className="flex gap-10  items-center z-50 mb-6">
-            <Image
-              src="/earn.svg"
-              alt="Earn and Learn"
-              width={250}
-              height={200}
-              className="z-50 w-60 h-auto"
-            />
-            <h1 className="text-3xl relative z-20 righteous-text">
-              Earn and Learn
-            </h1>
-          </div>
+        <Link
+          href="https://github.com/duplantier/Campus-Arc-BETA-EDU-Chain-Hackathon-Semester1"
+          target="_blank"
+          className="w-full "
+        >
+          <CardSpotlight className="mx-auto flex flex-col justify-center items-center gap-4 py-8 w-[60%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
+            <div className="flex gap-10 justify-center  items-center z-50 mb-6">
+              <Image
+                src="/github-white.svg"
+                alt="Earn and Learn"
+                width={250}
+                height={200}
+                className="z-50 w-36 h-auto"
+              />
+              <h1 className="text-3xl relative z-20 righteous-text">
+                Visit GitHub Repo
+              </h1>
+            </div>
 
-          <p className="z-20 text-xl relative mt-4">
-            Campus Arc&lsquo;s Staking mechanishm allows students to earn while they
-            learn. Students can stake their tokens and earn rewards by
-            completing project-based courses, i.e., Arc Modules.
-          </p>
-        </CardSpotlight>
-        <CardSpotlight className=" py-8 w-[50%] text-gray-50 bg-gradient-t-r from-gray-900 to-gray-800 h-full border border-gray-600 hover:border-brand-blue">
-          <div className="flex gap-10  items-center z-50 mb-6">
-            <Image
-              src="/blockchain-certificate.svg"
-              alt="The solution Campus Arc provides"
-              width={150}
-              height={200}
-              className="z-50 w-36 h-auto"
-            />
-            <h1 className="text-3xl relative z-20 righteous-text">
-              Blockchain Certificates
-            </h1>
-          </div>
-
-          <p className="z-20 text-xl relative mt-4">
-            Campus Arc will provide blockchain certificates for students who
-            complete their project-based courses. These certificates will be
-            stored on the blockchain and can be verified by anyone.
-          </p>
-        </CardSpotlight>
+            <p className="z-20 text-xl relative mt-4 text-center px-6">
+              Please visit our GitHub repository to learn more about the EduFi
+              side of the Campus Arc (Click to this card).
+            </p>
+          </CardSpotlight>
+        </Link>
       </div>
     </section>
   );

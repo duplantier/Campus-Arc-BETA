@@ -18,7 +18,8 @@ const FeaturesTab = () => {
         Features
       </h1>
       <p className="text-lg text-center w-full -mt-8 text-gray-500">
-        Explore the capabilities of Campus Arc
+        Explore the capabilities of Campus Arc (Visit the GitHub Repo for
+        detailed information)
       </p>
       <BentoGrid className="w-full mx-auto mb-16">
         {items.map((item, i) => (
@@ -61,20 +62,20 @@ const items = [
   {
     title: "AI-Assisted Learning Experience",
     description:
-      "Students can get help / feedback from ChatGPT while completing the project tasks.",
+      "Students can get help / feedback from ChatGPT while completing the Arc Module's tasks.",
     header: "/chatgpt.png",
     className: "md:col-span-2",
   },
   {
     title: "Campus-based Community",
-    description: "Students can connect with their campus fellows.",
+    description: "Students can connect and build with their campus fellows.",
     header: "/community.svg",
     className: "md:col-span-1",
   },
   {
     title: "Arc Modules",
     description:
-      "Campus Arc introduces Arc Modules: the most innovative instruction modules ever designed.",
+      "Introducing the most innovative and engaging instruction modules ever designed.",
     header: "/arc-module.svg",
     className: "md:col-span-1",
   },
