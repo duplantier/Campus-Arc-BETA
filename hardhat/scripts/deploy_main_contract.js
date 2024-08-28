@@ -1,20 +1,15 @@
 const hre = require("hardhat");
 
 async function main() {
-  // Get the contract factory for the Staking contract
   const Staking = await hre.ethers.getContractFactory("StakeEduToken");
 
-  // The address of the deployed EDUToken contract
-  const eduTokenAddress = "0xD279Cea1B5168A0801486Be1715F547cab669113";
+  const eduTokenAddress = process.env.EDUTOKEN_ADDRESS;
 
-  // Set the reward rate (e.g., 1 token per second)
-  const rewardRate = hre.ethers.parseUnits("1", 15); // Adjust as needed
+  const rewardRate = hre.ethers.parseUnits("1", 15);
 
-  // The deployer's address (owner)
-  const [deployer] = await hre.ethers.getSigners();
+  const [deployer] = await hre.ethers.getSigners(); // Dev1
   const ownerAddress = deployer.address;
 
-  // Deploy the Staking contract with the specified parameters
   const staking = await Staking.deploy(
     eduTokenAddress,
     rewardRate,
