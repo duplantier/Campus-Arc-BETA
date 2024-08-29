@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { Atom } from "lucide-react";
 import { useOCAuth } from "@opencampus/ocid-connect-js";
 import Image from "next/image";
+import Link from "next/link";
 
 const HomeTab = () => {
   const { ocAuth } = useOCAuth();
@@ -36,12 +37,12 @@ const HomeTab = () => {
               experience.
             </p>
           </div>
-          <button
+          <Link
             className="z-50 text-xl flex items-center gap-2 text-white justify-center rounded-xl text-center border-2 px-4 py-3 bg-brand-black w-[300px] border-brand-blue hover:border-brand-yellow"
-            onClick={handleLogin}
+            href="/dashboard"
           >
             <Atom /> Get Started
-          </button>
+          </Link>
         </div>
         <Image
           src="/hero.svg"
