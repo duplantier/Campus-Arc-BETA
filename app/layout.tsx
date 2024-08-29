@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const opts = {
-    redirectUri: "http://www.campusarc.io/redirect",
+    redirectUri: "http://localhost:3003/redirect",
   };
   /* 
   START YOUR LOCALHOST AS SUDO!!!!!!!!!!!!!!!!!!!!!!!!

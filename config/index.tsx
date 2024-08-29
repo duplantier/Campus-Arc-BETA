@@ -2,6 +2,7 @@ import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 
 import { cookieStorage, createStorage } from "wagmi";
 import { defineChain } from "viem";
+import {arbitrum} from "wagmi/chains"
 export const projectId = "b77326a6c281e71e4b4293a86fb61dcc";
 
 const arbitriumSepolia = defineChain({
@@ -36,7 +37,7 @@ export const metadata = {
 };
 
 // Create wagmiConfig
-const chains = [arbitriumSepolia] as any; // Empty array to allow all chains
+const chains = [arbitriumSepolia, arbitrum] as any; // Empty array to allow all chains
 export const config = defaultWagmiConfig({
   chains,
   projectId,

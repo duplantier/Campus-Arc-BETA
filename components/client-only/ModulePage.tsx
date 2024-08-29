@@ -48,10 +48,9 @@ const ArcModuleInfoPage = () => {
   const [studentsArcModules, setStudentsArcModules] = useState<
     UsersArcModules[]
   >([]);
-  const [stakeAmount, setStakeAmount] = useState<number>(0.1);
+  const [stakeAmount, setStakeAmount] = useState<number>(1);
   const [stakeStatus, setStakeStatus] = useState<string>("pending");
   const { open: openWalletConnectionModal, close } = useWeb3Modal();
-  const { walletInfo } = useWalletInfo();
   const { address: userAccountAddress, isConnected } = useAccount();
   const {
     data: approveData,
@@ -83,10 +82,18 @@ const ArcModuleInfoPage = () => {
   const studentId = sessionStorage.getItem("studentId");
   const [currentModule, setCurrentModule] = useState<UsersArcModules>();
 
+  console.log("isStakingLoading", isStakingLoading);
+  console.log("isStakingSuccess", isStakingSuccess);
+  console.log("stakeError", stakeError);
+  console.log("stakeFailureReason", stakeFailureReason);
+
+  const stakeThis = ethers.parseUnits("0.01", 18);
+
   const contractAddress = process.env
     .NEXT_PUBLIC_STAKING_CONTRACT_ADDRESS as `0x${string}`;
   const eduTokenAddress = process.env
     .NEXT_PUBLIC_EDU_TOKEN_ADDRESS as `0x${string}`;
+
   const handleApprove = async () => {
     if (!isConnected) {
       openWalletConnectionModal();
@@ -104,10 +111,11 @@ const ArcModuleInfoPage = () => {
         abi: tokenAbi,
         address: eduTokenAddress,
         functionName: "approve",
-        args: [contractAddress, ethers.parseUnits(stakeAmount.toString(), 18)],
+        args: [contractAddress, stakeThis],
       });
     } catch (error) {
       console.error("Approval failed:", error);
+      console.log("stakeError", stakeError);
     }
   };
 
@@ -162,36 +170,26 @@ const ArcModuleInfoPage = () => {
       setArcDesignersInfo(data.arcDesignersOfTheArcModule);
       setIsDataLoading(false);
     };
-    fetchModuleInfo();
-    fetchArcDesignersInfo();
-    fetchStudentsModules();
 
     const handleStake = async () => {
       if (!isApprovingSuccess) {
         console.error("Approval is required before staking.");
         return;
       }
+      console.log("handleStake'e geldim");
       try {
         await stakeWriteContractAsync({
           abi: stakeAbi,
           address: contractAddress,
           functionName: "stake",
-          args: [ethers.parseUnits("0.01", 18)],
+          args: [stakeThis],
         });
-        /* const receipt = tx;
-        console.log("stake receipt:", receipt);
-        console.log("stakeData after the staking interaction:", stakeData);
-        console.log("stakeError:", stakeError);
-        console.log("isStakeError:", isStakingError);
-        console.log("stakeFailureReason", stakeFailureReason);
-        console.log("tx", tx); */
       } catch (error) {
         console.error("Staking failed:", error);
       }
     };
 
     if (isApprovingSuccess && !isStakingSuccess) {
-      console.log("Approve success geldi");
       handleStake();
     }
 
@@ -216,6 +214,7 @@ const ArcModuleInfoPage = () => {
         window.location.reload();
       }
     };
+
     if (isApprovingSuccess && isStakingSuccess) {
       register();
     }
@@ -233,6 +232,9 @@ const ArcModuleInfoPage = () => {
         setIsAlreadyRegistered(false);
       }
     }
+    fetchModuleInfo();
+    fetchArcDesignersInfo();
+    fetchStudentsModules();
   }, [
     selectedArcModuleId,
     studentId,
