@@ -5,7 +5,7 @@
 # 📌 Important Notes for The EDU Chain Hackathon Judges
 
 - ✅ You can watch the comprehensive [presentation and demonstration video](https://youtu.be/eYv6hm_RsdA) that describes the whole project and demonstrates the end-to-end user flow in detail.
-- ✅ You can test the whole flow yourself on the [live application](https://www.campusarc.io/) that describes the whole project and demonstrates the end-to-end user flow in detail.
+- ✅ You can test the whole flow yourself on the [https://www.campusarc.io/](https://www.campusarc.io/)
 - ❗ Since this is the BETA version of the Campus Arc -which is mainly built for the EDU Chain Hackathon- many concepts and features that make the application complete were skipped. This is because of the time limit of the hackathon and to focus on the Solidity-Contract side of the application, which was the crucial part of the hackathon. These features will be added in the next months and are listed down below.
 - ❗ It is all-important to note that Campus Arc is not merely a hackathon project. Its roots are based on The Sustainable Development Goals of the United Nations, as mentioned in the About section in detail. So, after this hackathon, Campus Arc will be held as a real start-up project that has its own economic sustainability structures, completely dynamic user experience, and all other listed features that are skipped for this hackathon.
   <br><br>
