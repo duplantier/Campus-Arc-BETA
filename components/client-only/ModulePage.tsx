@@ -814,7 +814,7 @@ const Module2Description = () => {
 const Module3Description = () => {
   return (
     <div>
-      **Master Full-Stack Development with Next.js**
+      **Master Full-Stack Development with Next.js**s
       <p>
         Build powerful and scalable web applications with our comprehensive
         Next.js course. Learn to leverage the power of React, server-side
