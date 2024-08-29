@@ -83,7 +83,7 @@ const Dashboard = () => {
         {registeredArcModulesInfo?.map((module, index) => (
           <div
             key={index}
-            className="w-full flex items-center gap-4 bg-gray-50 rounded-2xl border py-2 px-4 min-h-[280px]"
+            className="w-full mb-20 flex items-center gap-4 bg-gray-50 rounded-2xl border py-2 px-4 min-h-[280px]"
           >
             <div className="flex flex-col justify-center items-center gap-4 w-[40%]">
               <Image
