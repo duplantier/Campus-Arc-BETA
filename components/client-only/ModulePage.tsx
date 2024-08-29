@@ -819,7 +819,7 @@ const Module3Description = () => {
         Build powerful and scalable web applications with our comprehensive
         Next.js course. Learn to leverage the power of React, server-side
         rendering, and Next.js&lsquo;s advanced features to create top-notch
-        full-stack applications.
+        full-stack applications..
       </p>
       <div>
         **Key Topics:**
