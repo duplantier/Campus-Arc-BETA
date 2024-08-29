@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     } = body;
 
     // Validate the admin key
-    if (adminKey !== process.env.ADMIN_KEY) {
+    if (adminKey !== process.env.NEXT_PUBLIC_ADMIN_KEY) {
       return NextResponse.json({
         error: "Invalid Admin Key / Unauthorized",
         status: 401,

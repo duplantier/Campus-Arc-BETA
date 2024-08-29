@@ -2,8 +2,8 @@ import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 
 import { cookieStorage, createStorage } from "wagmi";
 import { defineChain } from "viem";
-import {arbitrum} from "wagmi/chains"
-export const projectId = "b77326a6c281e71e4b4293a86fb61dcc";
+import { arbitrum } from "wagmi/chains";
+export const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
 const arbitriumSepolia = defineChain({
   id: 656476,

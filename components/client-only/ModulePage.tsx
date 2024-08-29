@@ -89,8 +89,10 @@ const ArcModuleInfoPage = () => {
 
   const stakeThis = ethers.parseUnits("0.01", 18);
 
-  const contractAddress = process.env.STAKING_CONTRACT_ADDRESS as `0x${string}`;
-  const eduTokenAddress = process.env.EDU_TOKEN_ADDRESS as `0x${string}`;
+  const contractAddress = process.env
+    .NEXT_PUBLIC_STAKING_CONTRACT_ADDRESS as `0x${string}`;
+  const eduTokenAddress = process.env
+    .NEXT_PUBLIC_EDU_TOKEN_ADDRESS as `0x${string}`;
 
   const handleApprove = async () => {
     if (!isConnected) {
@@ -127,7 +129,7 @@ const ArcModuleInfoPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            adminKey: process.env.ADMIN_KEY,
+            adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
             studentId: Number(studentId),
           }),
         }
@@ -144,7 +146,7 @@ const ArcModuleInfoPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminKey: process.env.ADMIN_KEY,
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
           arcModuleId: Number(selectedArcModuleId),
         }),
       });
@@ -160,7 +162,7 @@ const ArcModuleInfoPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminKey: process.env.ADMIN_KEY,
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
           arcModuleId: Number(selectedArcModuleId),
         }),
       });
@@ -198,7 +200,7 @@ const ArcModuleInfoPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminKey: process.env.ADMIN_KEY,
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
           studentId: Number(studentId),
           arcModuleId: Number(selectedArcModuleId),
           stakeHash: stakeData,

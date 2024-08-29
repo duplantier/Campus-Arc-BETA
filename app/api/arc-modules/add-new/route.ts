@@ -37,7 +37,7 @@ export async function POST(req: Request) {
       arcDesignersIds: number[];
     } = body;
 
-    if (adminKey !== process.env.ADMIN_KEY) {
+    if (adminKey !== process.env.NEXT_PUBLIC_ADMIN_KEY) {
       return NextResponse.json({
         error: "Unauthorized",
         isCreated: false,

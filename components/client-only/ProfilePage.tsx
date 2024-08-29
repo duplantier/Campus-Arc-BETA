@@ -68,7 +68,7 @@ const ProfilePage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            adminKey: process.env.ADMIN_KEY,
+            adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
             studentId: Number(studentId),
           }),
         }
@@ -86,7 +86,7 @@ const ProfilePage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminKey: process.env.ADMIN_KEY,
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
           studentId: Number(studentId),
         }),
       });
@@ -102,7 +102,7 @@ const ProfilePage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminKey: process.env.ADMIN_KEY,
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
         }),
       });
       const data = await fetchAllResponse.json();
@@ -119,7 +119,7 @@ const ProfilePage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            adminKey: process.env.ADMIN_KEY,
+            adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
             studentIds: studentsRegistrationStakes?.map(
               (stake) => stake.collabStudentsId
             ),

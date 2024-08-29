@@ -37,7 +37,7 @@ const ArcModulesPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminKey: process.env.ADMIN_KEY,
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
         }),
       });
       const data = await fetchAllResponse.json();
@@ -46,6 +46,7 @@ const ArcModulesPage = () => {
     };
     fetchArcModules();
   }, []);
+  console.log(process.env.NEXT_PUBLIC_ADMIN_KEY);
 
   return authState.isAuthenticated && isLogOut && isLogOut != "true" ? (
     <main className="text-gray-950 max-w-[90%] mx-auto py-12 flex justify-center  gap-8">

@@ -26,17 +26,12 @@ export default function RedirectPage() {
         },
         body: JSON.stringify({
           reqType: "create",
-          adminKey: process.env.ADMIN_KEY,
+          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
           eduUsername: userEduUsername,
           ethAddress: userEthAddress,
           OCaccessToken: userOCaccessToken,
         }),
       });
-      console.log(process.env.ADMIN_KEY)
-      console.log(userEduUsername)
-      console.log(userEthAddress)
-      console.log(userOCaccessToken)
-
       const createStudentData = await createStudentResponse.json();
       const studentId = createStudentData.studentId;
       sessionStorage.setItem("studentId", studentId);
