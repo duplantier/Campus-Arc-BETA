@@ -245,7 +245,7 @@ const ProfilePage = () => {
                 <Loader size={34} className="animate-spin text-brand-blue" />
               </div>
             )}
-            {registeredArcModulesInfo.length > 0 &&
+            {registeredArcModulesInfo?.length > 0 &&
               registeredArcModulesInfo?.map((module, index) => (
                 <Card className="w-[32%] rounded-3xl min-h-[450px]" key={index}>
                   <CardHeader>
