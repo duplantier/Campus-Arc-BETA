@@ -120,7 +120,7 @@ const ProfilePage = () => {
           },
           body: JSON.stringify({
             adminKey: process.env.ADMIN_KEY,
-            studentIds: studentsRegistrationStakes.map(
+            studentIds: studentsRegistrationStakes?.map(
               (stake) => stake.collabStudentsId
             ),
           }),
@@ -246,7 +246,7 @@ const ProfilePage = () => {
               </div>
             )}
             {registeredArcModulesInfo.length > 0 &&
-              registeredArcModulesInfo.map((module, index) => (
+              registeredArcModulesInfo?.map((module, index) => (
                 <Card className="w-[32%] rounded-3xl min-h-[450px]" key={index}>
                   <CardHeader>
                     <CardTitle className="flex flex-col gap-4">
@@ -313,9 +313,9 @@ const ProfilePage = () => {
                 <Loader size={34} className="animate-spin text-brand-blue" />
               </div>
             )}
-            {studentsRegistrationStakes.map((item, index) => (
+            {studentsRegistrationStakes?.map((item, index) => (
               <div key={index}>
-                {allArcModules.map((module, index) => (
+                {allArcModules?.map((module, index) => (
                   <div key={index}>
                     {item.registeredArcModuleId === module.id && (
                       <Card className="w-[32%] rounded-3xl min-h-[400px]">

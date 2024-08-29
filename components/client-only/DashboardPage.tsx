@@ -69,7 +69,7 @@ const Dashboard = () => {
             <Loader size={34} className="animate-spin text-brand-blue" />
           </div>
         )}
-        {registeredArcModulesInfo.map((module, index) => (
+        {registeredArcModulesInfo?.map((module, index) => (
           <div
             key={index}
             className="w-full flex items-center gap-4 bg-gray-50 rounded-2xl border py-2 px-4 min-h-[280px]"
@@ -100,7 +100,7 @@ const Dashboard = () => {
                   <AlarmClock /> {module.deadline}
                 </div>
               </div>
-              {studentsArcModules.map((item, index) => (
+              {studentsArcModules?.map((item, index) => (
                 <>
                   <div key={index} className="w-full">
                     Progress (
@@ -121,7 +121,7 @@ const Dashboard = () => {
                     />
                   </div>
                   <div className="flex justify-between items-center gap-6 w-full">
-                    {/*  {exampleStudentData.registrationStakes.map(
+                    {/*  {exampleStudentData.registrationStakes?.map(
                       (item, index) => (
                         <div key={index} className="flex items-center gap-2">
                           <span className="text-gray-500">Collab:</span>{" "}

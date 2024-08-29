@@ -543,7 +543,7 @@ const ArcModuleInfoPage = () => {
               <hr className="my-6 border" />
               <h5 className="font-semibold mb-3">What you&lsquo;ll learn</h5>
               <ul className="list-none">
-                {arcModuleInfo?.whatYouWillLearn.map((item, index) => (
+                {arcModuleInfo?.whatYouWillLearn?.map((item, index) => (
                   <li className="flex items-center gap-2 mb-3" key={index}>
                     <CircleCheck className="text-brand-blue" size={20} />
                     {item}
@@ -561,7 +561,7 @@ const ArcModuleInfoPage = () => {
               ) : null}
               <hr className="my-6 border" />
               <h5 className="font-semibold mb-3">Arc Designers</h5>
-              {arcDesignersInfo.map((designer, index) => (
+              {arcDesignersInfo?.map((designer, index) => (
                 <div key={index} className="flex flex-col w-[400px] gap-4">
                   <div className="flex items-center gap-4">
                     <Image

@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       },
     });
 
-    const arcModuleIds = studentsArcModules.map(
+    const arcModuleIds = studentsArcModules?.map(
       (arcModule) => arcModule.arcModuleId
     );
 

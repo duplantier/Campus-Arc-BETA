@@ -22,7 +22,7 @@ const FeaturesTab = () => {
         detailed information)
       </p>
       <BentoGrid className="w-full mx-auto mb-16">
-        {items.map((item, i) => (
+        {items?.map((item, i) => (
           <BentoGridItem
             key={i}
             title={item.title}
