@@ -11,7 +11,7 @@
 
 # 👀 ✍️💰 Campus Arc BETA
 
-Verify your identity with Open Campus ID, stake 0.1 EDUToken, learn, and earn!
+Verify your identity with Open Campus ID, stake 0.1 EDUToken, and start earning while learning!
 <br><br>
 
 ## 📖 About The Project
