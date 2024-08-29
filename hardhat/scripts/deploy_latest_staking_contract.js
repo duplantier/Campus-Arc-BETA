@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  const Staking = await hre.ethers.getContractFactory("StakeEduToken");
+  const Staking = await hre.ethers.getContractFactory("StakeToken");
 
   const eduTokenAddress = process.env.EDUTOKEN_ADDRESS;
 

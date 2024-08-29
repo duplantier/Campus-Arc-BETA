@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/utils/Context.sol";
 // Yani öğrenci 28 günlük bir Arc Module sonunda hem harika bir eğitim almış hem de para kazanmış oluyor.
 // It inherits from Ownable to ensure that only the owner can set the reward rate.
 
-contract StakeEduToken is Ownable {
+contract StakeToken is Ownable {
     // The ERC20 token that users will stake
     IERC20 public eduToken;
 
@@ -41,26 +41,21 @@ contract StakeEduToken is Ownable {
 
     // Function to stake a specified amount of tokens
     function stake(uint256 _amount) external {
-        // Ensure the staking amount is greater than zero
         require(_amount > 0, "Cannot stake 0 tokens");
 
-        // Transfer tokens from the user to the contract
-        // msg.sender means the address of the user who called the function
-        // address(this) means the address of the contract itself
+        // Calculate rewards before updating the stake
+        uint256 rewards = calculateRewards(msg.sender);
+
+        // Update the user's stake
+        stakes[msg.sender].amount += rewards; // Add rewards first
+        stakes[msg.sender].amount += _amount; // Then add new stake
+        stakes[msg.sender].timestamp = block.timestamp;
+
+        // Transfer tokens after updating state
         require(
             eduToken.transferFrom(msg.sender, address(this), _amount),
             "Transfer Failed"
         );
-
-        // If the user already has a stake, calculate and add rewards before updating the stake amount
-        if (stakes[msg.sender].amount > 0) {
-            uint256 rewards = calculateRewards(msg.sender);
-            stakes[msg.sender].amount += rewards;
-        }
-
-        // Update the user's stake amount and timestamp
-        stakes[msg.sender].amount += _amount;
-        stakes[msg.sender].timestamp = block.timestamp;
     }
 
     // Function to withdraw a specified amount of tokens

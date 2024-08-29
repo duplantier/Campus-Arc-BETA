@@ -82,11 +82,6 @@ const ArcModuleInfoPage = () => {
   const studentId = sessionStorage.getItem("studentId");
   const [currentModule, setCurrentModule] = useState<UsersArcModules>();
 
-  console.log("isStakingLoading", isStakingLoading);
-  console.log("isStakingSuccess", isStakingSuccess);
-  console.log("stakeError", stakeError);
-  console.log("stakeFailureReason", stakeFailureReason);
-
   const stakeThis = ethers.parseUnits("0.01", 18);
 
   const contractAddress = process.env
@@ -220,18 +215,23 @@ const ArcModuleInfoPage = () => {
     }
 
     if (currentModule === undefined) {
+      console.log("CurrentModule is undefined");
       if (studentsArcModules.length > 0) {
+        console.log("studentsArcModules.length > 0 EVET");
         const mdll = studentsArcModules.find(
           (item) => item.arcModuleId == Number(selectedArcModuleId)
         );
         setCurrentModule(mdll as UsersArcModules);
+        console.log("Setted Current Module", currentModule);
         if (currentModule !== undefined) {
           setIsAlreadyRegistered(true);
+          console.log("currentModule !== undefined EVET");
         }
       } else {
         setIsAlreadyRegistered(false);
       }
     }
+
     fetchModuleInfo();
     fetchArcDesignersInfo();
     fetchStudentsModules();
