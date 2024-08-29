@@ -4,7 +4,7 @@
 
 # 📌 Important Notes for The EDU Chain Hackathon Judges
 
-- ❗ Please run this project in localhost for EDU Chain evaluation purposes (guidelines are down below). While this project is live on www.campusarc.io, Open Campus has not whitelisted this domain yet, which prevents application from presenting a live demo.
+- ❗ Since the www.campusarc.io domain is not whitelisted by Open Campus, it's not possible to demo this project live (OC ID Verification does not work). Also, since the project works with sensitive data in the .env file, it's not possible for you to test this project on your localhost. Thus, I highly recommend watching [the comprehensive demo video on YouTube that describes the whole project and demonstrates the end-to-end user flow in detail](https://youtu.be/eYv6hm_RsdA) .
 - ❗ Since this is the BETA version of the Campus Arc -which is mainly built for the EDU Chain Hackathon- many concepts and features that makes application complete were skipped. This is because of the time limit of the hackathon and to focus on the Solidity-Contract side of the application, which was the crucial part of the hackathon. These features will be added in the next months and are listed down below.
 - ❗ It is all-important to note that Campus Arc is not merely a hackthon project. It's roots are based on The Sustainable Development Goals of United Nations, as mentioned on the About section in detail. So, after this hackathon, Campus Arc will be held as a real start-up project which has its own economic sustainability structures, completely dynamic user experience, and all other listed features that are skipped for this hackathon.
   <br><br>
@@ -68,7 +68,9 @@ In the future applications, students will be able to;
   <br>
   <br>
 
-🔗 More on [The DoraHacks Official Showcase Page](https://dorahacks.io/buidl/15481)
+🔗 [Presentation & Demonstration Video]](https://youtu.be/eYv6hm_RsdA)
+
+🔗 [The DoraHacks Official Showcase Page](https://dorahacks.io/buidl/15481)
 
 🔗 [Live Demo](https://www.campusarc.io)
 
@@ -123,7 +125,6 @@ Campus Arc BETA is built in just 6 days for the EDU Chain Hackathon Semester 1 o
 - Ethers
 
 <br>
-
 
 ## 🖼️ Screenshots From The App (A Regular User Flow)
 
@@ -210,6 +211,26 @@ Campus Arc BETA is built in just 6 days for the EDU Chain Hackathon Semester 1 o
 #### Register Now Action - Informing 2
 
 ![](./public/github/gh17.jpg)
+<br><br>
+
+#### Taking Allowance
+
+![](./public/github/gh18.jpg)
+<br><br>
+
+#### Taking Approval - 1
+
+![](./public/github/gh19.jpg)
+<br><br>
+
+#### Taking Approval - 2
+
+![](./public/github/gh20.jpg)
+<br><br>
+
+#### Confirming Staking
+
+![](./public/github/gh21.jpg)
 <br><br>
 
 #### Unauthorized Page
