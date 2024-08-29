@@ -299,6 +299,17 @@ const ProfilePage = () => {
                   </CardFooter>
                 </Card>
               ))}
+            {registeredArcModulesInfo?.length === 0 && !isDataLoading && (
+              <div className=" text-gray-500 flex flex-col gap-4 m-12">
+                <Image
+                  src="/not_registered_yet.svg"
+                  alt="Not Registered Yet"
+                  width={300}
+                  height={300}
+                />
+                You are not registered for any Arc Module yet.
+              </div>
+            )}
           </div>
         </div>
         <div className="w-full mt-12">
@@ -392,6 +403,18 @@ const ProfilePage = () => {
                 ))}
               </div>
             ))}
+
+            {studentsRegistrationStakes?.length === 0 && !isDataLoading && (
+              <div className=" text-gray-500 flex flex-col   gap-4 m-12">
+                <Image
+                  src="/not_registered_yet.svg"
+                  alt="Not Registered Yet"
+                  width={300}
+                  height={300}
+                />
+                <p>You are not registered for any Arc Module yet.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>

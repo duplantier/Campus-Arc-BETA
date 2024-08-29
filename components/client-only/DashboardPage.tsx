@@ -69,6 +69,17 @@ const Dashboard = () => {
             <Loader size={34} className="animate-spin text-brand-blue" />
           </div>
         )}
+        {registeredArcModulesInfo?.length === 0 && !isDataLoading && (
+          <div className="text-center text-gray-500 flex flex-col justify-center items-center gap-4 my-20">
+            <Image
+              src="/not_registered_yet.svg"
+              alt="Not Registered Yet"
+              width={300}
+              height={300}
+            />
+            You are not registered for any Arc Module yet.
+          </div>
+        )}
         {registeredArcModulesInfo?.map((module, index) => (
           <div
             key={index}
