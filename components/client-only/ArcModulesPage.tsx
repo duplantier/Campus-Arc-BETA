@@ -37,7 +37,7 @@ const ArcModulesPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminKey: process.env.NEXT_PUBLIC_ADMIN_KEY,
+          adminKey: process.env.ADMIN_KEY,
         }),
       });
       const data = await fetchAllResponse.json();
