@@ -77,6 +77,7 @@ const ArcModuleInfoPage = () => {
   } = useWriteContract();
 
   const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false);
+  const [isSearching, setIsSearching] = useState(true);
 
   const selectedArcModuleId = sessionStorage.getItem("selectedArcModuleId");
   const studentId = sessionStorage.getItem("studentId");
@@ -130,7 +131,7 @@ const ArcModuleInfoPage = () => {
         }
       );
       const data = await fetchAllResponse.json();
-      setStudentsArcModules(data.studentsArcModules); // completedLessons olayı burada.
+      setStudentsArcModules(data.studentsArcModules);
       setIsDataLoading(false);
     };
 
@@ -214,25 +215,26 @@ const ArcModuleInfoPage = () => {
       register();
     }
 
-    console.log("studentsArcModules", studentsArcModules);
-    console.log("studentsArcModules.length > 0 EVET");
-    const mdll = studentsArcModules.find(
-      (item) => item.arcModuleId == Number(selectedArcModuleId)
-    );
-    if (mdll !== undefined) {
-      setIsAlreadyRegistered(true);
-    }
+    const determineIfStudentIsRegistered = async () => {
+      const currentmodule = studentsArcModules?.find(
+        (module) => module.arcModuleId === Number(selectedArcModuleId)
+      );
+      setCurrentModule(currentmodule);
+      const isStudentRegistered = studentsArcModules?.some(
+        (item) => item.arcModuleId === Number(selectedArcModuleId)
+      );
+      setIsAlreadyRegistered(isStudentRegistered);
+      setIsSearching(false);
+    };
 
     fetchModuleInfo();
     fetchArcDesignersInfo();
     fetchStudentsModules();
-  }, [
-    selectedArcModuleId,
-    studentId,
-    isApprovingSuccess,
-    isStakingSuccess,
-    currentModule,
-  ]);
+    if (studentsArcModules.length > 0) {
+      determineIfStudentIsRegistered();
+    }
+  }, [selectedArcModuleId, studentId, isApprovingSuccess, isStakingSuccess, studentsArcModules]);
+
 
   return (
     <main className="text-gray-950 max-w-[95%] mx-auto py-12 flex justify-center  gap-12 raleway-text">
@@ -294,7 +296,44 @@ const ArcModuleInfoPage = () => {
                       <AlarmClock /> {arcModuleInfo?.deadline}
                     </div>
                   </div>
-                  {currentModule === undefined || !isAlreadyRegistered ? (
+                  {isAlreadyRegistered ? (
+                    <div className=" flex-col flex gap-6 items-end w-full mt-4">
+                      <div key={currentModule?.id} className="w-full">
+                        Progress (
+                        {(
+                          (Number(currentModule?.completedLessonsIds.length) /
+                            (arcModuleInfo?.lessonNumber ?? 0)) *
+                          100
+                        ).toFixed(0)}
+                        %) ({Number(currentModule?.completedLessonsIds.length)}{" "}
+                        Lessons Completed)
+                        <Progress
+                          value={
+                            (Number(currentModule?.completedLessonsIds.length) /
+                              (arcModuleInfo?.lessonNumber ?? 0)) *
+                            100
+                          }
+                          className="w-full"
+                        />
+                      </div>
+                      <div className="cursor-pointer px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <CircleHelp size={20} className="text-white" />
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
+                              <p>
+                                This feature is not available in the beta
+                                version.
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        Continue Learning
+                      </div>
+                    </div>
+                  ) : (
                     <>
                       <Dialog>
                         <DialogTrigger className="px-6 py-3 font-semibold w-[250px] rounded-lg bg-brand-blue text-white mt-6">
@@ -302,12 +341,12 @@ const ArcModuleInfoPage = () => {
                         </DialogTrigger>
                         <DialogContent className="bg-gray-100 max-h-[650px] overflow-y-scroll w-[600px]">
                           <DialogHeader className="w-full">
-                            <DialogTitle className="text-3xl w-full">
+                            <div className="text-3xl font-bold w-full">
                               Registering Arc Module:
                               <h2 className="text-2xl">
                                 {arcModuleInfo?.title}
                               </h2>
-                            </DialogTitle>
+                            </div>
                             <div className="flex items-center gap-6 py-4 text-lg flex-wrap">
                               <div className="flex items-center gap-2">
                                 <GraduationCap /> {arcModuleInfo?.lessonNumber}{" "}
@@ -478,43 +517,6 @@ const ArcModuleInfoPage = () => {
                         </DialogContent>
                       </Dialog>
                     </>
-                  ) : (
-                    <div className=" flex-col flex gap-6 items-end w-full">
-                      <div key={currentModule.id} className="w-full">
-                        Progress (
-                        {(
-                          (Number(currentModule.completedLessonsIds.length) /
-                            (arcModuleInfo?.lessonNumber ?? 0)) *
-                          100
-                        ).toFixed(0)}
-                        %) ({Number(currentModule.completedLessonsIds.length)}{" "}
-                        Lessons Completed)
-                        <Progress
-                          value={
-                            (Number(currentModule.completedLessonsIds.length) /
-                              (arcModuleInfo?.lessonNumber ?? 0)) *
-                            100
-                          }
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="cursor-pointer px-6 py-3 w-[50%] flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <CircleHelp size={20} className="text-white" />
-                            </TooltipTrigger>
-                            <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
-                              <p>
-                                This feature is not available in the beta
-                                version.
-                              </p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                        Continue Learning
-                      </div>
-                    </div>
                   )}
                 </div>
               </div>

@@ -50,6 +50,19 @@ const Dashboard = () => {
       setStudentsArcModules(data.studentsArcModules); // completedLessons olayı burada.
       setIsDataLoading(false);
     };
+
+    /*  const determineIfStudentIsRegistered = async () => {
+      const currentmodule = studentsArcModules?.find(
+        (module) => module.arcModuleId === Number(selectedArcModuleId)
+      );
+      setCurrentModule(currentmodule);
+      const isStudentRegistered = studentsArcModules?.some(
+        (item) => item.arcModuleId === Number(selectedArcModuleId)
+      );
+      setIsAlreadyRegistered(isStudentRegistered);
+      setIsSearching(false);
+    };
+ */
     fetchStudentsModules();
   }, [studentId]);
 
@@ -80,86 +93,92 @@ const Dashboard = () => {
             You are not registered for any Arc Module yet.
           </div>
         )}
-        {registeredArcModulesInfo?.map((module, index) => (
-          <div
-            key={index}
-            className="w-full mb-20 flex items-center gap-4 bg-gray-50 rounded-2xl border py-2 px-4 min-h-[280px]"
-          >
-            <div className="flex flex-col justify-center items-center gap-4 w-[40%]">
-              <Image
-                alt="module image"
-                width={300}
-                height={200}
-                src={`/arc-modules/${module.imageSrc}`}
-                className="rounded-lg border"
-              />
-              <p className="text-xl font-bold">{module.title}</p>
-            </div>
-            <div className="flex flex-col items-start justify-center gap-6 w-[60%] min-h-[300px]">
-              <p>{module.description}</p>
-              <div className="flex justify-between items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <GraduationCap /> {module.lessonNumber} Lessons
+
+        {studentsArcModules.map((item, index) => {
+          let specificModule = registeredArcModulesInfo?.find(
+            (modl) => modl.id === item.arcModuleId
+          );
+          return (
+            <div
+              key={index}
+              className="w-full mb-20 flex items-center gap-4 bg-gray-50 rounded-2xl border py-2 px-4 min-h-[280px]"
+            >
+              <>
+                <div className="flex flex-col justify-center items-center gap-4 w-[40%]">
+                  <Image
+                    alt="module image"
+                    width={300}
+                    height={200}
+                    src={`/arc-modules/${specificModule?.imageSrc}`}
+                    className="rounded-lg border"
+                  />
+                  <p className="text-xl font-bold">{specificModule?.title}</p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock /> {module.time}
-                </div>
-                <div className="flex items-center gap-2">
-                  <FolderCode /> {module.projects}
-                </div>
-                <div className="flex items-center gap-2">
-                  <AlarmClock /> {module.deadline}
-                </div>
-              </div>
-              {studentsArcModules?.map((item, index) => (
-                <>
-                  <div key={index} className="w-full">
-                    Progress (
-                    {(
-                      (Number(item.completedLessonsIds.length) /
-                        module.lessonNumber) *
-                      100
-                    ).toFixed(0)}
-                    %) ({Number(item.completedLessonsIds.length)} Lessons
-                    Completed)
-                    <Progress
-                      value={
+                <div className="flex flex-col items-start justify-center gap-6 w-[60%] min-h-[300px]">
+                  <p>{specificModule?.description}</p>
+                  <div className="flex justify-between items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <GraduationCap /> {specificModule?.lessonNumber} Lessons
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock /> {specificModule?.time}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FolderCode /> {specificModule?.projects}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <AlarmClock /> {specificModule?.deadline}
+                    </div>
+                  </div>
+                  <>
+                    <div key={index} className="w-full">
+                      Progress (
+                      {(
                         (Number(item.completedLessonsIds.length) /
-                          module.lessonNumber) *
+                          (specificModule?.lessonNumber ?? 1)) *
                         100
-                      }
-                      className="w-full"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center gap-6 w-full">
-                    {/*  {exampleStudentData.registrationStakes?.map(
-                      (item, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <span className="text-gray-500">Collab:</span>{" "}
-                          <div className="flex flex-row items-center justify-center w-full">
-                            <AnimatedTooltip items={item.collabs} />
-                          </div>
+                      ).toFixed(0)}
+                      %) ({Number(item.completedLessonsIds.length)} Lessons
+                      Completed)
+                      <Progress
+                        value={
+                          (Number(item.completedLessonsIds.length) /
+                            (specificModule?.lessonNumber ?? 1)) *
+                          100
+                        }
+                        className="w-full"
+                      />
+                    </div>
+                    <div className="flex justify-between items-center gap-6 w-full">
+                      {/*  {exampleStudentData.registrationStakes?.map(
+                    (item, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span className="text-gray-500">Collab:</span>{" "}
+                        <div className="flex flex-row items-center justify-center w-full">
+                          <AnimatedTooltip items={item.collabs} />
                         </div>
-                      )
-                    )} */}
-                    <Link
-                      href={"/module"}
-                      onClick={() => {
-                        sessionStorage.setItem(
-                          "selectedArcModuleId",
-                          item.arcModuleId.toString()
-                        );
-                      }}
-                      className="rounded-xl border py-2 px-10 border-brand-blue hover:bg-brand-blue hover:text-white"
-                    >
-                      Continue
-                    </Link>
-                  </div>
-                </>
-              ))}
+                      </div>
+                    )
+                  )} */}
+                      <Link
+                        href={"/module"}
+                        onClick={() => {
+                          sessionStorage.setItem(
+                            "selectedArcModuleId",
+                            item.arcModuleId.toString()
+                          );
+                        }}
+                        className="rounded-xl border py-2 px-10 border-brand-blue hover:bg-brand-blue hover:text-white"
+                      >
+                        Continue
+                      </Link>
+                    </div>
+                  </>
+                </div>
+              </>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </section>
     </main>
   ) : (
