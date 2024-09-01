@@ -21,14 +21,14 @@ const HomeTab = () => {
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-gray-950 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
 
       <div className="w-full p-3 text-gray-50 flex  h-full items-center justify-center gap-20 px-24">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col">
           <h1 className="text-6xl font-sans tracking-tight z-50">
             E-learning.{" "}
             <span className=" font-bold py-4 text-brand-yellow [text-shadow:0_0_rgba(0,0,0,0.1)]">
               Reinvented.
             </span>
           </h1>
-          <div className="z-50 ">
+          <div className="z-50 mt-2 mb-8 ">
             <p className=" text-3xl font-normal text-white z-50 max-w-[70%]">
               Stake, Learn, Earn. <br />
             </p>

@@ -239,7 +239,7 @@ const ProfilePage = () => {
             Manage your registered Arc Modules.
           </p>
 
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             {isDataLoading && (
               <div className="flex items-center justify-center gap-2 w-full">
                 <Loader size={34} className="animate-spin text-brand-blue" />
@@ -318,18 +318,18 @@ const ProfilePage = () => {
             Review and manage your registration stakes.
           </p>
 
-          <div className="mt-8">
+          <div className="mt-8 flex  items-center gap-4 flex-wrap">
             {isDataLoading && (
               <div className="flex items-center justify-center gap-2 w-full">
                 <Loader size={34} className="animate-spin text-brand-blue" />
               </div>
             )}
             {studentsRegistrationStakes?.map((item, index) => (
-              <div key={index}>
+              <div className="w-[32%] rounded-3xl min-h-[400px]" key={index}>
                 {allArcModules?.map((module, index) => (
-                  <div key={index}>
+                  <div  key={index}>
                     {item.registeredArcModuleId === module.id && (
-                      <Card className="w-[32%] rounded-3xl min-h-[400px]">
+                      <Card >
                         <CardHeader>
                           <CardTitle className="flex flex-col gap-4">
                             <h1 className="text-xl">{module.title}</h1>
