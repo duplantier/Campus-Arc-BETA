@@ -330,45 +330,22 @@ const ArcModuleInfoPage = () => {
                           className="w-full"
                         />
                       </div>
-                      <div className="flex w-full justify-between items-center gap-4">
-                        <Dialog>
-                          <DialogTrigger className="px-6 py-3 font-semibold w-1/2 rounded-lg bg-brand-blue text-white ">
-                            Estimated Reward
-                          </DialogTrigger>
-                          <DialogContent className="bg-gray-100 max-h-[650px] overflow-y-scroll w-[600px]">
-                            <DialogHeader className="w-full">
-                              <div className="text-3xl font-bold w-full">
-                                Estimated Reward for Completing Arc Module:
-                                <h2 className="text-2xl">
-                                  {arcModuleInfo?.title}
-                                </h2>
-                              </div>
-                              <div className="flex items-center gap-6 py-4 text-lg flex-wrap">
-                                {String(usersReward).slice(
-                                  0,
-                                  String(usersReward).length - 56
-                                )}{" "}
-                                EDUTokens
-                              </div>
-                            </DialogHeader>
-                          </DialogContent>
-                        </Dialog>
-                        <div className="cursor-pointer px-6 py-3 w-1/2 flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger>
-                                <CircleHelp size={20} className="text-white" />
-                              </TooltipTrigger>
-                              <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
-                                <p>
-                                  This feature is not available in the beta
-                                  version.
-                                </p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                          Continue Learning
-                        </div>
+
+                      <div className="cursor-pointer px-6 py-3 w-1/2 flex items-center gap-2 justify-center font-semibold rounded-lg bg-brand-blue text-white">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <CircleHelp size={20} className="text-white" />
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-white text-gray-950 border border-brand-blue">
+                              <p>
+                                This feature is not available in the beta
+                                version.
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                        Continue Learning
                       </div>
                     </div>
                   ) : (
