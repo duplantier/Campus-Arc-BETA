@@ -69,7 +69,7 @@ In the future applications, students will be able to;
   <br>
   <br>
 
-🔗 [Presentation & Demonstration Video]](https://youtu.be/eYv6hm_RsdA)
+🔗 [Presentation & Demonstration Video](https://youtu.be/eYv6hm_RsdA)
 
 🔗 [The DoraHacks Official Showcase Page](https://dorahacks.io/buidl/15481)
 
