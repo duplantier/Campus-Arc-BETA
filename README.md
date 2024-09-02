@@ -24,15 +24,15 @@ Campus Arc aims to spread project-based competency in the scope of college campu
 
 ### Key Web3 / Blockchain Features
 
-1. **_Stake & Learn & Earn!:_** A student has to stake 0.1 EDU to register for an Arc Module. After this, they will start to be rewarded regularly until the deadline of the module. If they can successfully complete the module (that includes tasks, projects, etc.) by the deadline, they will be able to withdraw their stake with its reward. The total return amount is calculated as follows:
+1. **_Stake & Learn & Earn!:_** A student has to stake 0.1 EDUToken to register for an Arc Module. After this, they will start to be rewarded regularly until the module deadline. If they can successfully complete the module (that includes tasks, projects, etc.) by the deadline, they will be able to withdraw their stake with its reward. The total return amount is calculated as follows:
 
-   - 1.1. 💰 <strong>Total Return Amount: </strong> Staking time (the deadline of the Module) &times; EDUToken amount staked times &times; Reward Rate
+   - 1.1. 💰 <strong>Total Return Amount: </strong> Staking time (the deadline of the Module) &times; EDUToken amount staked &times; Reward Rate
    - 1.2. 🎁 <strong>Reward Rate: </strong> 1e15
    - 1.3. <strong>Example Case: </strong> A student who staked 100 EDUToken for 30 days will be rewarded 2592 EDUToken per 30 days / 86,4 EDUTokens per day
 
 2. **_Open Campus ID Verification:_** Campus Arc BETA has a simplistic authentication infrastructure that is based on OC-ID verification. No users are allowed to take any actions without OC ID verification.
 
-3. **_Custom ERC20 Token - EDUToken:_** Campus Arc uses a custom ERC20 token, deployed on opencampus Network. Users will use this token for staking and withdrawing.
+3. **_Custom ERC20 Token - EDUToken:_** Campus Arc uses a custom ERC20 token, deployed on opencampus Network. Users will use this token to stake and withdraw.
 
 4. **_Wallet Management:_** Users can manage their wallet using WalletConnect SDK.
    <br><br>
@@ -48,7 +48,7 @@ Campus Arc aims to spread project-based competency in the scope of college campu
 
 - **_Arc Modules:_** An Arc Module is a high-quality course module where the learning experience is smoothly integrated with hands-on practices, homework, projects, a reward system, an AI-assisted feedback system, and real-time collaboration infrastructure.
 - **_Arc Designers:_** Arc Designers are the creators of the Arc Modules. Any student can become an Arc Designer, after completing the Arc Designer Tutorial with the same Stake & Learn & Earn system successfully. This, again, provides both motivation to be an Arc Designer in Campus Arc and a community-based creation.
-- **_Community:_** The 'Campus' side of the Campus Arc incredibly crucial part. Students will be able to connect with their fellows (from the same campus or the world), build, and earn together.
+- **_Community:_** The 'Campus' side of the Campus Arc is an incredibly crucial part. Students will be able to connect with their fellows (from the same campus or the world), build, and earn together.
 - **_Motivation Factor:_** Students are motivated by both a high-quality and hands-on learning experience and the idea of earning while learning. It's expected that students will be motivated to complete the course before the deadline successfully not to lose their stakes and also to earn the reward. Also, another motivation factor is, of course, gaining a blockchain certificate!
   <br><br>
 
