@@ -30,8 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const opts = {
-     redirectUri: "http://www.campusarc.io/redirect",
-    //redirectUri: "http://localhost:3004/redirect",
+    redirectUri: "http://www.campusarc.io/redirect",
+    //redirectUri: "http://localhost:3000/redirect",
   };
   /* 
   START YOUR LOCALHOST AS SUDO!!!!!!!!!!!!!!!!!!!!!!!!
@@ -39,7 +39,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`raleway-text ${righteous.variable}`}>
+      <body className={`${raleway.variable} ${righteous.variable} font-sans`}>
         <AppKitProvider initialState={initialState}>
           <OCConnectWrapper opts={opts} sandboxMode={true}>
             {children}
