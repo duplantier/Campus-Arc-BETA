@@ -22,7 +22,6 @@ const AppNavbar = () => {
           className="w-48 h-auto cursor-pointer"
           onClick={() => router.push("/")}
         />
-
         <div className="flex justify-center items-center gap-2">
           <w3m-button />
           <AccountButton />

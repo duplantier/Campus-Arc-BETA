@@ -18,7 +18,7 @@ import HowItWorksTab from "../home/HowItWorksTab";
 import ArcModulesTab from "../home/ArcModulesTab";
 import AccountButton from "../AccountButton";
 import { useRouter } from "next/navigation";
-import { Github } from "lucide-react";
+import { Github, Youtube } from "lucide-react";
 import Link from "next/link";
 
 export const Tabs = ({
@@ -125,6 +125,15 @@ export const Tabs = ({
             target="_blank"
           >
             <Github
+              className="p-2 border rounded-full bg-white hover:bg-gray-50"
+              size={40}
+            />
+          </Link>
+          <Link
+            href="https://www.youtube.com/watch?v=eYv6hm_RsdA"
+            target="_blank"
+          >
+            <Youtube
               className="p-2 border rounded-full bg-white hover:bg-gray-50"
               size={40}
             />
